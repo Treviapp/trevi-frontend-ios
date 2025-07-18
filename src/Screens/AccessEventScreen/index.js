@@ -37,6 +37,7 @@ export default function AccessEventScreen({ navigation }) {
         placeholder="Host Code"
         value={hostCode}
         onChangeText={setHostCode}
+        autoCapitalize="characters"
       />
 
       <TouchableOpacity style={styles.button} onPress={handleAccess}>

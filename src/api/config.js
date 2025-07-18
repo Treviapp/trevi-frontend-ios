@@ -5,7 +5,7 @@ import { store } from '../redux';
    Base URLs
    ------------------------------------------------------------------ */
 // ngrok tunnel – exposes Laravel dev backend over HTTPS
-const ROOT_URL = 'https://50da97603708.ngrok-free.app';
+const ROOT_URL = 'https://8ac256fe06cb.ngrok-free.app';
 
 // If you later deploy Trevi, add new lines here:
 // const ROOT_URL = 'https://api-dev.treviapp.com';

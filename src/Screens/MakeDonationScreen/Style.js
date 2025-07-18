@@ -31,10 +31,21 @@ export default StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
   },
   card: {
-    backgroundColor: '#FFFFFF', // Use valid hex for Stripe
+    backgroundColor: '#F0F0F0', // Light background to make it visible
     borderRadius: 10,
     fontSize: 16,
     padding: 10,
-    color: '#000000', // Ensure text color is valid
+    color: '#000000', // Text color for the card input
+    height: 60,  // Adjusted height for proper visibility
+    marginBottom: 20, // Add space below the card input
+  },
+  cardField: {
+    backgroundColor: '#FFFFFF', // White background for the card field
+    borderRadius: 10,
+    fontSize: 16,
+    padding: 10,
+    height: 60,  // Ensure enough height for the card input
+    marginVertical: 20,
   },
 });
+

@@ -23,7 +23,7 @@ export default function MakeDonationScreen({ navigation, route }) {
 
     try {
       // 1. Get a PaymentIntent client secret from your backend
-      const response = await fetch('https://YOUR_BACKEND_URL/create-payment-intent', {
+      const response = await fetch('http://localhost:8000/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: parseInt(amount) * 100 }), // amount in cents
@@ -51,42 +51,49 @@ export default function MakeDonationScreen({ navigation, route }) {
   };
 
   return (
-    <MakeDonationBackground>
-      <Text style={styles.title}>Make a Donation</Text>
+    <View style={{ flex: 1 }}>
+      <MakeDonationBackground>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={styles.title}>Make a Donation</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Your Name"
-        value={name}
-        onChangeText={setName}
-      />
+          <TextInput
+            style={styles.input}
+            placeholder="Your Name"
+            value={name}
+            onChangeText={setName}
+          />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Add a Message (optional)"
-        value={message}
-        onChangeText={setMessage}
-      />
+          <TextInput
+            style={styles.input}
+            placeholder="Add a Message (optional)"
+            value={message}
+            onChangeText={setMessage}
+          />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Amount (£)"
-        keyboardType="numeric"
-        value={amount}
-        onChangeText={setAmount}
-      />
+          <TextInput
+            style={styles.input}
+            placeholder="Amount (£)"
+            keyboardType="numeric"
+            value={amount}
+            onChangeText={setAmount}
+          />
+        </View>
+      </MakeDonationBackground>
 
-      <CardField
-        postalCodeEnabled={false}
-        placeholder={{ number: '4242 4242 4242 4242' }}
-        cardStyle={styles.card}
-        style={{ height: 50, marginVertical: 30 }}
-        onCardChange={setCardDetails}
-      />
+      {/* Move CardField outside the background wrapper */}
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <CardField
+          postalCodeEnabled={false}
+          placeholder={{ number: '4242 4242 4242 4242' }}
+          cardStyle={styles.cardField}  // Capital F for correct style
+          style={{ width: '90%', height: 60, marginVertical: 20 }}
+          onCardChange={setCardDetails}
+        />
+      </View>
 
       <TouchableOpacity style={styles.button} onPress={handleDonate} disabled={loading}>
         <Text style={styles.buttonText}>{loading ? 'Processing...' : 'Send Gift'}</Text>
       </TouchableOpacity>
-    </MakeDonationBackground>
+    </View>
   );
 }

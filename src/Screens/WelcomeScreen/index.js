@@ -12,21 +12,21 @@ export default function WelcomeScreen({ navigation, onLayout }) {
         style={styles.button}
         onPress={() => navigation.navigate('CreateEvent')}
       >
-        <Text style={styles.buttonText}>Create a New Event</Text>
+        <Text style={styles.buttonText}>Create Event</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('EnterEvent')}
       >
-        <Text style={styles.buttonText}>Enter Event Code to Donate</Text>
+        <Text style={styles.buttonText}>Enter Event to Donate</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('AccessEvent')}
       >
-        <Text style={styles.buttonText}>Access My Event</Text>
+        <Text style={styles.buttonText}>Access my Event</Text>
       </TouchableOpacity>
     </WelcomeBackground>
   );
