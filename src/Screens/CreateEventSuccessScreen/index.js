@@ -4,13 +4,15 @@ import styles from './Style'; // ✅ Use shared Style.js
 import CreateEventSuccessBackground from '../CreateEventSuccessBackground';
 
 export default function CreateEventSuccessScreen({ route, navigation }) {
-  const { hostCode, guestCode, eventName, fullName } = route.params;
+  const { hostCode, guestCode, eventName, fullName, email, message } = route.params;
 
   const handleContinue = () => {
     navigation.navigate('HostDashboard', {
       hostCode,
       eventName,
       fullName,
+      email,
+      message,
     });
   };
 

@@ -10,7 +10,7 @@ export default StyleSheet.create({
     fontFamily: 'Poppins-Bold',
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     padding: 15,
     borderRadius: 10,
     fontSize: 16,

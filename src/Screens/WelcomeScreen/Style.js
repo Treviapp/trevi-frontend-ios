@@ -7,7 +7,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   overlay: {
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     marginHorizontal: 20,
     padding: 30,
     borderRadius: 15,

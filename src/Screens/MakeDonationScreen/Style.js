@@ -10,7 +10,7 @@ export default StyleSheet.create({
     fontFamily: 'Poppins-Bold',
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     padding: 15,
     borderRadius: 10,
     fontSize: 16,
@@ -29,15 +29,6 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     fontFamily: 'Poppins-SemiBold',
-  },
-  card: {
-    backgroundColor: '#F0F0F0', // Light background to make it visible
-    borderRadius: 10,
-    fontSize: 16,
-    padding: 10,
-    color: '#000000', // Text color for the card input
-    height: 60,  // Adjusted height for proper visibility
-    marginBottom: 20, // Add space below the card input
   },
   cardField: {
     backgroundColor: '#FFFFFF', // White background for the card field

@@ -1,130 +1,92 @@
 import React, { useState } from 'react';
-import {
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  Image,
-  View,
-} from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import styles from './Style';
-import { client } from '../../api/config';
-import CreateEventBackground from '../CreateEventBackground';
+import axios from 'axios';
 
 export default function CreateEventScreen({ navigation }) {
   const [fullName, setFullName] = useState('');
-  const [eventName, setEventName] = useState('');
   const [email, setEmail] = useState('');
-  const [guestMessage, setGuestMessage] = useState('');
-  const [image, setImage] = useState(null);
+  const [eventName, setEventName] = useState('');
+  const [message, setMessage] = useState('');
 
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 0.8,
-    });
+  const handleCreateEvent = async () => {
+    console.log('🚨 Create Event button pressed');
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
-
-  const handleCreate = async () => {
-    if (!fullName.trim() || !eventName.trim() || !email.trim()) {
-      Alert.alert('Validation', 'Please fill in all fields.');
+    if (!fullName || !email || !eventName || !message) {
+      Alert.alert('Please fill out all fields.');
       return;
     }
 
-    const formData = new FormData();
-    formData.append('creator_name', fullName);
-    formData.append('name', eventName);
-    formData.append('creator_email', email);
-    formData.append('guest_message', guestMessage);
-
-    if (image) {
-      const filename = image.split('/').pop();
-      const match = /\.(\w+)$/.exec(filename);
-      const ext = match ? match[1] : 'jpg';
-
-      formData.append('host_image', {
-        uri: image,
-        name: `host.${ext}`,
-        type: `image/${ext}`,
-      });
-    }
-
     try {
-      const response = await client.post('/campaigns', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      console.log('📡 Sending request to backend...');
+
+      const response = await axios.post('http://192.168.1.62:8000/api/campaigns', {
+        name: eventName,
+        creator_name: fullName,
+        creator_email: email,
+        guest_message: message,
       });
 
-      const data = response.data;
+      console.log('✅ Backend response:', response.data);
+
+      const { host_code, guest_code } = response.data;
+
       navigation.navigate('CreateEventSuccessScreen', {
-        hostCode: data.host_code,
-        guestCode: data.guest_code,
-        fullName,
+        hostCode: host_code,
+        guestCode: guest_code,
         eventName,
+        fullName,
         email,
+        message,
       });
     } catch (error) {
-      console.error('❌ Error:', error, error.response?.data);
-      Alert.alert('Error', 'Could not create event. Please try again.');
+      console.error('❌ Axios Error:', error.message);
+      Alert.alert('Something went wrong while creating the event.');
     }
   };
 
   return (
-    <CreateEventBackground>
+    <View style={styles.container}>
       <Text style={styles.title}>Create a New Event</Text>
 
+      <Text style={styles.label}>Your Full Name:</Text>
       <TextInput
         style={styles.input}
-        placeholder="Your Full Name"
         value={fullName}
         onChangeText={setFullName}
+        placeholder="Enter your name"
       />
 
+      <Text style={styles.label}>Email Address:</Text>
       <TextInput
         style={styles.input}
-        placeholder="Event Name"
-        value={eventName}
-        onChangeText={setEventName}
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Your Email"
-        keyboardType="email-address"
-        autoCapitalize="none"
         value={email}
         onChangeText={setEmail}
+        placeholder="Enter your email"
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
 
+      <Text style={styles.label}>Event Name:</Text>
       <TextInput
-        style={[styles.input, { height: 100 }]}
-        placeholder="Write a message for your guests..."
-        multiline
-        value={guestMessage}
-        onChangeText={setGuestMessage}
+        style={styles.input}
+        value={eventName}
+        onChangeText={setEventName}
+        placeholder="Enter your event name"
       />
 
-      <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
-        <Text style={styles.buttonText}>
-          {image ? 'Change Image' : 'Upload Image'}
-        </Text>
-      </TouchableOpacity>
+      <Text style={styles.label}>Greeting Message:</Text>
+      <TextInput
+        style={styles.input}
+        value={message}
+        onChangeText={setMessage}
+        placeholder="Write a message for your guests"
+        multiline
+      />
 
-      {image && (
-        <Image
-          source={{ uri: image }}
-          style={{ width: 150, height: 150, marginVertical: 10 }}
-        />
-      )}
-
-      <TouchableOpacity style={styles.button} onPress={handleCreate}>
+      <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>
         <Text style={styles.buttonText}>Create Event</Text>
       </TouchableOpacity>
-    </CreateEventBackground>
+    </View>
   );
 }
