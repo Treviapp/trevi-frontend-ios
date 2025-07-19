@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import styles from './Style';
 import axios from 'axios';
+import CreateEventBackground from '../CreateEventBackground';  // Import the background component
 
 export default function CreateEventScreen({ navigation }) {
   const [fullName, setFullName] = useState('');
@@ -46,47 +47,49 @@ export default function CreateEventScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create a New Event</Text>
+    <CreateEventBackground>
+      <View style={styles.container}>
+        <Text style={styles.title}>Create a New Event</Text>
 
-      <Text style={styles.label}>Your Full Name:</Text>
-      <TextInput
-        style={styles.input}
-        value={fullName}
-        onChangeText={setFullName}
-        placeholder="Enter your name"
-      />
+        <Text style={styles.label}>Your Full Name:</Text>
+        <TextInput
+          style={styles.input}
+          value={fullName}
+          onChangeText={setFullName}
+          placeholder="Enter your name"
+        />
 
-      <Text style={styles.label}>Email Address:</Text>
-      <TextInput
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Enter your email"
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+        <Text style={styles.label}>Email Address:</Text>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Enter your email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
 
-      <Text style={styles.label}>Event Name:</Text>
-      <TextInput
-        style={styles.input}
-        value={eventName}
-        onChangeText={setEventName}
-        placeholder="Enter your event name"
-      />
+        <Text style={styles.label}>Event Name:</Text>
+        <TextInput
+          style={styles.input}
+          value={eventName}
+          onChangeText={setEventName}
+          placeholder="Enter your event name"
+        />
 
-      <Text style={styles.label}>Greeting Message:</Text>
-      <TextInput
-        style={styles.input}
-        value={message}
-        onChangeText={setMessage}
-        placeholder="Write a message for your guests"
-        multiline
-      />
+        <Text style={styles.label}>Greeting Message:</Text>
+        <TextInput
+          style={styles.input}
+          value={message}
+          onChangeText={setMessage}
+          placeholder="Write a message for your guests"
+          multiline
+        />
 
-      <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>
-        <Text style={styles.buttonText}>Create Event</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>
+          <Text style={styles.buttonText}>Create Event</Text>
+        </TouchableOpacity>
+      </View>
+    </CreateEventBackground>
   );
 }
