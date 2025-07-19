@@ -15,9 +15,9 @@ export default StyleSheet.create({
   },
   title: {
     fontFamily: 'Poppins-Bold',
-    fontSize: 26,
+    fontSize: 34,
     marginBottom: 30,
-    color: '#4C2A85',
+    color: '#FFFFFF',
     textAlign: 'center',
   },
   button: {
@@ -32,6 +32,6 @@ export default StyleSheet.create({
   buttonText: {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 16,
-    color: '#4C2A85',
+    color: '#000000',
   },
 });

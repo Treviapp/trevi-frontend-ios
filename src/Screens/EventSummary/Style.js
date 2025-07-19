@@ -8,7 +8,7 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: 28,
+    fontSize: 34,
     fontWeight: 'bold',
     color: '#4C2A85',
     marginBottom: 24,
@@ -37,7 +37,7 @@ export default StyleSheet.create({
     marginTop: 4,
   },
   button: {
-    backgroundColor: '#4C2A85',
+    backgroundColor: '#FFFFFF',
     paddingVertical: 16,
     borderRadius: 30,
     alignItems: 'center',
@@ -45,6 +45,6 @@ export default StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: 'bold',
-  },
+    fontWeight: 'bold'
+  }
 });

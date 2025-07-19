@@ -87,14 +87,15 @@ export default function HostDashboardScreen({ route }) {
         <ScrollView contentContainerStyle={{ paddingBottom: 50 }}>
           <Text style={styles.header}>🎉 {campaign.title}</Text>
           <Text style={styles.subHeader}>Hosted by {campaign.host}</Text>
-          <Text style={styles.total}>
+          {/* This is where you render "Total Raised" */}
+          <Text style={styles.totalRaised}>
             Total Raised: £{(getTotalRaised() / 100).toFixed(2)}
           </Text>
 
-          <Text style={styles.qrLabel}>Let others scan to donate:</Text>
+          <Text style={styles.qrLabel}>Your QR code - Scan to donate:</Text>
           <QRCode
             value={`${FRONTEND_BASE}${campaign.guest_code}`}
-            size={180}
+            size={300}
           />
 
           {donations.map((donation, idx) => (

@@ -7,7 +7,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 26,
+    fontSize: 30,
     fontWeight: '600',
     color: '#005F5F', // deep aquamarine tone
     textAlign: 'center',
@@ -15,7 +15,7 @@ export default StyleSheet.create({
     fontFamily: 'Poppins-Bold',
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     padding: 15,
     borderRadius: 10,
     fontSize: 16,

@@ -9,7 +9,7 @@ export default function MakeDonationBackground({ children }) {
     },
     overlay: {
       flex: 1,
-      backgroundColor: 'rgba(255,255,255,0.85)',
+      backgroundColor: 'rgba(255,255,255,0.1)',
       justifyContent: 'center',
       alignItems: 'center',
       padding: 20,

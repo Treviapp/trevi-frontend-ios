@@ -19,7 +19,7 @@ export default function WelcomeScreen({ navigation, onLayout }) {
         style={styles.button}
         onPress={() => navigation.navigate('EnterEvent')}
       >
-        <Text style={styles.buttonText}>Enter Event to Donate</Text>
+        <Text style={styles.buttonText}>Enter Event as Guest</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

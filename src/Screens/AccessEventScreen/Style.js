@@ -2,15 +2,15 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   title: {
-    fontSize: 26,
+    fontSize: 34,
     fontWeight: '600',
-    color: '#005F5F', // deep aquamarine tone
+    color: '#FFFFFF',
     textAlign: 'center',
     marginBottom: 30,
     fontFamily: 'Poppins-Bold',
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     padding: 15,
     borderRadius: 10,
     fontSize: 16,
@@ -18,14 +18,14 @@ export default StyleSheet.create({
     width: '100%',
   },
   button: {
-    backgroundColor: '#00CFC1', // vibrant aquamarine
+    backgroundColor: '#FFFFFF',
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: 'center',
     width: '100%',
   },
   buttonText: {
-    color: '#fff',
+    color: '#000000',
     fontSize: 16,
     fontWeight: '600',
     fontFamily: 'Poppins-SemiBold',
