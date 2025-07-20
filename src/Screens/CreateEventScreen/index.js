@@ -49,17 +49,16 @@ export default function CreateEventScreen({ navigation }) {
   return (
     <CreateEventBackground>
       <View style={styles.container}>
-        <Text style={styles.title}>Create a New Event</Text>
+        <Text style={styles.title}>Create Your Event</Text>
 
-        <Text style={styles.label}>Your Full Name:</Text>
         <TextInput
           style={styles.input}
           value={fullName}
           onChangeText={setFullName}
           placeholder="Enter your name"
+          maxLength={30}  // Set the max character limit
         />
 
-        <Text style={styles.label}>Email Address:</Text>
         <TextInput
           style={styles.input}
           value={email}
@@ -67,23 +66,24 @@ export default function CreateEventScreen({ navigation }) {
           placeholder="Enter your email"
           keyboardType="email-address"
           autoCapitalize="none"
+          maxLength={40}  // Set the max character limit
         />
 
-        <Text style={styles.label}>Event Name:</Text>
         <TextInput
           style={styles.input}
           value={eventName}
           onChangeText={setEventName}
           placeholder="Enter your event name"
+          maxLength={40}  // Set the max character limit
         />
 
-        <Text style={styles.label}>Greeting Message:</Text>
         <TextInput
-          style={styles.input}
+          style={styles.inputMessage}
           value={message}
           onChangeText={setMessage}
-          placeholder="Write a message for your guests"
+          placeholder="Write a message for your guests to let them know what your goal is and how their gift is helping to make your dream come true"
           multiline
+          maxLength={158}  // Set the max character limit
         />
 
         <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>
