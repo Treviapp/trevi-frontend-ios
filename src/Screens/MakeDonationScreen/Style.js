@@ -1,30 +1,58 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  scrollContainer: {
+    padding: 20,
+    paddingBottom: 60,
+    alignItems: 'center',
+  },
   title: {
     fontSize: 34,
     fontWeight: '600',
     color: '#000000',
     textAlign: 'center',
-marginTop:  100,    
-marginBottom: 30,
+    marginTop: 80,
+    marginBottom: 30,
     fontFamily: 'Poppins-Bold',
   },
- inputMessage: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',  // Keeps the background consistent
+  input: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     padding: 15,
     borderRadius: 10,
     fontSize: 20,
-    marginBottom: 40,
+    marginBottom: 20,
     fontFamily: 'Poppins-Regular',
-    textAlignVertical: 'top',  // Ensures text is aligned at the top
-     },
+    width: '100%',
+  },
+  inputMessage: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    padding: 15,
+    borderRadius: 10,
+    fontSize: 20,
+    marginBottom: 20,
+    fontFamily: 'Poppins-Regular',
+    textAlignVertical: 'top',
+    width: '100%',
+  },
+  cardContainer: {
+    width: '100%',
+    height: 60,
+    marginVertical: 20,
+  },
+  cardField: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    fontSize: 16,
+    padding: 10,
+    height: 60,
+  },
   button: {
     backgroundColor: '#8e94f2',
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: 'center',
     width: '100%',
+    marginTop: 10,
   },
   buttonText: {
     color: '#fff',
@@ -32,13 +60,4 @@ marginBottom: 30,
     fontWeight: '600',
     fontFamily: 'Poppins-SemiBold',
   },
-  cardField: {
-    backgroundColor: '#FFFFFF', // White background for the card field
-    borderRadius: 10,
-    fontSize: 16,
-    padding: 10,
-    height: 60,  // Ensure enough height for the card input
-    marginVertical: 20,
-  },
 });
-

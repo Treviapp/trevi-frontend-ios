@@ -1,6 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-// Get screen width to set a max width for the input field
 const screenWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
@@ -30,31 +29,44 @@ export default StyleSheet.create({
     borderRadius: 30,
     fontSize: 16,
     marginBottom: 20,
-    width: '100%',
+    width: screenWidth - 48,
     fontFamily: 'Poppins-Regular',
   },
   inputMessage: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',  // Keeps the background consistent
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     padding: 15,
     borderRadius: 10,
     fontSize: 16,
     marginBottom: 40,
-    width: screenWidth - 64,  // Reduced width to make it slightly smaller
+    width: screenWidth - 48,
     fontFamily: 'Poppins-Regular',
-    textAlignVertical: 'top',  // Ensures text is aligned at the top
-    minHeight: 120,  // Reasonable minimum height for comfort
-    maxHeight: 120,  // Maximum height limit
- },
+    textAlignVertical: 'top',
+    minHeight: 120,
+    maxHeight: 120,
+  },
+  cardContainer: {
+    width: screenWidth - 48,
+    height: 60,
+    marginVertical: 20,
+    alignSelf: 'center',
+  },
+  cardField: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    fontSize: 16,
+    padding: 10,
+    height: 60,
+  },
   button: {
     backgroundColor: '#8e94f2',
-    paddingVertical: 14,
-    paddingHorizontal: 30,
-    borderRadius: 30,
-    marginVertical: 10,
-    width: '100%',
+    paddingVertical: 18,
+    borderRadius: 20,
     alignItems: 'center',
-
-  },  buttonText: {
+    width: screenWidth - 48,
+    alignSelf: 'center',
+    marginTop: 10,
+  },
+  buttonText: {
     color: '#ffffff',
     fontSize: 18,
     fontWeight: '600',

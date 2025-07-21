@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Text, TextInput, TouchableOpacity, Alert, View } from 'react-native';
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import styles from './Style';
 import MakeDonationBackground from '../MakeDonationBackground';
 import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
@@ -22,16 +31,14 @@ export default function MakeDonationScreen({ navigation, route }) {
     }
 
     try {
-      // 1. Get a PaymentIntent client secret from your backend
       const response = await fetch('http://localhost:8000/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: parseInt(amount) * 100 }), // amount in cents
+        body: JSON.stringify({ amount: parseInt(amount) * 100 }),
       });
       const { clientSecret } = await response.json();
-      if (!clientSecret) throw new Error('No client secret returned from backend');
+      if (!clientSecret) throw new Error('No client secret returned');
 
-      // 2. Confirm the payment
       const { paymentIntent, error } = await confirmPayment(clientSecret, {
         paymentMethodType: 'Card',
         paymentMethodData: {
@@ -51,9 +58,12 @@ export default function MakeDonationScreen({ navigation, route }) {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <MakeDonationBackground>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <MakeDonationBackground>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={{ flex: 1 }}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.title}>Send a Gift</Text>
 
           <TextInput
@@ -64,10 +74,12 @@ export default function MakeDonationScreen({ navigation, route }) {
           />
 
           <TextInput
-            style={styles.input}
+            style={styles.inputMessage}
             placeholder="Add a Message (optional)"
             value={message}
             onChangeText={setMessage}
+            multiline
+            numberOfLines={4}
           />
 
           <TextInput
@@ -77,23 +89,22 @@ export default function MakeDonationScreen({ navigation, route }) {
             value={amount}
             onChangeText={setAmount}
           />
-        </View>
-      </MakeDonationBackground>
 
-      {/* Move CardField outside the background wrapper */}
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <CardField
-          postalCodeEnabled={false}
-          placeholder={{ number: '4242 4242 4242 4242' }}
-          cardStyle={styles.cardField}  // Capital F for correct style
-          style={{ width: '90%', height: 60, marginVertical: 20 }}
-          onCardChange={setCardDetails}
-        />
-      </View>
+          <CardField
+            postalCodeEnabled={false}
+            placeholder={{ number: '4242 4242 4242 4242' }}
+            cardStyle={styles.cardField}
+            style={styles.cardContainer}
+            onCardChange={setCardDetails}
+          />
 
-      <TouchableOpacity style={styles.button} onPress={handleDonate} disabled={loading}>
-        <Text style={styles.buttonText}>{loading ? 'Processing...' : 'Send Gift'}</Text>
-      </TouchableOpacity>
-    </View>
+          <TouchableOpacity style={styles.button} onPress={handleDonate} disabled={loading}>
+            <Text style={styles.buttonText}>
+              {loading ? 'Processing...' : 'Send'}
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </MakeDonationBackground>
   );
 }
