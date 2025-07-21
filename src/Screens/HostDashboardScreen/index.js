@@ -16,7 +16,7 @@ import { client } from '../../api/config';
 
 const FRONTEND_BASE = 'https://trevi.app/enter/';
 
-export default function HostDashboardScreen({ route }) {
+export default function HostDashboardScreen({ route, navigation }) {
   const initialCode = route?.params?.hostCode || '';
   const [code, setCode] = useState(initialCode);
   const [loading, setLoading] = useState(false);
@@ -24,6 +24,7 @@ export default function HostDashboardScreen({ route }) {
   const [donations, setDonations] = useState([]);
 
   useEffect(() => {
+    console.log('👀 initialCode =', initialCode);
     if (initialCode) {
       handleLoadDashboard();
     }
@@ -41,6 +42,7 @@ export default function HostDashboardScreen({ route }) {
       const res = await client.get(`/campaigns/host/${trimmed}`);
       const data = res.data;
 
+      console.log('✅ campaign =', data);
       setCampaign(data);
       setDonations(data.donations || []);
     } catch (err) {
@@ -85,17 +87,20 @@ export default function HostDashboardScreen({ route }) {
         </>
       ) : campaign ? (
         <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-          {/* Title with handwriting font */}
-          <Text style={styles.handwritingTitle}>{campaign.title}</Text>
+          {/* ✅ Red debug box */}
+          <View style={{ backgroundColor: 'red', padding: 10, margin: 10 }}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>
+              ✅ ScrollView is showing
+            </Text>
+          </View>
 
+          <Text style={styles.handwritingTitle}>{campaign.title}</Text>
           <Text style={styles.subHeader}>Hosted by {campaign.host}</Text>
 
-          {/* Total Raised */}
           <Text style={styles.totalRaised}>
             Total Raised: £{(getTotalRaised() / 100).toFixed(2)}
           </Text>
 
-          {/* Centered QR Code */}
           <View style={{ alignItems: 'center', marginVertical: 5 }}>
             <Text style={styles.qrLabel}>Your Event QR code</Text>
             <QRCode
@@ -104,6 +109,17 @@ export default function HostDashboardScreen({ route }) {
             />
             <Text style={styles.qrText}>Scan the QR code to join the event</Text>
           </View>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate('GiftListScreen', {
+                hostCode: campaign?.host_code || 'MISSING',
+              })
+            }
+          >
+            <Text style={styles.buttonText}>View My Gifts</Text>
+          </TouchableOpacity>
 
           {donations.map((donation, idx) => (
             <View key={idx} style={styles.donationCard}>

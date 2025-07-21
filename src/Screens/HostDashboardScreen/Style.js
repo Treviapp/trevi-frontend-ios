@@ -60,4 +60,19 @@ export default StyleSheet.create({
     marginTop: 20,
     textAlign: 'center',
   },
+  button: {
+    backgroundColor: '#8e94f2',
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    marginTop: 20,
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: '80%',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontFamily: 'Poppins-SemiBold',
+  },
 });
