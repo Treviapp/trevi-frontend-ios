@@ -9,20 +9,20 @@ export default StyleSheet.create({
     marginBottom: 30,
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     padding: 15,
     borderRadius: 10,
     fontSize: 16,
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#ff4081', // a vibrant pink for energy
+    backgroundColor: '#ffffff', // a vibrant pink for energy
     paddingVertical: 15,
     borderRadius: 10,
     alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: '#000000
     fontSize: 16,
     fontWeight: '600',
   },

@@ -42,7 +42,7 @@ export default function GuestSummaryScreen({ route, navigation }) {
 
   return (
     <EventSummaryBackground>
-      <Text style={styles.title}>🎉 {campaign.title}</Text>
+      <Text style={styles.handwritingTitle}>Welcome to {campaign.title}</Text>
       <Text style={styles.subtitle}>Hosted by {campaign.host}</Text>
 
       {campaign.host_image && (
@@ -62,7 +62,7 @@ export default function GuestSummaryScreen({ route, navigation }) {
         style={styles.button}
         onPress={() => navigation.navigate('MakeDonation', { guestCode })}
       >
-        <Text style={styles.buttonText}>Send a Gift</Text>
+        <Text style={styles.buttonText}>Click to Send a Gift</Text>
       </TouchableOpacity>
     </EventSummaryBackground>
   );

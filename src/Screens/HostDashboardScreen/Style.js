@@ -7,33 +7,57 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
   },
   title: {
-    fontFamily: 'Poppins-Bold', // Poppins Bold
+    fontFamily: 'Poppins-Bold',
     fontSize: 20,
-    marginBottom: 10,
-    color: '#4C2A85',
+    marginBottom: 40,
+    color: '#000000',
   },
   section: {
-    marginVertical: 15,
+    marginVertical: 30,
   },
   qrLabel: {
-    fontFamily: 'Poppins-SemiBold', // Poppins SemiBold
-    fontSize: 30,
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 26,
     fontWeight: '600',
-    color: '#444',
+    color: '#ffffff',
+    marginTop: 10,
     marginBottom: 10,
   },
   subHeader: {
-    fontFamily: 'Poppins-SemiBold', // Poppins SemiBold
-    fontSize: 20,  // Adjust font size as needed
-    color: '#444',  // Color for visibility
-    textAlign: 'center',  // Center align the text
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 22,
+    color: '#444',
+    textAlign: 'center',
   },
-  totalRaised: {  // Add this style for "Total Raised"
-    fontFamily: 'Poppins-SemiBold', // Poppins SemiBold
-    fontSize: 20,  // Larger font size for total raised
-    color: '#4C2A85', // Same color as the title
-    textAlign: 'center', // Center align the text
-    marginVertical: 15,  // Add some margin for spacing
+  totalRaised: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 24,
+    color: '#4C2A85',
+    textAlign: 'center',
+    marginVertical: 15,
+  },
+  header: {
+    fontFamily: 'Poppins-Bold',
+    fontSize: 40,
+    color: '#fde88b',
+    textAlign: 'center',
+    marginBottom: 20,
+    marginTop: 80,
+  },
+  handwritingTitle: {
+    fontFamily: 'DancingScript_700Bold',
+    fontSize: 60,
+    color: '#8e94f2',
+    textAlign: 'center',
+    marginBottom: 20,
+    marginTop: 80,
+  },
+  qrText: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 20,
+    fontWeight: '500',
+    color: '#444',
+    marginTop: 20,
+    textAlign: 'center',
   },
 });
-

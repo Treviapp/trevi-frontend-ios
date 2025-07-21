@@ -2,13 +2,20 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   title: {
-    fontSize: 28,
+    fontSize: 34,
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
   },
+  handwritingTitle: {
+    fontFamily: 'DancingScript_700Bold',
+    fontSize: 38,
+    color: '#8e94f2',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
   subtitle: {
-    fontSize: 18,
+    fontSize: 20,
     color: '#666',
     marginBottom: 20,
     textAlign: 'center',
@@ -20,22 +27,22 @@ export default StyleSheet.create({
     marginBottom: 20,
   },
   message: {
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 30,
     textAlign: 'center',
     paddingHorizontal: 20,
   },
   button: {
-    backgroundColor: '#5A67D8',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 25,
+    backgroundColor: '#977dff',
+    paddingVertical: 14,
+    paddingHorizontal: 40,
+    borderRadius: 40,
     alignSelf: 'center',
   },
   buttonText: {
-    color: 'white',
+    color: '#ffffff',
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: 20,
   },
   error: {
     color: 'red',

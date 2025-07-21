@@ -7,21 +7,21 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   overlay: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     marginHorizontal: 20,
     padding: 30,
     borderRadius: 15,
     alignItems: 'center',
   },
   title: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'DancingScript-Regular',
     fontSize: 34,
     marginBottom: 30,
-    color: '#FFFFFF',
+    color: '#000000',
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#E6DAF5',
+    backgroundColor: '#8e94f2',
     paddingVertical: 14,
     paddingHorizontal: 30,
     borderRadius: 30,
@@ -32,6 +32,6 @@ export default StyleSheet.create({
   buttonText: {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 16,
-    color: '#000000',
+    color: '#ffffff',
   },
 });

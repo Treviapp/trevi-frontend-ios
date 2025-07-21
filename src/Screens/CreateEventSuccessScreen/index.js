@@ -19,7 +19,7 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
   return (
     <CreateEventSuccessBackground>
       <View style={styles.container}>
-        <Text style={styles.title}>🎉 Event Created!</Text>
+        <Text style={styles.title}>Event Created</Text>
 
         <Text style={styles.label}>Host Code:</Text>
         <Text style={styles.code}>{hostCode}</Text>
@@ -28,7 +28,7 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
         <Text style={styles.code}>{guestCode}</Text>
 
         <Text style={styles.note}>
-          Share the guest code with your friends so they can donate to your event.
+          Share the guest code with your friends so they can donate to your big event.
         </Text>
 
         <TouchableOpacity style={styles.button} onPress={handleContinue}>

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)', // Reduced opacity for more visibility of the background
+    backgroundColor: 'rgba(255, 255, 255, 0.1)', // Reduced opacity for more visibility of the background
     justifyContent: 'center', // Centers children vertically
     alignItems: 'center', // Centers children horizontally
     padding: 20, // Adds padding around the children elements

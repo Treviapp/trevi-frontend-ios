@@ -4,7 +4,7 @@ import { ImageBackground, View, StyleSheet } from 'react-native';
 export default function EventSummaryBackground({ children }) {
   return (
     <ImageBackground
-      source={require('../../Assets/Images/eventsummary-bg.png')}
+      source={require('../../Assets/Images/createevent-bg.png')}
       style={styles.background}
       resizeMode="cover"
     >

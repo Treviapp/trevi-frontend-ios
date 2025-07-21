@@ -2,23 +2,25 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   title: {
-    fontSize: 26,
+    fontSize: 34,
     fontWeight: '600',
-    color: '#005F5F',
+    color: '#000000',
     textAlign: 'center',
-    marginBottom: 30,
+marginTop:  100,    
+marginBottom: 30,
     fontFamily: 'Poppins-Bold',
   },
-  input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+ inputMessage: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',  // Keeps the background consistent
     padding: 15,
     borderRadius: 10,
-    fontSize: 16,
-    marginBottom: 20,
-    width: '100%',
-  },
+    fontSize: 20,
+    marginBottom: 40,
+    fontFamily: 'Poppins-Regular',
+    textAlignVertical: 'top',  // Ensures text is aligned at the top
+     },
   button: {
-    backgroundColor: '#00CFC1',
+    backgroundColor: '#8e94f2',
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: 'center',
@@ -26,7 +28,7 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '600',
     fontFamily: 'Poppins-SemiBold',
   },

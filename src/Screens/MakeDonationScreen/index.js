@@ -13,7 +13,7 @@ export default function MakeDonationScreen({ navigation, route }) {
 
   const handleDonate = async () => {
     if (!name.trim() || !amount.trim()) {
-      Alert.alert('Validation', 'Please enter your name and donation amount.');
+      Alert.alert('Validation', 'Please enter your name and gift amount.');
       return;
     }
     if (!cardDetails?.complete) {
@@ -54,7 +54,7 @@ export default function MakeDonationScreen({ navigation, route }) {
     <View style={{ flex: 1 }}>
       <MakeDonationBackground>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={styles.title}>Make a Donation</Text>
+          <Text style={styles.title}>Send a Gift</Text>
 
           <TextInput
             style={styles.input}

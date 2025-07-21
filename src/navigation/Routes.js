@@ -6,7 +6,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AppStack from './AppStack';
 
 // Screens
-import Splash from '../Screens/Splash';
 import Carousal from '../Screens/Carousal';
 
 // Redux Imports (optional – you can remove if not using Redux anymore)
@@ -24,9 +23,8 @@ const Routes = () => {
       }}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Splash" component={Splash} />
-        <Stack.Screen name="Carousal" component={Carousal} />
-        <Stack.Screen name="App" component={AppStack} />
+       <Stack.Screen name="App" component={AppStack} />
+       <Stack.Screen name="Carousal" component={Carousal} /> 
       </Stack.Navigator>
     </NavigationContainer>
   );

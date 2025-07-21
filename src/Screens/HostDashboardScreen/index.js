@@ -84,19 +84,26 @@ export default function HostDashboardScreen({ route }) {
           </TouchableOpacity>
         </>
       ) : campaign ? (
-        <ScrollView contentContainerStyle={{ paddingBottom: 50 }}>
-          <Text style={styles.header}>🎉 {campaign.title}</Text>
+        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+          {/* Title with handwriting font */}
+          <Text style={styles.handwritingTitle}>{campaign.title}</Text>
+
           <Text style={styles.subHeader}>Hosted by {campaign.host}</Text>
-          {/* This is where you render "Total Raised" */}
+
+          {/* Total Raised */}
           <Text style={styles.totalRaised}>
             Total Raised: £{(getTotalRaised() / 100).toFixed(2)}
           </Text>
 
-          <Text style={styles.qrLabel}>Your QR code - Scan to donate:</Text>
-          <QRCode
-            value={`${FRONTEND_BASE}${campaign.guest_code}`}
-            size={300}
-          />
+          {/* Centered QR Code */}
+          <View style={{ alignItems: 'center', marginVertical: 5 }}>
+            <Text style={styles.qrLabel}>Your Event QR code</Text>
+            <QRCode
+              value={`${FRONTEND_BASE}${campaign.guest_code}`}
+              size={200}
+            />
+            <Text style={styles.qrText}>Scan the QR code to join the event</Text>
+          </View>
 
           {donations.map((donation, idx) => (
             <View key={idx} style={styles.donationCard}>

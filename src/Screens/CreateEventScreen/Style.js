@@ -44,18 +44,18 @@ export default StyleSheet.create({
     textAlignVertical: 'top',  // Ensures text is aligned at the top
     minHeight: 120,  // Reasonable minimum height for comfort
     maxHeight: 120,  // Maximum height limit
-  },
+ },
   button: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#8e94f2',
     paddingVertical: 14,
-    paddingHorizontal: 40,
-    borderRadius: 2,
-    alignItems: 'center',
+    paddingHorizontal: 30,
+    borderRadius: 30,
+    marginVertical: 10,
     width: '100%',
-    marginTop: 60,  // Added marginTop to move the button down
-  },
-  buttonText: {
-    color: '000000',
+    alignItems: 'center',
+
+  },  buttonText: {
+    color: '#ffffff',
     fontSize: 18,
     fontWeight: '600',
     fontFamily: 'Poppins-SemiBold',
