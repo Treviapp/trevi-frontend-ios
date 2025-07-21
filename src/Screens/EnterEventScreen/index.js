@@ -8,6 +8,8 @@ export default function EnterEventScreen({ navigation }) {
   const [code, setCode] = useState('');
 
   const handleJoin = async () => {
+    console.log('🚨 Join Event button was pressed'); // Debug log
+
     const trimmed = code.trim().toUpperCase();
     if (!trimmed) {
       Alert.alert('Validation', 'Please enter an event code.');
@@ -18,9 +20,8 @@ export default function EnterEventScreen({ navigation }) {
       const response = await client.get(`/campaigns/guest/${trimmed}`);
       const campaign = response.data;
 
-      console.log('✅ Guest campaign found:', campaign);
+      console.log('✅ Guest campaign found:', campaign); // Success log
 
-      // Navigate to guest summary view
       navigation.navigate('GuestSummaryScreen', {
         guestCode: campaign.code,
         title: campaign.title,

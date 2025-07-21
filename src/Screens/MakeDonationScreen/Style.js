@@ -39,45 +39,49 @@ export default StyleSheet.create({
   },
   amountOptions: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
+    gap: 12,
     marginVertical: 20,
     width: '100%',
   },
   amountButton: {
-    backgroundColor: '#ddd',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 30,
-    marginHorizontal: 5,
+    width: '48%',
+    paddingVertical: 18,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   amountButtonSelected: {
-    backgroundColor: '#8e94f2',
+    borderWidth: 2,
+    borderColor: '#8e94f2',
   },
   amountButtonText: {
     fontSize: 18,
     fontFamily: 'Poppins-Medium',
-    color: '#333',
+    color: '#000',
   },
   amountButtonTextSelected: {
-    color: '#fff',
     fontWeight: '600',
+    color: '#000',
   },
-  uploadButton: {
-    marginBottom: 20,
-    backgroundColor: '#eee',
+  photoButton: {
+    marginTop: 20,
+    marginBottom: 10,
     paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 20,
+    paddingHorizontal: 30,
+    backgroundColor: '#e3e3e3',
+    borderRadius: 30,
   },
-  uploadButtonText: {
+  photoButtonText: {
     fontFamily: 'Poppins-Regular',
     fontSize: 16,
     color: '#333',
   },
-  previewImage: {
-    width: screenWidth - 48,
+  preview: {
+    width: screenWidth - 40,
     height: 200,
-    borderRadius: 10,
+    borderRadius: 16,
     marginBottom: 20,
   },
   button: {

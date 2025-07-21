@@ -20,24 +20,7 @@ export default function MakeDonationScreen({ navigation }) {
   const [amount, setAmount] = useState('');
   const [photo, setPhoto] = useState(null);
 
-  const handlePickImage = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permissionResult.granted) {
-      Alert.alert('Permission required', 'Please allow access to your photo library.');
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 0.7,
-    });
-
-    if (!result.canceled && result.assets.length > 0) {
-      setPhoto(result.assets[0]);
-    }
-  };
-
-  const handleNext = () => {
+  const handleDonate = () => {
     if (!name.trim() || !amount.trim()) {
       Alert.alert('Validation', 'Please enter your name and select an amount.');
       return;
@@ -50,6 +33,30 @@ export default function MakeDonationScreen({ navigation }) {
       photo,
     });
   };
+
+  const pickImage = async () => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert('Permission required', 'Please allow photo access to upload an image.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.7,
+    });
+
+    if (!result.canceled) {
+      setPhoto(result.assets[0]);
+    }
+  };
+
+  const amountOptions = [
+    { value: '5', color: '#FFDDC1' },   // Pastel peach
+    { value: '10', color: '#C1E1FF' },  // Pastel blue
+    { value: '20', color: '#D1FFC1' },  // Pastel green
+    { value: '50', color: '#F3C1FF' },  // Pastel pink
+  ];
 
   return (
     <MakeDonationBackground>
@@ -72,18 +79,18 @@ export default function MakeDonationScreen({ navigation }) {
             style={styles.inputMessage}
             placeholder="Add a Message (optional)"
             value={message}
-            onChangeText={setMessage}
+            onChangeText={(text) => text.length <= 160 && setMessage(text)}
             multiline
-            numberOfLines={4}
           />
 
           {/* Amount Buttons */}
           <View style={styles.amountOptions}>
-            {['5', '10', '20', '50'].map((value) => (
+            {amountOptions.map(({ value, color }) => (
               <TouchableOpacity
                 key={value}
                 style={[
                   styles.amountButton,
+                  { backgroundColor: color },
                   amount === value && styles.amountButtonSelected,
                 ]}
                 onPress={() => setAmount(value)}
@@ -100,23 +107,23 @@ export default function MakeDonationScreen({ navigation }) {
             ))}
           </View>
 
-          {/* Upload Image */}
-          <TouchableOpacity onPress={handlePickImage} style={styles.uploadButton}>
-            <Text style={styles.uploadButtonText}>
-              {photo ? 'Change Photo' : 'Upload a Photo (optional)'}
+          {/* Upload Photo */}
+          <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
+            <Text style={styles.photoButtonText}>
+              {photo ? 'Change Photo' : 'Upload a Photo'}
             </Text>
           </TouchableOpacity>
 
           {photo && (
             <Image
               source={{ uri: photo.uri }}
-              style={styles.previewImage}
+              style={styles.preview}
               resizeMode="cover"
             />
           )}
 
-          <TouchableOpacity style={styles.button} onPress={handleNext}>
-            <Text style={styles.buttonText}>Next</Text>
+          <TouchableOpacity style={styles.button} onPress={handleDonate}>
+            <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
