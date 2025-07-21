@@ -46,11 +46,11 @@ export default StyleSheet.create({
   },
   handwritingTitle: {
     fontFamily: 'DancingScript_700Bold',
-    fontSize: 60,
+    fontSize: 50,
     color: '#8e94f2',
     textAlign: 'center',
     marginBottom: 20,
-    marginTop: 80,
+    marginTop: 100,
   },
   qrText: {
     fontFamily: 'Poppins-SemiBold',

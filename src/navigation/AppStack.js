@@ -1,7 +1,9 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+
 // Trevi Screens
+import MakePaymentScreen from '../Screens/MakePaymentScreen';
 import WelcomeScreen from '../Screens/WelcomeScreen';
 import CreateEventScreen from '../Screens/CreateEventScreen';
 import CreateEventSuccessScreen from '../Screens/CreateEventSuccessScreen';
@@ -26,6 +28,7 @@ const AppStack = () => {
       <Stack.Screen name="HostDashboard" component={HostDashboardScreen} />
       <Stack.Screen name="GuestSummaryScreen" component={GuestSummaryScreen} />
       <Stack.Screen name="MakeDonation" component={MakeDonationScreen} />
+      <Stack.Screen name="MakePaymentScreen" component={MakePaymentScreen} />
       <Stack.Screen name="DonationSuccess" component={DonationSuccessScreen} />
       <Stack.Screen name="EventSummary" component={EventSummary} />
     </Stack.Navigator>

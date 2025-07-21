@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import styles from './Style';
 import axios from 'axios';
-import CreateEventBackground from '../CreateEventBackground';  // Import the background component
+import CreateEventBackground from '../CreateEventBackground';
+
+// 🔤 Capitalize first letter of each word
+const toTitleCase = (str) =>
+  str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase());
 
 export default function CreateEventScreen({ navigation }) {
   const [fullName, setFullName] = useState('');
@@ -54,9 +58,10 @@ export default function CreateEventScreen({ navigation }) {
         <TextInput
           style={styles.input}
           value={fullName}
-          onChangeText={setFullName}
+          onChangeText={(text) => setFullName(toTitleCase(text))}
           placeholder="Enter your name"
-          maxLength={30}  // Set the max character limit
+          maxLength={30}
+          autoCapitalize="words"
         />
 
         <TextInput
@@ -66,15 +71,16 @@ export default function CreateEventScreen({ navigation }) {
           placeholder="Enter your email"
           keyboardType="email-address"
           autoCapitalize="none"
-          maxLength={40}  // Set the max character limit
+          maxLength={40}
         />
 
         <TextInput
           style={styles.input}
           value={eventName}
-          onChangeText={setEventName}
+          onChangeText={(text) => setEventName(toTitleCase(text))}
           placeholder="Enter your event name"
-          maxLength={40}  // Set the max character limit
+          maxLength={40}
+          autoCapitalize="words"
         />
 
         <TextInput
@@ -83,7 +89,7 @@ export default function CreateEventScreen({ navigation }) {
           onChangeText={setMessage}
           placeholder="Write a message for your guests to let them know what your goal is and how their gift is helping to make your dream come true"
           multiline
-          maxLength={158}  // Set the max character limit
+          maxLength={158}
         />
 
         <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>

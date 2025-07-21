@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const screenWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
   scrollContainer: {
@@ -7,7 +9,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 34,
+    fontSize: 32,
     fontWeight: '600',
     color: '#000000',
     textAlign: 'center',
@@ -33,30 +35,63 @@ export default StyleSheet.create({
     fontFamily: 'Poppins-Regular',
     textAlignVertical: 'top',
     width: '100%',
+    minHeight: 100,
   },
-  cardContainer: {
-    width: '100%',
-    height: 60,
+  amountOptions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginVertical: 20,
+    width: '100%',
   },
-  cardField: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+  amountButton: {
+    backgroundColor: '#ddd',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    marginHorizontal: 5,
+  },
+  amountButtonSelected: {
+    backgroundColor: '#8e94f2',
+  },
+  amountButtonText: {
+    fontSize: 18,
+    fontFamily: 'Poppins-Medium',
+    color: '#333',
+  },
+  amountButtonTextSelected: {
+    color: '#fff',
+    fontWeight: '600',
+  },
+  uploadButton: {
+    marginBottom: 20,
+    backgroundColor: '#eee',
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 20,
+  },
+  uploadButtonText: {
+    fontFamily: 'Poppins-Regular',
     fontSize: 16,
-    padding: 10,
-    height: 60,
+    color: '#333',
+  },
+  previewImage: {
+    width: screenWidth - 48,
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 20,
   },
   button: {
     backgroundColor: '#8e94f2',
-    paddingVertical: 14,
-    borderRadius: 10,
+    paddingVertical: 18,
+    borderRadius: 20,
     alignItems: 'center',
-    width: '100%',
+    width: screenWidth - 48,
+    alignSelf: 'center',
     marginTop: 10,
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 20,
+    color: '#ffffff',
+    fontSize: 18,
     fontWeight: '600',
     fontFamily: 'Poppins-SemiBold',
   },

@@ -8,53 +8,47 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from 'react-native';
 import styles from './Style';
 import MakeDonationBackground from '../MakeDonationBackground';
-import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
+import * as ImagePicker from 'expo-image-picker';
 
-export default function MakeDonationScreen({ navigation, route }) {
+export default function MakeDonationScreen({ navigation }) {
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
   const [amount, setAmount] = useState('');
-  const [cardDetails, setCardDetails] = useState();
-  const { confirmPayment, loading } = useConfirmPayment();
+  const [photo, setPhoto] = useState(null);
 
-  const handleDonate = async () => {
+  const handlePickImage = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
+      Alert.alert('Permission required', 'Please allow access to your photo library.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.7,
+    });
+
+    if (!result.canceled && result.assets.length > 0) {
+      setPhoto(result.assets[0]);
+    }
+  };
+
+  const handleNext = () => {
     if (!name.trim() || !amount.trim()) {
-      Alert.alert('Validation', 'Please enter your name and gift amount.');
-      return;
-    }
-    if (!cardDetails?.complete) {
-      Alert.alert('Validation', 'Please enter complete card details.');
+      Alert.alert('Validation', 'Please enter your name and select an amount.');
       return;
     }
 
-    try {
-      const response = await fetch('http://localhost:8000/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: parseInt(amount) * 100 }),
-      });
-      const { clientSecret } = await response.json();
-      if (!clientSecret) throw new Error('No client secret returned');
-
-      const { paymentIntent, error } = await confirmPayment(clientSecret, {
-        paymentMethodType: 'Card',
-        paymentMethodData: {
-          billingDetails: { name },
-        },
-      });
-
-      if (error) {
-        Alert.alert('Payment failed', error.message);
-      } else if (paymentIntent) {
-        navigation.navigate('DonationSuccess', { name, amount });
-      }
-    } catch (err) {
-      console.error('❌ Stripe payment error:', err);
-      Alert.alert('Error', 'Could not process payment. Please try again.');
-    }
+    navigation.navigate('MakePaymentScreen', {
+      name,
+      amount,
+      message,
+      photo,
+    });
   };
 
   return (
@@ -71,6 +65,7 @@ export default function MakeDonationScreen({ navigation, route }) {
             placeholder="Your Name"
             value={name}
             onChangeText={setName}
+            autoCapitalize="words"
           />
 
           <TextInput
@@ -82,26 +77,46 @@ export default function MakeDonationScreen({ navigation, route }) {
             numberOfLines={4}
           />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Amount (£)"
-            keyboardType="numeric"
-            value={amount}
-            onChangeText={setAmount}
-          />
+          {/* Amount Buttons */}
+          <View style={styles.amountOptions}>
+            {['5', '10', '20', '50'].map((value) => (
+              <TouchableOpacity
+                key={value}
+                style={[
+                  styles.amountButton,
+                  amount === value && styles.amountButtonSelected,
+                ]}
+                onPress={() => setAmount(value)}
+              >
+                <Text
+                  style={[
+                    styles.amountButtonText,
+                    amount === value && styles.amountButtonTextSelected,
+                  ]}
+                >
+                  £{value}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
 
-          <CardField
-            postalCodeEnabled={false}
-            placeholder={{ number: '4242 4242 4242 4242' }}
-            cardStyle={styles.cardField}
-            style={styles.cardContainer}
-            onCardChange={setCardDetails}
-          />
-
-          <TouchableOpacity style={styles.button} onPress={handleDonate} disabled={loading}>
-            <Text style={styles.buttonText}>
-              {loading ? 'Processing...' : 'Send'}
+          {/* Upload Image */}
+          <TouchableOpacity onPress={handlePickImage} style={styles.uploadButton}>
+            <Text style={styles.uploadButtonText}>
+              {photo ? 'Change Photo' : 'Upload a Photo (optional)'}
             </Text>
+          </TouchableOpacity>
+
+          {photo && (
+            <Image
+              source={{ uri: photo.uri }}
+              style={styles.previewImage}
+              resizeMode="cover"
+            />
+          )}
+
+          <TouchableOpacity style={styles.button} onPress={handleNext}>
+            <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
