@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  Image,
+} from 'react-native';
 import styles from './Style';
 import axios from 'axios';
+import * as ImagePicker from 'expo-image-picker';
 import CreateEventBackground from '../CreateEventBackground';
 
 // 🔤 Capitalize first letter of each word
@@ -13,6 +21,7 @@ export default function CreateEventScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [eventName, setEventName] = useState('');
   const [message, setMessage] = useState('');
+  const [photo, setPhoto] = useState(null);
 
   const handleCreateEvent = async () => {
     console.log('🚨 Create Event button pressed');
@@ -22,15 +31,32 @@ export default function CreateEventScreen({ navigation }) {
       return;
     }
 
+    const formData = new FormData();
+    formData.append('name', toTitleCase(eventName));
+    formData.append('creator_name', toTitleCase(fullName));
+    formData.append('creator_email', email);
+    formData.append('guest_message', message);
+
+    if (photo) {
+      formData.append('photo', {
+        uri: photo.uri,
+        type: 'image/jpeg',
+        name: 'event_photo.jpg',
+      });
+    }
+
     try {
       console.log('📡 Sending request to backend...');
 
-      const response = await axios.post('http://192.168.1.62:8000/api/campaigns', {
-        name: eventName,
-        creator_name: fullName,
-        creator_email: email,
-        guest_message: message,
-      });
+      const response = await axios.post(
+        'http://192.168.1.62:8000/api/campaigns',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
 
       console.log('✅ Backend response:', response.data);
 
@@ -43,10 +69,28 @@ export default function CreateEventScreen({ navigation }) {
         fullName,
         email,
         message,
+        photo, // pass image to next screen if needed
       });
     } catch (error) {
       console.error('❌ Axios Error:', error.message);
       Alert.alert('Something went wrong while creating the event.');
+    }
+  };
+
+  const pickImage = async () => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert('Permission required', 'Please allow photo access to upload an image.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.7,
+    });
+
+    if (!result.canceled) {
+      setPhoto(result.assets[0]);
     }
   };
 
@@ -58,7 +102,7 @@ export default function CreateEventScreen({ navigation }) {
         <TextInput
           style={styles.input}
           value={fullName}
-          onChangeText={(text) => setFullName(toTitleCase(text))}
+          onChangeText={setFullName}
           placeholder="Enter your name"
           maxLength={30}
           autoCapitalize="words"
@@ -77,7 +121,7 @@ export default function CreateEventScreen({ navigation }) {
         <TextInput
           style={styles.input}
           value={eventName}
-          onChangeText={(text) => setEventName(toTitleCase(text))}
+          onChangeText={setEventName}
           placeholder="Enter your event name"
           maxLength={40}
           autoCapitalize="words"
@@ -91,6 +135,21 @@ export default function CreateEventScreen({ navigation }) {
           multiline
           maxLength={158}
         />
+
+        {/* Upload Photo */}
+        <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
+          <Text style={styles.photoButtonText}>
+            {photo ? 'Change Photo' : 'Upload a Photo'}
+          </Text>
+        </TouchableOpacity>
+
+        {photo && (
+          <Image
+            source={{ uri: photo.uri }}
+            style={styles.preview}
+            resizeMode="cover"
+          />
+        )}
 
         <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>
           <Text style={styles.buttonText}>Create Event</Text>

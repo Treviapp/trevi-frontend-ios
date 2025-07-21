@@ -75,13 +75,18 @@ export default function MakeDonationScreen({ navigation }) {
             autoCapitalize="words"
           />
 
-          <TextInput
-            style={styles.inputMessage}
-            placeholder="Add a Message (optional)"
-            value={message}
-            onChangeText={(text) => text.length <= 160 && setMessage(text)}
-            multiline
-          />
+          <View style={{ width: '100%' }}>
+            <TextInput
+              style={styles.inputMessage}
+              placeholder="Add a Message (optional)"
+              value={message}
+              onChangeText={(text) => text.length <= 150 && setMessage(text)}
+              multiline
+            />
+            <Text style={{ textAlign: 'right', marginTop: 4, color: '#888' }}>
+              {message.length} / 150
+            </Text>
+          </View>
 
           {/* Amount Buttons */}
           <View style={styles.amountOptions}>
