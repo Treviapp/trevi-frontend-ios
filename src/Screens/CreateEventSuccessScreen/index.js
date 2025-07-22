@@ -5,6 +5,7 @@ import CreateEventSuccessBackground from '../CreateEventSuccessBackground';
 
 export default function CreateEventSuccessScreen({ route, navigation }) {
   const { hostCode, guestCode, eventName, fullName, email, message } = route.params;
+console.log('🧾 Received in CreateEventSuccessScreen:', route.params);
 
   const handleContinue = () => {
     navigation.navigate('HostDashboard', {

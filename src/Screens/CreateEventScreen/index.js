@@ -55,21 +55,28 @@ export default function CreateEventScreen({ navigation }) {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
+          transformResponse: [function (data) {
+            try {
+              const parsed = JSON.parse(data);
+              return parsed;
+            } catch (e) {
+              console.error('❌ JSON parse error:', e);
+              return {};
+            }
+          }],
         }
       );
 
-      console.log('✅ Backend response:', response.data);
-
-      const { host_code, guest_code } = response.data;
+      console.log('✅ Event created:', response.data.host_code, response.data.guest_code);
 
       navigation.navigate('CreateEventSuccessScreen', {
-        hostCode: host_code,
-        guestCode: guest_code,
+        hostCode: response.data.host_code,
+        guestCode: response.data.guest_code,
         eventName,
         fullName,
         email,
         message,
-        photo, // pass image to next screen if needed
+        photo, // optional: pass image to next screen
       });
     } catch (error) {
       console.error('❌ Axios Error:', error.message);
@@ -85,7 +92,7 @@ export default function CreateEventScreen({ navigation }) {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaType.Images, // ← updated to avoid deprecation warning
       quality: 0.7,
     });
 
