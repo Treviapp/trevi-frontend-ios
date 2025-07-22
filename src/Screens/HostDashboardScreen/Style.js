@@ -1,65 +1,38 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontFamily: 'Poppins-Bold',
-    fontSize: 20,
-    marginBottom: 40,
+  handwritingTitle: {
+    fontSize: 32,
+    fontFamily: 'Cochin', // Replace with your custom font if needed
     color: '#000000',
-  },
-  section: {
-    marginVertical: 30,
-  },
-  qrLabel: {
-    fontFamily: 'Poppins-SemiBold',
-    fontSize: 26,
-    fontWeight: '600',
-    color: '#ffffff',
-    marginTop: 10,
-    marginBottom: 10,
+    textAlign: 'center',
+    marginBottom: 8,
   },
   subHeader: {
-    fontFamily: 'Poppins-SemiBold',
-    fontSize: 22,
-    color: '#444',
+    fontSize: 18,
+    color: '#000000',
     textAlign: 'center',
+    marginBottom: 16,
   },
   totalRaised: {
-    fontFamily: 'Poppins-SemiBold',
-    fontSize: 24,
-    color: '#4C2A85',
-    textAlign: 'center',
-    marginVertical: 15,
-  },
-  header: {
-    fontFamily: 'Poppins-Bold',
-    fontSize: 40,
-    color: '#fde88b',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000000',
     textAlign: 'center',
     marginBottom: 20,
-    marginTop: 80,
   },
-  handwritingTitle: {
-    fontFamily: 'DancingScript_700Bold',
-    fontSize: 50,
-    color: '#8e94f2',
-    textAlign: 'center',
-    marginBottom: 20,
-    marginTop: 100,
+  qrLabel: {
+    fontSize: 16,
+    color: '#000000',
+    marginBottom: 8,
   },
   qrText: {
-    fontFamily: 'Poppins-SemiBold',
-    fontSize: 20,
-    fontWeight: '500',
-    color: '#444',
-    marginTop: 20,
+    fontSize: 14,
+    color: '#000000',
+    marginTop: 8,
     textAlign: 'center',
   },
+<<<<<<< HEAD
   button: {
     backgroundColor: '#8e94f2',
     paddingVertical: 14,
@@ -74,5 +47,68 @@ export default StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontFamily: 'Poppins-SemiBold',
+=======
+  donationCard: {
+    backgroundColor: '#f5f5f5',
+    borderRadius: 12,
+    padding: 12,
+    marginHorizontal: 20,
+    marginVertical: 8,
+  },
+  image: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  message: {
+    fontSize: 16,
+    color: '#000000',
+    marginBottom: 4,
+  },
+  amount: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  viewGiftsButton: {
+    marginTop: 20,
+    marginHorizontal: 60,
+    backgroundColor: '#FFD700',
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  viewGiftsButtonText: {
+    color: '#000000',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  label: {
+    fontSize: 16,
+    color: '#000000',
+    marginBottom: 10,
+    marginLeft: 20,
+  },
+  input: {
+    backgroundColor: '#ffffff',
+    padding: 12,
+    borderRadius: 8,
+    marginHorizontal: 20,
+    marginBottom: 10,
+    color: '#000000',
+  },
+  button: {
+    backgroundColor: '#FFD700',
+    padding: 14,
+    borderRadius: 8,
+    marginHorizontal: 20,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#000000',
+    fontWeight: 'bold',
+    fontSize: 16,
+>>>>>>> cf009af (Add GiftList screen no Stripe connect yet)
   },
 });

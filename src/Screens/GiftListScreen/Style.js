@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+<<<<<<< HEAD
   container: {
     padding: 20,
   },
@@ -42,5 +43,48 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#4C2A85',
+=======
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  list: {
+    paddingHorizontal: 16,
+    paddingBottom: 100,
+  },
+  giftCard: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+  },
+  name: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  message: {
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  image: {
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  timestamp: {
+    fontSize: 12,
+    color: '#555',
+    textAlign: 'right',
+  },
+  noGifts: {
+    textAlign: 'center',
+    color: '#ccc',
+    fontSize: 16,
+    marginTop: 40,
+>>>>>>> cf009af (Add GiftList screen no Stripe connect yet)
   },
 });

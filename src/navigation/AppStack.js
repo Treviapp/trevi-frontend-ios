@@ -2,7 +2,6 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Trevi Screens
-import MakePaymentScreen from '../Screens/MakePaymentScreen';
 import WelcomeScreen from '../Screens/WelcomeScreen';
 import CreateEventScreen from '../Screens/CreateEventScreen';
 import CreateEventSuccessScreen from '../Screens/CreateEventSuccessScreen';
@@ -11,6 +10,7 @@ import AccessEventScreen from '../Screens/AccessEventScreen';
 import HostDashboardScreen from '../Screens/HostDashboardScreen';
 import GuestSummaryScreen from '../Screens/GuestSummaryScreen';
 import MakeDonationScreen from '../Screens/MakeDonationScreen';
+import MakePaymentScreen from '../Screens/MakePaymentScreen';
 import DonationSuccessScreen from '../Screens/DonationSuccessScreen';
 import EventSummary from '../Screens/EventSummary';
 import GiftListScreen from '../Screens/GiftListScreen';

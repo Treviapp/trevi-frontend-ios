@@ -13,6 +13,7 @@ import QRCode from 'react-native-qrcode-svg';
 import styles from './Style';
 import HostDashboardBackground from '../HostDashboardBackground';
 import { client } from '../../api/config';
+import { useNavigation } from '@react-navigation/native';
 
 const FRONTEND_BASE = 'https://trevi.app/enter/';
 
@@ -22,6 +23,7 @@ export default function HostDashboardScreen({ route, navigation }) {
   const [loading, setLoading] = useState(false);
   const [campaign, setCampaign] = useState(null);
   const [donations, setDonations] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     console.log('👀 initialCode =', initialCode);
@@ -61,6 +63,10 @@ export default function HostDashboardScreen({ route, navigation }) {
   const getTotalRaised = () =>
     donations.reduce((sum, d) => sum + d.amount, 0);
 
+  const handleViewGifts = () => {
+    navigation.navigate('GiftListScreen', { hostCode: campaign?.host_code });
+  };
+
   return (
     <HostDashboardBackground>
       {!campaign && !initialCode ? (
@@ -86,6 +92,7 @@ export default function HostDashboardScreen({ route, navigation }) {
           </TouchableOpacity>
         </>
       ) : campaign ? (
+<<<<<<< HEAD
         <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
           {/* ✅ Red debug box */}
           <View style={{ backgroundColor: 'red', padding: 10, margin: 10 }}>
@@ -136,10 +143,67 @@ export default function HostDashboardScreen({ route, navigation }) {
               </Text>
               <Text style={styles.amount}>
                 £{(donation.amount / 100).toFixed(2)}
+=======
+        <>
+          <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
+            <Text style={styles.handwritingTitle}>
+              {campaign.title || 'No Title'}
+            </Text>
+
+            <Text style={styles.subHeader}>
+              Hosted by {campaign.host || 'Unknown'}
+            </Text>
+
+            <Text style={styles.totalRaised}>
+              Total Raised: £{(getTotalRaised() / 100).toFixed(2)}
+            </Text>
+
+            <View style={{ alignItems: 'center', marginVertical: 5 }}>
+              <Text style={styles.qrLabel}>Your Event QR code</Text>
+              <QRCode
+                value={`${FRONTEND_BASE}${campaign.guest_code}`}
+                size={200}
+              />
+              <Text style={styles.qrText}>
+                Scan the QR code to join the event
+>>>>>>> cf009af (Add GiftList screen no Stripe connect yet)
               </Text>
             </View>
-          ))}
-        </ScrollView>
+
+            {donations.map((donation, idx) => (
+              <View key={idx} style={styles.donationCard}>
+                {donation.photo_path && (
+                  <Image
+                    source={{
+                      uri: `${client.defaults.baseURL.replace(
+                        '/api',
+                        ''
+                      )}/storage/${donation.photo_path.replace(
+                        'storage/',
+                        ''
+                      )}`,
+                    }}
+                    style={styles.image}
+                  />
+                )}
+                <Text style={styles.message}>
+                  {donation.message || '(No message)'}
+                </Text>
+                <Text style={styles.amount}>
+                  £{(donation.amount / 100).toFixed(2)}
+                </Text>
+              </View>
+            ))}
+          </ScrollView>
+
+          {/* ✅ New Button */}
+          <TouchableOpacity
+            style={styles.viewGiftsButton}
+            onPress={handleViewGifts}
+          >
+            <Text style={styles.viewGiftsButtonText}>View My Gifts</Text>
+          </TouchableOpacity>
+        </>
       ) : (
         <ActivityIndicator style={{ marginTop: 50 }} />
       )}
