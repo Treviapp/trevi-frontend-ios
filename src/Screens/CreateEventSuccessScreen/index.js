@@ -1,11 +1,20 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import styles from './Style'; // ✅ Use shared Style.js
+import styles from './Style';
 import CreateEventSuccessBackground from '../CreateEventSuccessBackground';
 
 export default function CreateEventSuccessScreen({ route, navigation }) {
-  const { hostCode, guestCode, eventName, fullName, email, message } = route.params;
-console.log('🧾 Received in CreateEventSuccessScreen:', route.params);
+  const {
+    hostCode,
+    guestCode,
+    eventName,
+    fullName,
+    email,
+    message,
+    photo, // ✅ receive photo
+  } = route.params;
+
+  console.log('🧾 Received in CreateEventSuccessScreen:', route.params);
 
   const handleContinue = () => {
     navigation.navigate('HostDashboard', {
@@ -14,6 +23,7 @@ console.log('🧾 Received in CreateEventSuccessScreen:', route.params);
       fullName,
       email,
       message,
+      photo, // ✅ pass photo forward
     });
   };
 
@@ -39,3 +49,4 @@ console.log('🧾 Received in CreateEventSuccessScreen:', route.params);
     </CreateEventSuccessBackground>
   );
 }
+

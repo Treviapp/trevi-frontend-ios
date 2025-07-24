@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "icon": "./src/Assets/Images/icon.png",
     "splash": {
-      "image": "./src/Assets/Images/splash.png",
+      "image": "./src/Assets/splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#E6DAF5"
     },
@@ -33,7 +33,7 @@
         {
           "resizeMode": "cover",
           "backgroundColor": "#E6DAF5",
-          "image": "./src/Assets/Images/splash.png"
+          "image": "./src/Assets/splash.png"
         }
       ],
       "expo-font"

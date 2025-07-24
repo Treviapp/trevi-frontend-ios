@@ -2,20 +2,21 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   handwritingTitle: {
-    fontSize: 32,
-    fontFamily: 'Cochin', // Replace with your custom font if needed
+    fontSize: 48,
+    fontFamily: 'Cochin',
     color: '#000000',
     textAlign: 'center',
+    marginTop: 100,
     marginBottom: 8,
   },
   subHeader: {
-    fontSize: 18,
+    fontSize: 26,
     color: '#000000',
     textAlign: 'center',
     marginBottom: 16,
   },
   totalRaised: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 'bold',
     color: '#000000',
     textAlign: 'center',
@@ -32,22 +33,6 @@ export default StyleSheet.create({
     marginTop: 8,
     textAlign: 'center',
   },
-<<<<<<< HEAD
-  button: {
-    backgroundColor: '#8e94f2',
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    marginTop: 20,
-    alignItems: 'center',
-    alignSelf: 'center',
-    width: '80%',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontFamily: 'Poppins-SemiBold',
-=======
   donationCard: {
     backgroundColor: '#f5f5f5',
     borderRadius: 12,
@@ -73,16 +58,17 @@ export default StyleSheet.create({
   },
   viewGiftsButton: {
     marginTop: 20,
-    marginHorizontal: 60,
-    backgroundColor: '#FFD700',
+    marginHorizontal: 20,
+    backgroundColor: '#8e94f2',
     paddingVertical: 12,
     borderRadius: 10,
     alignItems: 'center',
+    width: '80%',
   },
   viewGiftsButtonText: {
-    color: '#000000',
+    color: '#ffffff',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 20,
   },
   label: {
     fontSize: 16,
@@ -99,16 +85,18 @@ export default StyleSheet.create({
     color: '#000000',
   },
   button: {
-    backgroundColor: '#FFD700',
-    padding: 14,
-    borderRadius: 8,
-    marginHorizontal: 20,
+    backgroundColor: '#8e94f2',
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    marginTop: 20,
     alignItems: 'center',
+    alignSelf: 'center',
+    width: '80%',
   },
   buttonText: {
-    color: '#000000',
-    fontWeight: 'bold',
-    fontSize: 16,
->>>>>>> cf009af (Add GiftList screen no Stripe connect yet)
+    color: '#fff',
+    fontSize: 18,
+    fontFamily: 'Poppins-SemiBold',
   },
 });

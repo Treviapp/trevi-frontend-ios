@@ -12,7 +12,6 @@ import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import CreateEventBackground from '../CreateEventBackground';
 
-// 🔤 Capitalize first letter of each word
 const toTitleCase = (str) =>
   str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase());
 
@@ -37,7 +36,7 @@ export default function CreateEventScreen({ navigation }) {
     formData.append('creator_email', email);
     formData.append('guest_message', message);
 
-    if (photo) {
+    if (photo?.uri) {
       formData.append('photo', {
         uri: photo.uri,
         type: 'image/jpeg',
@@ -47,7 +46,6 @@ export default function CreateEventScreen({ navigation }) {
 
     try {
       console.log('📡 Sending request to backend...');
-
       const response = await axios.post(
         'http://192.168.1.62:8000/api/campaigns',
         formData,
@@ -55,28 +53,21 @@ export default function CreateEventScreen({ navigation }) {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-          transformResponse: [function (data) {
-            try {
-              const parsed = JSON.parse(data);
-              return parsed;
-            } catch (e) {
-              console.error('❌ JSON parse error:', e);
-              return {};
-            }
-          }],
         }
       );
 
-      console.log('✅ Event created:', response.data.host_code, response.data.guest_code);
+      const { host_code, guest_code } = response.data;
+
+      console.log('✅ Event created:', host_code, guest_code);
 
       navigation.navigate('CreateEventSuccessScreen', {
-        hostCode: response.data.host_code,
-        guestCode: response.data.guest_code,
+        hostCode: host_code,
+        guestCode: guest_code,
         eventName,
         fullName,
         email,
         message,
-        photo, // optional: pass image to next screen
+        photo,
       });
     } catch (error) {
       console.error('❌ Axios Error:', error.message);
@@ -92,12 +83,14 @@ export default function CreateEventScreen({ navigation }) {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaType.Images, // ← updated to avoid deprecation warning
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 0.7,
     });
 
-    if (!result.canceled) {
-      setPhoto(result.assets[0]);
+    if (!result.canceled && result.assets?.length > 0) {
+      const selected = result.assets[0];
+      console.log('🖼️ Selected image:', selected);
+      setPhoto(selected);
     }
   };
 
@@ -143,14 +136,13 @@ export default function CreateEventScreen({ navigation }) {
           maxLength={158}
         />
 
-        {/* Upload Photo */}
         <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
           <Text style={styles.photoButtonText}>
             {photo ? 'Change Photo' : 'Upload a Photo'}
           </Text>
         </TouchableOpacity>
 
-        {photo && (
+        {photo?.uri && (
           <Image
             source={{ uri: photo.uri }}
             style={styles.preview}
@@ -165,3 +157,4 @@ export default function CreateEventScreen({ navigation }) {
     </CreateEventBackground>
   );
 }
+
