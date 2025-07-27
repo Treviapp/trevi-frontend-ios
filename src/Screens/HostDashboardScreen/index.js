@@ -25,10 +25,9 @@ export default function HostDashboardScreen({ route, navigation }) {
   const [loading, setLoading] = useState(false);
   const [campaign, setCampaign] = useState(null);
   const [donations, setDonations] = useState([]);
-  const navigation = useNavigation();
+  const navigationHook = useNavigation();
 
   useEffect(() => {
-    console.log('👀 initialCode =', initialCode);
     if (initialCode) {
       handleLoadDashboard();
     }
@@ -46,7 +45,6 @@ export default function HostDashboardScreen({ route, navigation }) {
       const res = await client.get(`/campaigns/host/${trimmed}`);
       const data = res.data;
 
-      console.log('✅ campaign =', data);
       setCampaign(data);
       setDonations(data.donations || []);
     } catch (err) {
@@ -112,67 +110,10 @@ export default function HostDashboardScreen({ route, navigation }) {
           </TouchableOpacity>
         </>
       ) : campaign ? (
-<<<<<<< HEAD
-        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-          {/* ✅ Red debug box */}
-          <View style={{ backgroundColor: 'red', padding: 10, margin: 10 }}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>
-              ✅ ScrollView is showing
-            </Text>
-          </View>
-
-          <Text style={styles.handwritingTitle}>{campaign.title}</Text>
-          <Text style={styles.subHeader}>Hosted by {campaign.host}</Text>
-
-          <Text style={styles.totalRaised}>
-            Total Raised: £{(getTotalRaised() / 100).toFixed(2)}
-          </Text>
-
-          <View style={{ alignItems: 'center', marginVertical: 5 }}>
-            <Text style={styles.qrLabel}>Your Event QR code</Text>
-            <QRCode
-              value={`${FRONTEND_BASE}${campaign.guest_code}`}
-              size={200}
-            />
-            <Text style={styles.qrText}>Scan the QR code to join the event</Text>
-          </View>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() =>
-              navigation.navigate('GiftListScreen', {
-                hostCode: campaign?.host_code || 'MISSING',
-              })
-            }
-          >
-            <Text style={styles.buttonText}>View My Gifts</Text>
-          </TouchableOpacity>
-
-          {donations.map((donation, idx) => (
-            <View key={idx} style={styles.donationCard}>
-              {donation.photo_path && (
-                <Image
-                  source={{
-                    uri: `${client.defaults.baseURL.replace('/api', '')}/storage/${donation.photo_path.replace('storage/', '')}`,
-                  }}
-                  style={styles.image}
-                />
-              )}
-              <Text style={styles.message}>
-                {donation.message || '(No message)'}
-              </Text>
-              <Text style={styles.amount}>
-                £{(donation.amount / 100).toFixed(2)}
-=======
         <>
           <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
-            <Text style={styles.handwritingTitle}>
-              {campaign.title || 'No Title'}
-            </Text>
-
-            <Text style={styles.subHeader}>
-              Hosted by {campaign.host || 'Unknown'}
-            </Text>
+            <Text style={styles.handwritingTitle}>{campaign.title}</Text>
+            <Text style={styles.subHeader}>Hosted by {campaign.host}</Text>
 
             <Text style={styles.totalRaised}>
               Total Raised: £{(getTotalRaised() / 100).toFixed(2)}
@@ -184,15 +125,12 @@ export default function HostDashboardScreen({ route, navigation }) {
                 value={`${FRONTEND_BASE}${campaign.guest_code}`}
                 size={200}
               />
-              <Text style={styles.qrText}>
-                Scan the QR code to join the event
->>>>>>> cf009af (Add GiftList screen no Stripe connect yet)
-              </Text>
-
-              <TouchableOpacity style={styles.button} onPress={handleConnectStripe}>
-                <Text style={styles.buttonText}>Connect Stripe</Text>
-              </TouchableOpacity>
+              <Text style={styles.qrText}>Scan the QR code to join the event</Text>
             </View>
+
+            <TouchableOpacity style={styles.button} onPress={handleConnectStripe}>
+              <Text style={styles.buttonText}>Connect Stripe</Text>
+            </TouchableOpacity>
 
             {donations.map((donation, idx) => (
               <View key={idx} style={styles.donationCard}>
@@ -202,10 +140,7 @@ export default function HostDashboardScreen({ route, navigation }) {
                       uri: `${client.defaults.baseURL.replace(
                         '/api',
                         ''
-                      )}/storage/${donation.photo_path.replace(
-                        'storage/',
-                        ''
-                      )}`,
+                      )}/storage/${donation.photo_path.replace('storage/', '')}`,
                     }}
                     style={styles.image}
                   />
