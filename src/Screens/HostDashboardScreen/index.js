@@ -14,6 +14,8 @@ import styles from './Style';
 import HostDashboardBackground from '../HostDashboardBackground';
 import { client } from '../../api/config';
 import { useNavigation } from '@react-navigation/native';
+import * as Linking from 'expo-linking';
+import axios from 'axios';
 
 const FRONTEND_BASE = 'https://trevi.app/enter/';
 
@@ -65,6 +67,24 @@ export default function HostDashboardScreen({ route, navigation }) {
 
   const handleViewGifts = () => {
     navigation.navigate('GiftListScreen', { hostCode: campaign?.host_code });
+  };
+
+  const handleConnectStripe = async () => {
+    try {
+      const res = await axios.post(`${client.defaults.baseURL}/stripe/connect`, {
+        host_code: campaign?.host_code,
+      });
+
+      const url = res.data.url || res.data.onboarding_url;
+      if (url) {
+        Linking.openURL(url);
+      } else {
+        Alert.alert('Error', 'No onboarding URL returned.');
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Stripe Error', 'Could not start onboarding.');
+    }
   };
 
   return (
@@ -168,6 +188,10 @@ export default function HostDashboardScreen({ route, navigation }) {
                 Scan the QR code to join the event
 >>>>>>> cf009af (Add GiftList screen no Stripe connect yet)
               </Text>
+
+              <TouchableOpacity style={styles.button} onPress={handleConnectStripe}>
+                <Text style={styles.buttonText}>Connect Stripe</Text>
+              </TouchableOpacity>
             </View>
 
             {donations.map((donation, idx) => (
@@ -196,7 +220,6 @@ export default function HostDashboardScreen({ route, navigation }) {
             ))}
           </ScrollView>
 
-          {/* ✅ New Button */}
           <TouchableOpacity
             style={styles.viewGiftsButton}
             onPress={handleViewGifts}

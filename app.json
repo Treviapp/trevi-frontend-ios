@@ -9,7 +9,7 @@
     "icon": "./src/Assets/Images/icon.png",
     "splash": {
       "image": "./src/Assets/splash.png",
-      "resizeMode": "cover",
+      "resizeMode": "contain",
       "backgroundColor": "#E6DAF5"
     },
     "updates": {
@@ -31,7 +31,7 @@
       [
         "expo-splash-screen",
         {
-          "resizeMode": "cover",
+          "resizeMode": "contain",
           "backgroundColor": "#E6DAF5",
           "image": "./src/Assets/splash.png"
         }
@@ -42,6 +42,9 @@
       "eas": {
         "projectId": "589e2861-59b7-4fa3-bf31-93de216d73b0"
       }
+    },
+    "android": {
+      "package": "com.amandatreviapp.trevi"
     }
   }
 }

@@ -22,7 +22,7 @@ export default function EnterEventScreen({ navigation }) {
 
       console.log('✅ Guest campaign found:', campaign); // Success log
 
-      navigation.navigate('GuestSummaryScreen', {
+      navigation.navigate('EventSummaryScreen', {
         guestCode: campaign.code,
         title: campaign.title,
         host: campaign.host,

@@ -28,13 +28,24 @@ export default function MakePaymentScreen({ route, navigation }) {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/create-payment-intent', {
+      const API_URL = 'http://192.168.1.62:8000/api/stripe/payment-intent';
+
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: Math.round(totalAmount * 100) }), // Convert to cents
+        body: JSON.stringify({ amount: Math.round(totalAmount * 100) }),
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server error (${response.status}): ${errorText}`);
+      }
+
       const { clientSecret } = await response.json();
-      if (!clientSecret) throw new Error('No client secret returned');
+
+      if (!clientSecret) {
+        throw new Error('No client secret returned');
+      }
 
       const { paymentIntent, error } = await confirmPayment(clientSecret, {
         paymentMethodType: 'Card',
@@ -50,7 +61,7 @@ export default function MakePaymentScreen({ route, navigation }) {
       }
     } catch (err) {
       console.error('❌ Stripe payment error:', err);
-      Alert.alert('Error', 'Could not process payment. Please try again.');
+      Alert.alert('Error', err.message || 'Could not process payment. Please try again.');
     }
   };
 

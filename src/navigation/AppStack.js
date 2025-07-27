@@ -1,39 +1,33 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-// Trevi Screens
 import WelcomeScreen from '../Screens/WelcomeScreen';
+import EnterEventScreen from '../Screens/EnterEventScreen';
 import CreateEventScreen from '../Screens/CreateEventScreen';
 import CreateEventSuccessScreen from '../Screens/CreateEventSuccessScreen';
-import EnterEventScreen from '../Screens/EnterEventScreen';
-import AccessEventScreen from '../Screens/AccessEventScreen';
-import HostDashboardScreen from '../Screens/HostDashboardScreen';
-import GuestSummaryScreen from '../Screens/GuestSummaryScreen';
+import HostDashboard from '../Screens/HostDashboardScreen';
 import MakeDonationScreen from '../Screens/MakeDonationScreen';
 import MakePaymentScreen from '../Screens/MakePaymentScreen';
 import DonationSuccessScreen from '../Screens/DonationSuccessScreen';
-import EventSummary from '../Screens/EventSummary';
-import GiftListScreen from '../Screens/GiftListScreen';
+import EventSummaryScreen from '../Screens/EventSummaryScreen'; // ✅ updated
 
 const Stack = createNativeStackNavigator();
 
-const AppStack = () => {
+export default function AppStack() {
   return (
-    <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
-      <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
-      <Stack.Screen name="CreateEventSuccessScreen" component={CreateEventSuccessScreen} />
       <Stack.Screen name="EnterEvent" component={EnterEventScreen} />
-      <Stack.Screen name="AccessEvent" component={AccessEventScreen} />
-      <Stack.Screen name="HostDashboard" component={HostDashboardScreen} />
-      <Stack.Screen name="GuestSummaryScreen" component={GuestSummaryScreen} />
+      <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
+      <Stack.Screen name="CreateEventSuccess" component={CreateEventSuccessScreen} />
+      <Stack.Screen name="HostDashboard" component={HostDashboard} />
+      
+      {/* ✅ updated name for guest event view */}
+      <Stack.Screen name="EventSummaryScreen" component={EventSummaryScreen} />
+
       <Stack.Screen name="MakeDonation" component={MakeDonationScreen} />
       <Stack.Screen name="MakePaymentScreen" component={MakePaymentScreen} />
       <Stack.Screen name="DonationSuccess" component={DonationSuccessScreen} />
-      <Stack.Screen name="EventSummary" component={EventSummary} />
-      <Stack.Screen name="GiftListScreen" component={GiftListScreen} />
     </Stack.Navigator>
   );
-};
-
-export default AppStack;
+}
