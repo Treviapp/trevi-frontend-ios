@@ -60,7 +60,7 @@ export default function CreateEventScreen({ navigation }) {
 
       console.log('✅ Event created:', host_code, guest_code);
 
-      navigation.navigate('CreateEventSuccessScreen', {
+      navigation.navigate('CreateEventSuccess', {
         hostCode: host_code,
         guestCode: guest_code,
         eventName,

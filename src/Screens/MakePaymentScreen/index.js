@@ -14,10 +14,9 @@ import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
 import MakePaymentBackground from '../MakePaymentBackground';
 
 export default function MakePaymentScreen({ route, navigation }) {
-  const { name, amount, message, photo } = route.params;
+  const { name, amount, message, photo, hostCode } = route.params;
   const { confirmPayment, loading } = useConfirmPayment();
   const [cardDetails, setCardDetails] = useState();
-
   const treviFee = 1.2;
   const totalAmount = parseFloat(amount) + treviFee;
 
@@ -29,35 +28,46 @@ export default function MakePaymentScreen({ route, navigation }) {
 
     try {
       const API_URL = 'http://192.168.1.62:8000/api/stripe/payment-intent';
+      console.log('📡 Fetch sent to:', API_URL);
+      console.log('📦 hostCode being sent:', hostCode);
+      console.log('🧪 route.params:', route.params);
 
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: Math.round(totalAmount * 100) }),
+        body: JSON.stringify({
+          amount: Math.round(totalAmount * 100),
+          host_code: hostCode,
+          message: message ?? '',
+          photo_path: photo?.uri ?? '',
+        }),
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Server error (${response.status}): ${errorText}`);
-      }
+      const rawText = await response.text();
+      console.log('📨 Raw server response text:', rawText);
 
-      const { clientSecret } = await response.json();
+      try {
+        const data = JSON.parse(rawText);
+        console.log('✅ Parsed JSON response:', data);
 
-      if (!clientSecret) {
-        throw new Error('No client secret returned');
-      }
+        const clientSecret = data.clientSecret;
+        if (!clientSecret) throw new Error('No client secret returned');
 
-      const { paymentIntent, error } = await confirmPayment(clientSecret, {
-        paymentMethodType: 'Card',
-        paymentMethodData: {
-          billingDetails: { name },
-        },
-      });
+        const { paymentIntent, error } = await confirmPayment(clientSecret, {
+          paymentMethodType: 'Card',
+          paymentMethodData: {
+            billingDetails: { name },
+          },
+        });
 
-      if (error) {
-        Alert.alert('Payment failed', error.message);
-      } else if (paymentIntent) {
-        navigation.navigate('DonationSuccess', { name, amount });
+        if (error) {
+          Alert.alert('Payment failed', error.message);
+        } else if (paymentIntent) {
+          navigation.navigate('DonationSuccess', { name, amount });
+        }
+      } catch (jsonError) {
+        console.error('❌ JSON Parse error:', jsonError.message);
+        Alert.alert('Error', 'Unexpected server response. Please try again.');
       }
     } catch (err) {
       console.error('❌ Stripe payment error:', err);
@@ -112,3 +122,4 @@ export default function MakePaymentScreen({ route, navigation }) {
     </MakePaymentBackground>
   );
 }
+

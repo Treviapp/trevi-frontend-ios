@@ -14,11 +14,13 @@ import styles from './Style';
 import MakeDonationBackground from '../MakeDonationBackground';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function MakeDonationScreen({ navigation }) {
+export default function MakeDonationScreen({ navigation, route }) {
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
   const [amount, setAmount] = useState('');
   const [photo, setPhoto] = useState(null);
+
+  const hostCode = route?.params?.hostCode; // ✅ Get hostCode passed from previous screen
 
   const handleDonate = () => {
     if (!name.trim() || !amount.trim()) {
@@ -26,11 +28,19 @@ export default function MakeDonationScreen({ navigation }) {
       return;
     }
 
+    if (!hostCode) {
+      Alert.alert('Missing Data', 'Missing host code. Please try again.');
+      return;
+    }
+
+    console.log('📦 Passing hostCode to MakePaymentScreen:', hostCode);
+
     navigation.navigate('MakePaymentScreen', {
       name,
       amount,
       message,
       photo,
+      hostCode,
     });
   };
 
@@ -52,10 +62,10 @@ export default function MakeDonationScreen({ navigation }) {
   };
 
   const amountOptions = [
-    { value: '5', color: '#FFDDC1' },   // Pastel peach
-    { value: '10', color: '#C1E1FF' },  // Pastel blue
-    { value: '20', color: '#D1FFC1' },  // Pastel green
-    { value: '50', color: '#F3C1FF' },  // Pastel pink
+    { value: '5', color: '#FFDDC1' },
+    { value: '10', color: '#C1E1FF' },
+    { value: '20', color: '#D1FFC1' },
+    { value: '50', color: '#F3C1FF' },
   ];
 
   return (
@@ -88,7 +98,6 @@ export default function MakeDonationScreen({ navigation }) {
             </Text>
           </View>
 
-          {/* Amount Buttons */}
           <View style={styles.amountOptions}>
             {amountOptions.map(({ value, color }) => (
               <TouchableOpacity
@@ -112,7 +121,6 @@ export default function MakeDonationScreen({ navigation }) {
             ))}
           </View>
 
-          {/* Upload Photo */}
           <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
             <Text style={styles.photoButtonText}>
               {photo ? 'Change Photo' : 'Upload a Photo'}
@@ -135,3 +143,4 @@ export default function MakeDonationScreen({ navigation }) {
     </MakeDonationBackground>
   );
 }
+

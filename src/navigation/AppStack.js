@@ -10,6 +10,8 @@ import MakeDonationScreen from '../Screens/MakeDonationScreen';
 import MakePaymentScreen from '../Screens/MakePaymentScreen';
 import DonationSuccessScreen from '../Screens/DonationSuccessScreen';
 import EventSummaryScreen from '../Screens/EventSummaryScreen'; // ✅ updated
+import AccessEventScreen from '../Screens/AccessEventScreen';
+import GiftListScreen from '../Screens/GiftListScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +19,7 @@ export default function AppStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Screen name="AccessEvent" component={AccessEventScreen} />
       <Stack.Screen name="EnterEvent" component={EnterEventScreen} />
       <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
       <Stack.Screen name="CreateEventSuccess" component={CreateEventSuccessScreen} />
@@ -28,6 +31,7 @@ export default function AppStack() {
       <Stack.Screen name="MakeDonation" component={MakeDonationScreen} />
       <Stack.Screen name="MakePaymentScreen" component={MakePaymentScreen} />
       <Stack.Screen name="DonationSuccess" component={DonationSuccessScreen} />
+      <Stack.Screen name="GiftListScreen" component={GiftListScreen} />
     </Stack.Navigator>
   );
 }
