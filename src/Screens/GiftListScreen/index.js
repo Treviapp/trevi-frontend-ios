@@ -25,7 +25,18 @@ export default function GiftListScreen({ route }) {
   const fetchGifts = async () => {
     try {
       const res = await client.get(`/campaigns/host/${hostCode}`);
-      setGifts(res.data.donations || []);
+      const rawGifts = res.data.donations || [];
+
+      // Filter duplicates based on payment_intent_id if available
+      const seen = new Set();
+      const uniqueGifts = rawGifts.filter((gift) => {
+        const key = gift.payment_intent_id || `${gift.message}-${gift.amount}-${gift.created_at}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
+      setGifts(uniqueGifts);
     } catch (err) {
       console.error(err);
       Alert.alert('Error fetching gifts');
@@ -49,14 +60,19 @@ export default function GiftListScreen({ route }) {
               {gift.photo_path && (
                 <Image
                   source={{
-                    uri: `${client.defaults.baseURL.replace(
-                      '/api',
-                      ''
-                    )}/storage/${gift.photo_path.replace('storage/', '')}`,
+                    uri: gift.photo_path.startsWith('file://')
+                      ? gift.photo_path
+                      : `${client.defaults.baseURL.replace(
+                          '/api',
+                          ''
+                        )}/storage/${gift.photo_path}`,
                   }}
                   style={styles.image}
                 />
               )}
+              <Text style={styles.name}>
+                {gift.name?.trim() ? gift.name : 'Anonymous'}
+              </Text>
               <Text style={styles.message}>
                 {gift.message || '(No message)'}
               </Text>
@@ -70,3 +86,4 @@ export default function GiftListScreen({ route }) {
     </GiftListBackground>
   );
 }
+

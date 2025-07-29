@@ -37,7 +37,7 @@ export default function CreateEventScreen({ navigation }) {
     formData.append('guest_message', message);
 
     if (photo?.uri) {
-      formData.append('photo', {
+      formData.append('host_image', {
         uri: photo.uri,
         type: 'image/jpeg',
         name: 'event_photo.jpg',
@@ -90,9 +90,15 @@ export default function CreateEventScreen({ navigation }) {
     if (!result.canceled && result.assets?.length > 0) {
       const selected = result.assets[0];
       console.log('🖼️ Selected image:', selected);
-      setPhoto(selected);
+      setPhoto({
+        uri: selected.uri,
+        type: 'image/jpeg',
+        name: selected.fileName || 'event_photo.jpg',
+      });
     }
   };
+
+  console.log('🧪 Photo state:', photo);
 
   return (
     <CreateEventBackground>
@@ -142,13 +148,19 @@ export default function CreateEventScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
 
-        {photo?.uri && (
-          <Image
-            source={{ uri: photo.uri }}
-            style={styles.preview}
-            resizeMode="cover"
-          />
-        )}
+        <View style={{ alignItems: 'center', marginVertical: 10 }}>
+          {photo?.uri && (
+            <Image
+              key={photo.uri}
+              source={{ uri: photo.uri }}
+              style={[styles.preview, { backgroundColor: '#eee' }]}
+              resizeMode="contain"
+              onError={(e) =>
+                console.log('❌ Image preview error:', e.nativeEvent.error)
+              }
+            />
+          )}
+        </View>
 
         <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>
           <Text style={styles.buttonText}>Create Event</Text>
@@ -157,4 +169,3 @@ export default function CreateEventScreen({ navigation }) {
     </CreateEventBackground>
   );
 }
-

@@ -33,6 +33,12 @@ export default StyleSheet.create({
     borderRadius: 12,
     marginBottom: 12,
   },
+  name: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 6,
+    color: '#4C2A85',
+  },
   message: {
     fontSize: 16,
     marginBottom: 8,

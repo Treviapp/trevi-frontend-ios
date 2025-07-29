@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
   Alert,
   ScrollView,
-  Image,
   View,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -47,6 +46,7 @@ export default function HostDashboardScreen({ route, navigation }) {
 
       setCampaign(data);
       setDonations(data.donations || []);
+console.log('🧪 Donations loaded:', data.donations);
     } catch (err) {
       if (err.response?.status === 404) {
         Alert.alert('Campaign not found');
@@ -61,7 +61,7 @@ export default function HostDashboardScreen({ route, navigation }) {
   };
 
   const getTotalRaised = () =>
-    donations.reduce((sum, d) => sum + d.amount, 0);
+    donations.reduce((sum, d) => sum + (d.net_payout || 0), 0);
 
   const handleViewGifts = () => {
     navigation.navigate('GiftListScreen', { hostCode: campaign?.host_code });
@@ -131,28 +131,6 @@ export default function HostDashboardScreen({ route, navigation }) {
             <TouchableOpacity style={styles.button} onPress={handleConnectStripe}>
               <Text style={styles.buttonText}>Connect Stripe</Text>
             </TouchableOpacity>
-
-            {donations.map((donation, idx) => (
-              <View key={idx} style={styles.donationCard}>
-                {donation.photo_path && (
-                  <Image
-                    source={{
-                      uri: `${client.defaults.baseURL.replace(
-                        '/api',
-                        ''
-                      )}/storage/${donation.photo_path.replace('storage/', '')}`,
-                    }}
-                    style={styles.image}
-                  />
-                )}
-                <Text style={styles.message}>
-                  {donation.message || '(No message)'}
-                </Text>
-                <Text style={styles.amount}>
-                  £{(donation.amount / 100).toFixed(2)}
-                </Text>
-              </View>
-            ))}
           </ScrollView>
 
           <TouchableOpacity
@@ -168,3 +146,4 @@ export default function HostDashboardScreen({ route, navigation }) {
     </HostDashboardBackground>
   );
 }
+

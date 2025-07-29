@@ -36,8 +36,9 @@ export default function MakePaymentScreen({ route, navigation }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: Math.round(totalAmount * 100),
+          amount: Math.round(parseFloat(amount) * 100), // Gift amount only (pennies)
           host_code: hostCode,
+          name: name ?? '',
           message: message ?? '',
           photo_path: photo?.uri ?? '',
         }),
