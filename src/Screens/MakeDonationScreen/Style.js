@@ -80,7 +80,8 @@ export default StyleSheet.create({
   },
   preview: {
     width: screenWidth - 40,
-    height: 200,
+    height: undefined,
+    aspectRatio: 1.5,
     borderRadius: 16,
     marginBottom: 20,
   },
@@ -99,17 +100,17 @@ export default StyleSheet.create({
     fontWeight: '600',
     fontFamily: 'Poppins-SemiBold',
   },
-homeButton: {
-  marginTop: 16,
-  padding: 12,
-  backgroundColor: '#ccc',
-  borderRadius: 8,
-  alignItems: 'center',
-  alignSelf: 'center',
-  width: 80,
-},
-homeButtonText: {
-  color: '#333',
-  fontSize: 16,
-},
+  homeButton: {
+    marginTop: 16,
+    padding: 12,
+    backgroundColor: '#ccc',
+    borderRadius: 8,
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: 80,
+  },
+  homeButtonText: {
+    color: '#333',
+    fontSize: 16,
+  },
 });

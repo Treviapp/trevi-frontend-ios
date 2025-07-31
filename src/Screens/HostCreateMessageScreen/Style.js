@@ -11,6 +11,8 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 24,
     textAlign: 'center',
+    fontFamily: 'Poppins-Bold',
+    color: '#000000',
   },
   inputMessage: {
     borderWidth: 1,
@@ -22,6 +24,7 @@ export default StyleSheet.create({
     textAlignVertical: 'top',
     backgroundColor: '#fff',
     marginBottom: 16,
+    fontFamily: 'Poppins-Regular',
   },
   photoButton: {
     backgroundColor: '#E0E0E0',
@@ -33,23 +36,29 @@ export default StyleSheet.create({
   photoButtonText: {
     fontSize: 16,
     color: '#333',
+    fontFamily: 'Poppins-SemiBold',
   },
- preview: {
-  width: '100%',
-  aspectRatio: 1, // or 16 / 9 if you want widescreen shape
-  borderRadius: 12,
-  marginBottom: 16,
+  preview: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 12,
+    marginBottom: 16,
   },
   button: {
     backgroundColor: '#8e94f2',
-    padding: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
     borderRadius: 12,
     alignItems: 'center',
-    marginTop: 12,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
+    width: '80%',
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-SemiBold',
   },
 });
+

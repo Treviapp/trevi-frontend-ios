@@ -22,9 +22,10 @@ export default StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 200,
+    height: 240,           // ✅ taller height
     borderRadius: 16,
     marginBottom: 20,
+    resizeMode: 'contain', // ✅ backup
   },
   message: {
     fontSize: 18,

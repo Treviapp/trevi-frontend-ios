@@ -56,7 +56,7 @@ export default function EventSummaryScreen({ route, navigation }) {
         <Image
           source={{ uri: campaign.host_image }}
           style={styles.image}
-          resizeMode="cover"
+          resizeMode="contain" // ✅ updated
         />
       )}
 
@@ -70,7 +70,7 @@ export default function EventSummaryScreen({ route, navigation }) {
         onPress={() =>
           navigation.navigate('MakeDonation', {
             guestCode,
-            hostCode: campaign.host_code, // ✅ Pass correct host code
+            hostCode: campaign.host_code,
           })
         }
       >

@@ -20,7 +20,7 @@ export default function MakeDonationScreen({ navigation, route }) {
   const [amount, setAmount] = useState('');
   const [photo, setPhoto] = useState(null);
 
-  const hostCode = route?.params?.hostCode; // ✅ Get hostCode passed from previous screen
+  const hostCode = route?.params?.hostCode;
 
   const handleDonate = () => {
     if (!name.trim() || !amount.trim()) {
@@ -135,7 +135,7 @@ export default function MakeDonationScreen({ navigation, route }) {
             <Image
               source={{ uri: photo.uri }}
               style={styles.preview}
-              resizeMode="cover"
+              resizeMode="contain" // ✅ fixed here
             />
           )}
 

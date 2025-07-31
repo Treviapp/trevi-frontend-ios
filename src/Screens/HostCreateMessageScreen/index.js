@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
   Alert,
   Image,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import styles from './Style';
 import axios from 'axios';
@@ -92,26 +95,28 @@ export default function HostCreateMessageScreen({ navigation, route }) {
 
   return (
     <CreateEventBackground>
-      <HomeButton />
-      <View style={styles.container}>
-        <Text style={styles.title}>Your Message</Text>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={{ flex: 1 }}
+      >
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={styles.title}>Your Message</Text>
 
-        <TextInput
-          style={styles.inputMessage}
-          value={message}
-          onChangeText={setMessage}
-          placeholder="Let your guests know what their gift will mean to you..."
-          multiline
-          maxLength={158}
-        />
+          <TextInput
+            style={styles.inputMessage}
+            value={message}
+            onChangeText={setMessage}
+            placeholder="Let your guests know what their gift will mean to you..."
+            multiline
+            maxLength={158}
+          />
 
-        <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
-          <Text style={styles.photoButtonText}>
-            {photo ? 'Change Photo' : 'Upload a Photo'}
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
+            <Text style={styles.photoButtonText}>
+              {photo ? 'Change Photo' : 'Upload a Photo'}
+            </Text>
+          </TouchableOpacity>
 
-        <View style={{ alignItems: 'center', marginVertical: 10 }}>
           {photo?.uri && (
             <Image
               source={{ uri: photo.uri }}
@@ -119,14 +124,17 @@ export default function HostCreateMessageScreen({ navigation, route }) {
               resizeMode="contain"
             />
           )}
-        </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleCreateEvent} disabled={loading}>
-          <Text style={styles.buttonText}>
-            {loading ? 'Creating Event...' : 'Create Event'}
-          </Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity style={styles.button} onPress={handleCreateEvent} disabled={loading}>
+            <Text style={styles.buttonText}>
+              {loading ? 'Creating Event...' : 'Create Event'}
+            </Text>
+          </TouchableOpacity>
+
+          <HomeButton />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </CreateEventBackground>
   );
 }
+
