@@ -33,6 +33,10 @@ export default function EnterEventScreen({ navigation }) {
     }
   };
 
+  const handleGoHome = () => {
+    navigation.navigate('Welcome');
+  };
+
   return (
     <EnterEventBackground>
       <Text style={styles.title}>Enter Event Code</Text>
@@ -48,6 +52,11 @@ export default function EnterEventScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={handleJoin}>
         <Text style={styles.buttonText}>Join Event</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.homeButton} onPress={handleGoHome}>
+        <Text style={styles.homeButtonText}>Home</Text>
+      </TouchableOpacity>
     </EnterEventBackground>
   );
 }
+

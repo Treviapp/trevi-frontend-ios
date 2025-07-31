@@ -30,4 +30,17 @@ export default StyleSheet.create({
     fontWeight: '600',
     fontFamily: 'Poppins-SemiBold',
   },
+  homeButton: {
+    marginTop: 16,
+    padding: 12,
+    backgroundColor: '#ccc',
+    borderRadius: 8,
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: 80,
+  },
+  homeButtonText: {
+    color: '#333',
+    fontSize: 16,
+  },
 });

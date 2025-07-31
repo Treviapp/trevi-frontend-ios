@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   handwritingTitle: {
-    fontSize: 48,
+    fontSize: 30,
     fontFamily: 'Cochin',
     color: '#000000',
     textAlign: 'center',
@@ -10,13 +10,13 @@ export default StyleSheet.create({
     marginBottom: 8,
   },
   subHeader: {
-    fontSize: 26,
+    fontSize: 20,
     color: '#000000',
     textAlign: 'center',
     marginBottom: 16,
   },
   totalRaised: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#000000',
     textAlign: 'center',
@@ -28,7 +28,7 @@ export default StyleSheet.create({
     marginBottom: 8,
   },
   qrText: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#000000',
     marginTop: 8,
     textAlign: 'center',
@@ -91,12 +91,28 @@ export default StyleSheet.create({
     borderRadius: 12,
     marginTop: 20,
     alignItems: 'center',
+    justifyContent: 'center',
     alignSelf: 'center',
     width: '80%',
   },
   buttonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Poppins-SemiBold',
+    textAlign: 'center',
+  },
+  homeButton: {
+    marginTop: 12,
+    padding: 12,
+    backgroundColor: '#ccc',
+    borderRadius: 8,
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: 80,
+  },
+  homeButtonText: {
+    color: '#333',
+    fontSize: 16,
   },
 });
+

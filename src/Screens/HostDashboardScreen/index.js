@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
-  ScrollView,
   View,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -46,7 +45,7 @@ export default function HostDashboardScreen({ route, navigation }) {
 
       setCampaign(data);
       setDonations(data.donations || []);
-console.log('🧪 Donations loaded:', data.donations);
+      console.log('🧪 Donations loaded:', data.donations);
     } catch (err) {
       if (err.response?.status === 404) {
         Alert.alert('Campaign not found');
@@ -85,6 +84,10 @@ console.log('🧪 Donations loaded:', data.donations);
     }
   };
 
+  const handleGoHome = () => {
+    navigation.navigate('Welcome');
+  };
+
   return (
     <HostDashboardBackground>
       {!campaign && !initialCode ? (
@@ -108,10 +111,13 @@ console.log('🧪 Donations loaded:', data.donations);
               <Text style={styles.buttonText}>View Dashboard</Text>
             )}
           </TouchableOpacity>
+          <TouchableOpacity style={styles.homeButton} onPress={handleGoHome}>
+            <Text style={styles.homeButtonText}>Home</Text>
+          </TouchableOpacity>
         </>
       ) : campaign ? (
         <>
-          <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
+          <View style={{ paddingBottom: 20 }}>
             <Text style={styles.handwritingTitle}>{campaign.title}</Text>
             <Text style={styles.subHeader}>Hosted by {campaign.host}</Text>
 
@@ -123,21 +129,25 @@ console.log('🧪 Donations loaded:', data.donations);
               <Text style={styles.qrLabel}>Your Event QR code</Text>
               <QRCode
                 value={`${FRONTEND_BASE}${campaign.guest_code}`}
-                size={200}
+                size={140}
               />
               <Text style={styles.qrText}>Scan the QR code to join the event</Text>
             </View>
 
             <TouchableOpacity style={styles.button} onPress={handleConnectStripe}>
-              <Text style={styles.buttonText}>Connect Stripe</Text>
+              <Text style={styles.buttonText}>Click here to link your bank account to your event</Text>
             </TouchableOpacity>
-          </ScrollView>
+          </View>
 
           <TouchableOpacity
             style={styles.viewGiftsButton}
             onPress={handleViewGifts}
           >
             <Text style={styles.viewGiftsButtonText}>View My Gifts</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.homeButton} onPress={handleGoHome}>
+            <Text style={styles.homeButtonText}>Home</Text>
           </TouchableOpacity>
         </>
       ) : (

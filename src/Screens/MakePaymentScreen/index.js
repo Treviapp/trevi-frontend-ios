@@ -76,13 +76,17 @@ export default function MakePaymentScreen({ route, navigation }) {
     }
   };
 
+  const handleGoHome = () => {
+    navigation.navigate('Welcome');
+  };
+
   return (
     <MakePaymentBackground>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}
       >
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.title}>Confirm & Pay</Text>
 
           <Text style={styles.summary}>Gift Amount: £{amount}</Text>
@@ -118,9 +122,14 @@ export default function MakePaymentScreen({ route, navigation }) {
               {loading ? 'Processing...' : 'Confirm & Pay'}
             </Text>
           </TouchableOpacity>
+
+          <TouchableOpacity style={styles.homeButton} onPress={handleGoHome}>
+            <Text style={styles.homeButtonText}>Home</Text>
+          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     </MakePaymentBackground>
   );
 }
+
 

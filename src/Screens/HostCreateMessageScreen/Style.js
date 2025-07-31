@@ -12,15 +12,6 @@ export default StyleSheet.create({
     marginBottom: 24,
     textAlign: 'center',
   },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 16,
-    fontSize: 16,
-    backgroundColor: '#fff',
-  },
   inputMessage: {
     borderWidth: 1,
     borderColor: '#ccc',
@@ -43,11 +34,11 @@ export default StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
-  preview: {
-    width: '100%',
-    height: 200,
-    borderRadius: 12,
-    marginBottom: 16,
+ preview: {
+  width: '100%',
+  aspectRatio: 1, // or 16 / 9 if you want widescreen shape
+  borderRadius: 12,
+  marginBottom: 16,
   },
   button: {
     backgroundColor: '#8e94f2',
@@ -61,19 +52,4 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-homeButton: {
-  marginTop: 16,
-  padding: 12,
-  backgroundColor: '#ccc',
-  borderRadius: 8,
-  alignItems: 'center',
-  alignSelf: 'center', // ✅ center the smaller button
-  width: 80,          // ✅ fixed width
-},
-
-homeButtonText: {
-  color: '#333',
-  fontSize: 16,
-},
 });
-

@@ -44,6 +44,10 @@ export default function MakeDonationScreen({ navigation, route }) {
     });
   };
 
+  const handleGoHome = () => {
+    navigation.navigate('Welcome');
+  };
+
   const pickImage = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
@@ -138,9 +142,12 @@ export default function MakeDonationScreen({ navigation, route }) {
           <TouchableOpacity style={styles.button} onPress={handleDonate}>
             <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity style={styles.homeButton} onPress={handleGoHome}>
+            <Text style={styles.homeButtonText}>Home</Text>
+          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     </MakeDonationBackground>
   );
 }
-

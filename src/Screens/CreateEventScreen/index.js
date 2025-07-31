@@ -5,11 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  Image,
 } from 'react-native';
 import styles from './Style';
-import axios from 'axios';
-import * as ImagePicker from 'expo-image-picker';
 import CreateEventBackground from '../CreateEventBackground';
 
 const toTitleCase = (str) =>
@@ -19,86 +16,23 @@ export default function CreateEventScreen({ navigation }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [eventName, setEventName] = useState('');
-  const [message, setMessage] = useState('');
-  const [photo, setPhoto] = useState(null);
 
-  const handleCreateEvent = async () => {
-    console.log('🚨 Create Event button pressed');
-
-    if (!fullName || !email || !eventName || !message) {
+  const handleNext = () => {
+    if (!fullName || !email || !eventName) {
       Alert.alert('Please fill out all fields.');
       return;
     }
 
-    const formData = new FormData();
-    formData.append('name', toTitleCase(eventName));
-    formData.append('creator_name', toTitleCase(fullName));
-    formData.append('creator_email', email);
-    formData.append('guest_message', message);
-
-    if (photo?.uri) {
-      formData.append('host_image', {
-        uri: photo.uri,
-        type: 'image/jpeg',
-        name: 'event_photo.jpg',
-      });
-    }
-
-    try {
-      console.log('📡 Sending request to backend...');
-      const response = await axios.post(
-        'http://192.168.1.62:8000/api/campaigns',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-
-      const { host_code, guest_code } = response.data;
-
-      console.log('✅ Event created:', host_code, guest_code);
-
-      navigation.navigate('CreateEventSuccess', {
-        hostCode: host_code,
-        guestCode: guest_code,
-        eventName,
-        fullName,
-        email,
-        message,
-        photo,
-      });
-    } catch (error) {
-      console.error('❌ Axios Error:', error.message);
-      Alert.alert('Something went wrong while creating the event.');
-    }
-  };
-
-  const pickImage = async () => {
-    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permission.granted) {
-      Alert.alert('Permission required', 'Please allow photo access to upload an image.');
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 0.7,
+    navigation.navigate('HostCreateMessage', {
+      fullName: toTitleCase(fullName),
+      email,
+      eventName: toTitleCase(eventName),
     });
-
-    if (!result.canceled && result.assets?.length > 0) {
-      const selected = result.assets[0];
-      console.log('🖼️ Selected image:', selected);
-      setPhoto({
-        uri: selected.uri,
-        type: 'image/jpeg',
-        name: selected.fileName || 'event_photo.jpg',
-      });
-    }
   };
 
-  console.log('🧪 Photo state:', photo);
+  const handleGoHome = () => {
+    navigation.navigate('Welcome');
+  };
 
   return (
     <CreateEventBackground>
@@ -133,37 +67,12 @@ export default function CreateEventScreen({ navigation }) {
           autoCapitalize="words"
         />
 
-        <TextInput
-          style={styles.inputMessage}
-          value={message}
-          onChangeText={setMessage}
-          placeholder="Write a message for your guests to let them know what your goal is and how their gift is helping to make your dream come true"
-          multiline
-          maxLength={158}
-        />
-
-        <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
-          <Text style={styles.photoButtonText}>
-            {photo ? 'Change Photo' : 'Upload a Photo'}
-          </Text>
+        <TouchableOpacity style={styles.button} onPress={handleNext}>
+          <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
 
-        <View style={{ alignItems: 'center', marginVertical: 10 }}>
-          {photo?.uri && (
-            <Image
-              key={photo.uri}
-              source={{ uri: photo.uri }}
-              style={[styles.preview, { backgroundColor: '#eee' }]}
-              resizeMode="contain"
-              onError={(e) =>
-                console.log('❌ Image preview error:', e.nativeEvent.error)
-              }
-            />
-          )}
-        </View>
-
-        <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>
-          <Text style={styles.buttonText}>Create Event</Text>
+        <TouchableOpacity style={styles.homeButton} onPress={handleGoHome}>
+          <Text style={styles.homeButtonText}>Home</Text>
         </TouchableOpacity>
       </View>
     </CreateEventBackground>

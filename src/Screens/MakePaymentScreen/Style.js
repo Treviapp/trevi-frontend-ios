@@ -45,7 +45,7 @@ export default StyleSheet.create({
     flexWrap: 'wrap',
   },
   amountButton: {
-    backgroundColor: '#e6e3ff', // Light lavender
+    backgroundColor: '#e6e3ff',
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 40,
@@ -53,7 +53,7 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   amountButtonSelected: {
-    backgroundColor: '#8e94f2', // Deep purple
+    backgroundColor: '#8e94f2',
   },
   amountButtonText: {
     fontSize: 18,
@@ -99,5 +99,18 @@ export default StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     textAlign: 'center',
+  },
+  homeButton: {
+    marginTop: 16,
+    padding: 12,
+    backgroundColor: '#ccc',
+    borderRadius: 8,
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: 80,
+  },
+  homeButtonText: {
+    color: '#333',
+    fontSize: 16,
   },
 });

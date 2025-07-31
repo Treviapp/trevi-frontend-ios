@@ -4,12 +4,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import WelcomeScreen from '../Screens/WelcomeScreen';
 import EnterEventScreen from '../Screens/EnterEventScreen';
 import CreateEventScreen from '../Screens/CreateEventScreen';
+import HostCreateMessageScreen from '../Screens/HostCreateMessageScreen'; // ✅ NEW
 import CreateEventSuccessScreen from '../Screens/CreateEventSuccessScreen';
 import HostDashboard from '../Screens/HostDashboardScreen';
 import MakeDonationScreen from '../Screens/MakeDonationScreen';
 import MakePaymentScreen from '../Screens/MakePaymentScreen';
 import DonationSuccessScreen from '../Screens/DonationSuccessScreen';
-import EventSummaryScreen from '../Screens/EventSummaryScreen'; // ✅ updated
+import EventSummaryScreen from '../Screens/EventSummaryScreen';
 import AccessEventScreen from '../Screens/AccessEventScreen';
 import GiftListScreen from '../Screens/GiftListScreen';
 
@@ -22,12 +23,10 @@ export default function AppStack() {
       <Stack.Screen name="AccessEvent" component={AccessEventScreen} />
       <Stack.Screen name="EnterEvent" component={EnterEventScreen} />
       <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
+      <Stack.Screen name="HostCreateMessage" component={HostCreateMessageScreen} />
       <Stack.Screen name="CreateEventSuccess" component={CreateEventSuccessScreen} />
       <Stack.Screen name="HostDashboard" component={HostDashboard} />
-      
-      {/* ✅ updated name for guest event view */}
       <Stack.Screen name="EventSummaryScreen" component={EventSummaryScreen} />
-
       <Stack.Screen name="MakeDonation" component={MakeDonationScreen} />
       <Stack.Screen name="MakePaymentScreen" component={MakePaymentScreen} />
       <Stack.Screen name="DonationSuccess" component={DonationSuccessScreen} />
@@ -35,3 +34,4 @@ export default function AppStack() {
     </Stack.Navigator>
   );
 }
+

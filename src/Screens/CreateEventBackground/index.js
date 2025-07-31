@@ -8,7 +8,9 @@ export default function CreateEventBackground({ children }) {
       style={styles.background}
       resizeMode="cover"
     >
-      <View style={styles.overlay}>{children}</View>
+      <View style={styles.overlay}>
+        {children}
+      </View>
     </ImageBackground>
   );
 }
@@ -16,13 +18,10 @@ export default function CreateEventBackground({ children }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: 'center', // Ensure content is centered within the background
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)', // Reduced opacity for more visibility of the background
-    justifyContent: 'center', // Centers children vertically
-    alignItems: 'center', // Centers children horizontally
-    padding: 20, // Adds padding around the children elements
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    padding: 20,
   },
 });

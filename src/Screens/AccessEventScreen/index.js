@@ -28,6 +28,10 @@ export default function AccessEventScreen({ navigation }) {
     }
   };
 
+  const handleGoHome = () => {
+    navigation.navigate('Welcome');
+  };
+
   return (
     <AccessEventBackground>
       <Text style={styles.title}>Access Your Event</Text>
@@ -42,6 +46,10 @@ export default function AccessEventScreen({ navigation }) {
 
       <TouchableOpacity style={styles.button} onPress={handleAccess}>
         <Text style={styles.buttonText}>Access Event</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.homeButton} onPress={handleGoHome}>
+        <Text style={styles.homeButtonText}>Home</Text>
       </TouchableOpacity>
     </AccessEventBackground>
   );
