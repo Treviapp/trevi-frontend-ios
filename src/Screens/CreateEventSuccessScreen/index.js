@@ -11,10 +11,8 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
     fullName,
     email,
     message,
-    photo, // ✅ receive photo
+    photo,
   } = route.params;
-
-  console.log('🧾 Received in CreateEventSuccessScreen:', route.params);
 
   const handleContinue = () => {
     navigation.navigate('HostDashboard', {
@@ -23,7 +21,7 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
       fullName,
       email,
       message,
-      photo, // ✅ pass photo forward
+      photo,
     });
   };
 
@@ -32,11 +30,13 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
       <View style={styles.container}>
         <Text style={styles.title}>Event Created</Text>
 
-        <Text style={styles.label}>Host Code:</Text>
+        <Text style={styles.label}>Host Code</Text>
         <Text style={styles.code}>{hostCode}</Text>
 
-        <Text style={styles.label}>Guest Code:</Text>
+        <Text style={styles.label}>Guest Code</Text>
         <Text style={styles.code}>{guestCode}</Text>
+
+        <Text style={styles.emailNotice}>✅ We've emailed you these event codes.</Text>
 
         <Text style={styles.note}>
           Share the guest code with your friends so they can donate to your big event.
@@ -49,4 +49,3 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
     </CreateEventSuccessBackground>
   );
 }
-

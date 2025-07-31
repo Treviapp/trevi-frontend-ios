@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 40,
-    justifyContent: 'flex-start',
+        justifyContent: 'flex-start',
   },
   title: {
     fontSize: 34,
