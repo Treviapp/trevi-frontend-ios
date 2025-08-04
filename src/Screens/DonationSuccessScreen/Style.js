@@ -2,14 +2,14 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   title: {
-    fontSize: 28,
+    fontSize: 40,
     fontWeight: 'bold',
     color: '#4C2A85',
     marginBottom: 20,
     textAlign: 'center',
   },
   message: {
-    fontSize: 18,
+    fontSize: 40,
     color: '#333',
     marginBottom: 40,
     textAlign: 'center',

@@ -68,6 +68,7 @@ export default function GiftListScreen({ route }) {
                         )}/storage/${gift.photo_path}`,
                   }}
                   style={styles.image}
+                  resizeMode="contain"
                 />
               )}
               <Text style={styles.name}>

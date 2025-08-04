@@ -1,20 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import Routes from './src/navigation/Routes';
 import { StripeProvider } from '@stripe/stripe-react-native';
-import AppStack from './src/navigation/AppStack';
-import * as SplashScreen from 'expo-splash-screen';
-import { useCallback, useEffect, useState } from 'react';
-import { View } from 'react-native';
-
 import {
   useFonts,
   DancingScript_700Bold,
 } from '@expo-google-fonts/dancing-script';
-
-import * as Font from 'expo-font';
-
-// Prevent splash screen from hiding too soon
-SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,18 +17,19 @@ export default function App() {
     DancingScript_700Bold,
   });
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+  const onReady = useCallback(() => {
+    console.log('✅ Navigation ready');
+  }, []);
 
   if (!fontsLoaded) return null;
 
   return (
-    <StripeProvider publishableKey="pk_test_51RXKLrIMEUGCmkevn3YDd0y1oRaPogoAAo5MpDFrMlfrM9YdO9ISBqrqaAl6kwoLQfQjScaaepDW8ZE0Tx7vyIKx00eiMFSmEZ">
-      <NavigationContainer onReady={onLayoutRootView}>
-        <AppStack />
+    <StripeProvider
+      publishableKey="pk_test_51RXKLrIMEUGCmkevn3YDd0y1oRaPogoAAo5MpDFrMlfrM9YdO9ISBqrqaAl6kwoLQfQjScaaepDW8ZE0Tx7vyIKx00eiMFSmEZ"
+      merchantIdentifier="merchant.com.trevi" // optional for Apple Pay
+    >
+      <NavigationContainer onReady={onReady}>
+        <Routes />
       </NavigationContainer>
     </StripeProvider>
   );

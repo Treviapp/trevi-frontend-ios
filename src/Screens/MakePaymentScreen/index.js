@@ -36,7 +36,7 @@ export default function MakePaymentScreen({ route, navigation }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: Math.round(parseFloat(amount) * 100), // Gift amount only (pennies)
+          amount: Math.round(parseFloat(amount) * 100),
           host_code: hostCode,
           name: name ?? '',
           message: message ?? '',
@@ -47,28 +47,33 @@ export default function MakePaymentScreen({ route, navigation }) {
       const rawText = await response.text();
       console.log('📨 Raw server response text:', rawText);
 
-      try {
-        const data = JSON.parse(rawText);
-        console.log('✅ Parsed JSON response:', data);
+      const data = JSON.parse(rawText);
+      console.log('✅ Parsed JSON response:', data);
 
-        const clientSecret = data.clientSecret;
-        if (!clientSecret) throw new Error('No client secret returned');
+      const clientSecret = data.clientSecret;
+      if (!clientSecret) throw new Error('No client secret returned');
 
-        const { paymentIntent, error } = await confirmPayment(clientSecret, {
-          paymentMethodType: 'Card',
-          paymentMethodData: {
-            billingDetails: { name },
-          },
-        });
+      const { paymentIntent, error } = await confirmPayment(clientSecret, {
+        paymentMethodType: 'Card',
+        paymentMethodData: {
+          billingDetails: { name },
+        },
+      });
 
-        if (error) {
-          Alert.alert('Payment failed', error.message);
-        } else if (paymentIntent) {
-          navigation.navigate('DonationSuccess', { name, amount });
-        }
-      } catch (jsonError) {
-        console.error('❌ JSON Parse error:', jsonError.message);
-        Alert.alert('Error', 'Unexpected server response. Please try again.');
+      console.log('📍 paymentIntent:', paymentIntent);
+      console.log('❌ confirmPayment error:', error);
+
+      if (error) {
+        Alert.alert('Payment failed', error.message);
+      } else if (paymentIntent && paymentIntent.status === 'Succeeded') {
+        console.log('✅ Payment succeeded! Navigating to success screen...');
+        navigation.navigate('DonationSuccess', { name, amount });
+      } else {
+        console.log('⚠️ PaymentIntent returned but not successful:', paymentIntent);
+        Alert.alert(
+          'Payment incomplete',
+          'Something went wrong with the payment. Please try again.'
+        );
       }
     } catch (err) {
       console.error('❌ Stripe payment error:', err);
@@ -131,5 +136,4 @@ export default function MakePaymentScreen({ route, navigation }) {
     </MakePaymentBackground>
   );
 }
-
 
