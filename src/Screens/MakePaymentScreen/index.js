@@ -12,6 +12,7 @@ import {
 import styles from './Style';
 import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
 import MakePaymentBackground from '../MakePaymentBackground';
+import { API_BASE_URL } from '../../api/config';
 
 export default function MakePaymentScreen({ route, navigation }) {
   const { name, amount, message, photo, hostCode } = route.params;
@@ -27,7 +28,7 @@ export default function MakePaymentScreen({ route, navigation }) {
     }
 
     try {
-      const API_URL = 'http://192.168.1.62:8000/api/stripe/payment-intent';
+      const API_URL = `${API_BASE_URL}/stripe/payment-intent`;
       console.log('📡 Fetch sent to:', API_URL);
       console.log('📦 hostCode being sent:', hostCode);
       console.log('🧪 route.params:', route.params);
@@ -136,4 +137,3 @@ export default function MakePaymentScreen({ route, navigation }) {
     </MakePaymentBackground>
   );
 }
-

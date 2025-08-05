@@ -4,137 +4,121 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
   Image,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
-import styles from './Style';
-import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
-import CreateEventBackground from '../CreateEventBackground';
-import HomeButton from '../../Components/HomeButton';
+import axios from 'axios';
+import styles from './Style';
+import { API_BASE_URL } from '../../api/config';
 
-export default function HostCreateMessageScreen({ navigation, route }) {
+const HostCreateMessageScreen = ({ route, navigation }) => {
   const { fullName, email, eventName } = route.params;
-  const [message, setMessage] = useState('');
-  const [photo, setPhoto] = useState(null);
+  const [guestMessage, setGuestMessage] = useState('');
+  const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleCreateEvent = async () => {
-    if (!message) {
-      Alert.alert('Please write a message for your guests.');
+  const pickImage = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      alert('Permission to access gallery is required!');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      quality: 0.5,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.assets[0]);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!fullName || !email || !eventName) {
+      Alert.alert('Missing fields', 'Please go back and complete all fields.');
       return;
     }
 
     const formData = new FormData();
-    formData.append('name', eventName);
     formData.append('creator_name', fullName);
     formData.append('creator_email', email);
-    formData.append('guest_message', message);
+    formData.append('name', eventName);
+    formData.append('guest_message', guestMessage);
 
-    if (photo?.uri) {
+    if (image) {
       formData.append('host_image', {
-        uri: photo.uri,
+        uri: image.uri,
+        name: 'host_image.jpg',
         type: 'image/jpeg',
-        name: 'event_photo.jpg',
       });
     }
 
+    setLoading(true);
+
     try {
-      setLoading(true);
-      const response = await axios.post(
-        'http://192.168.1.62:8000/api/campaigns',
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      );
+console.log('📤 Sending formData to:', `${API_BASE_URL}/campaigns`);
+console.log('📝 Form data:', formData);
+      const response = await axios.post(`${API_BASE_URL}/campaigns`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
       const { host_code, guest_code } = response.data;
 
       navigation.navigate('CreateEventSuccess', {
         hostCode: host_code,
         guestCode: guest_code,
-        eventName,
-        fullName,
-        email,
-        message,
-        photo,
       });
     } catch (error) {
-      console.error('Error creating event:', error.message);
-      Alert.alert('Something went wrong while creating the event.');
+      console.error('Error creating campaign:', error);
+      Alert.alert('Error', 'Something went wrong while creating the event.');
     } finally {
       setLoading(false);
     }
   };
 
-  const pickImage = async () => {
-    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permission.granted) {
-      Alert.alert('Permission required', 'Please allow photo access to upload an image.');
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 0.7,
-    });
-
-    if (!result.canceled && result.assets?.length > 0) {
-      const selected = result.assets[0];
-      setPhoto({
-        uri: selected.uri,
-        type: 'image/jpeg',
-        name: selected.fileName || 'event_photo.jpg',
-      });
-    }
-  };
-
   return (
-    <CreateEventBackground>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={{ flex: 1 }}
-      >
-        <ScrollView contentContainerStyle={styles.container}>
-          <Text style={styles.title}>Your Message</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Message for Guests</Text>
 
-          <TextInput
-            style={styles.inputMessage}
-            value={message}
-            onChangeText={setMessage}
-            placeholder="Let your guests know what their gift will mean to you..."
-            multiline
-            maxLength={158}
-          />
+      <TextInput
+        style={styles.inputMessage}
+        placeholder="Write a short message to your guests. Let them know what their gift is going towards..."
+        value={guestMessage}
+        onChangeText={setGuestMessage}
+        multiline
+      />
 
-          <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
-            <Text style={styles.photoButtonText}>
-              {photo ? 'Change Photo' : 'Upload a Photo'}
-            </Text>
-          </TouchableOpacity>
+      <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
+        <Text style={styles.photoButtonText}>
+          {image ? 'Change Photo' : 'Add a Photo'}
+        </Text>
+      </TouchableOpacity>
 
-          {photo?.uri && (
-            <Image
-              source={{ uri: photo.uri }}
-              style={[styles.preview, { backgroundColor: '#eee', height: 180 }]}
-              resizeMode="contain"
-            />
-          )}
+      {image && (
+        <Image
+          source={{ uri: image.uri }}
+          style={styles.preview}
+          resizeMode="cover"
+        />
+      )}
 
-          <TouchableOpacity style={styles.button} onPress={handleCreateEvent} disabled={loading}>
-            <Text style={styles.buttonText}>
-              {loading ? 'Creating Event...' : 'Create Event'}
-            </Text>
-          </TouchableOpacity>
-
-          <HomeButton />
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </CreateEventBackground>
+      <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}>
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.buttonText}>Create Event</Text>
+        )}
+      </TouchableOpacity>
+    </View>
   );
-}
+};
 
+export default HostCreateMessageScreen;

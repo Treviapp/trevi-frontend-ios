@@ -1,3 +1,5 @@
+// C:\Users\Amanda Hughes\Projects\trevi-frontend\src\Screens\HostCreateMessageScreen\Style.js
+
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -28,10 +30,13 @@ export default StyleSheet.create({
   },
   photoButton: {
     backgroundColor: '#E0E0E0',
-    padding: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 12,
     alignItems: 'center',
     marginBottom: 12,
+    alignSelf: 'center',
+    width: '60%',
   },
   photoButtonText: {
     fontSize: 16,
@@ -43,6 +48,8 @@ export default StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 12,
     marginBottom: 16,
+    resizeMode: 'cover',
+    alignSelf: 'center',
   },
   button: {
     backgroundColor: '#8e94f2',
@@ -61,4 +68,3 @@ export default StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
   },
 });
-

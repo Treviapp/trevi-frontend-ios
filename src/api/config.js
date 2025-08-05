@@ -1,16 +1,14 @@
+// C:\Users\Amanda Hughes\Projects\trevi-frontend\src\api\config.js
+
 import axios from 'axios';
 import { store } from '../redux';
 
 /* ------------------------------------------------------------------
    Base URLs
    ------------------------------------------------------------------ */
-// ngrok tunnel – exposes Laravel dev backend over HTTPS
-const ROOT_URL = 'https://8ac256fe06cb.ngrok-free.app';
 
-// If you later deploy Trevi, add new lines here:
-// const ROOT_URL = 'https://api-dev.treviapp.com';
-// const ROOT_URL = 'https://api-stage.treviapp.com';
-// const ROOT_URL = 'https://api.treviapp.com';        // production
+// ✅ Use your current Ngrok HTTPS URL here
+const ROOT_URL = 'https://1884406215bf.ngrok-free.app';
 
 const BASE_URL = `${ROOT_URL}/api`;
 
@@ -46,4 +44,8 @@ client.interceptors.request.use(
   (err) => Promise.reject(err)
 );
 
+/* ------------------------------------------------------------------
+   Export everything needed
+   ------------------------------------------------------------------ */
 export { ROOT_URL, BASE_URL, client };
+export const API_BASE_URL = BASE_URL;
