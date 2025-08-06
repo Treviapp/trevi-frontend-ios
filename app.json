@@ -8,8 +8,8 @@
     "userInterfaceStyle": "light",
     "icon": "./src/Assets/Images/icon.png",
     "splash": {
-      "image": "./src/Assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./src/Assets/trevi-splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#E6DAF5"
     },
     "updates": {
@@ -28,14 +28,6 @@
       "deploymentTarget": "12.0"
     },
     "plugins": [
-      [
-        "expo-splash-screen",
-        {
-          "resizeMode": "contain",
-          "backgroundColor": "#E6DAF5",
-          "image": "./src/Assets/splash.png"
-        }
-      ],
       "expo-font"
     ],
     "extra": {
@@ -44,7 +36,16 @@
       }
     },
     "android": {
-      "package": "com.amandatreviapp.trevi"
+      "package": "com.amandatreviapp.trevi",
+      "splash": {
+        "image": "./src/Assets/trevi-splash.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#E6DAF5"
+      },
+      "adaptiveIcon": {
+        "backgroundColor": "#E6DAF5"
+      }
     }
   }
 }
+
