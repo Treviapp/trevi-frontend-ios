@@ -2,28 +2,31 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   title: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#4C2A85',
-    marginBottom: 20,
+    fontSize: 52,
+    fontWeight: '700',
+    color: '#dbf6bf', 
+    marginBottom: 12,
     textAlign: 'center',
   },
   message: {
-    fontSize: 40,
-    color: '#333',
-    marginBottom: 40,
+    fontSize: 20,
+    color: '#555',
+    marginBottom: 32,
     textAlign: 'center',
+    paddingHorizontal: 20,
   },
   button: {
-    backgroundColor: '#FFD700',
-    paddingVertical: 15,
+    backgroundColor: '#8e94f2',
+    paddingVertical: 14,
     paddingHorizontal: 30,
-    borderRadius: 30,
+    borderRadius: 25,
     alignItems: 'center',
+    alignSelf: 'center',
+    minWidth: 200,
   },
   buttonText: {
-    fontSize: 16,
-    color: '#4C2A85',
+    fontSize: 18,
+    color: '#ffffff',
     fontWeight: '600',
   },
 });

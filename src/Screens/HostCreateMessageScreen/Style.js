@@ -5,8 +5,9 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     padding: 24,
-    flex: 1,
-    justifyContent: 'center',
+paddingTop: 260, 
+    justifyContent: 'flex-start',   // ⬅️ shift layout to top
+                   // ⬅️ creates space for fairy
   },
   title: {
     fontSize: 28,
@@ -21,7 +22,7 @@ export default StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 12,
     padding: 12,
-    height: 100,
+    height: 180,
     fontSize: 16,
     textAlignVertical: 'top',
     backgroundColor: '#fff',

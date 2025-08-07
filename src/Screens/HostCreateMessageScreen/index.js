@@ -1,3 +1,5 @@
+// src/Screens/HostCreateMessageScreen/index.js
+
 import React, { useState } from 'react';
 import {
   View,
@@ -7,8 +9,11 @@ import {
   Image,
   Alert,
   ActivityIndicator,
+  StyleSheet,
+  ScrollView,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as Animatable from 'react-native-animatable';
 import axios from 'axios';
 import styles from './Style';
 import { API_BASE_URL } from '../../api/config';
@@ -62,8 +67,6 @@ const HostCreateMessageScreen = ({ route, navigation }) => {
     setLoading(true);
 
     try {
-console.log('📤 Sending formData to:', `${API_BASE_URL}/campaigns`);
-console.log('📝 Form data:', formData);
       const response = await axios.post(`${API_BASE_URL}/campaigns`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -72,9 +75,15 @@ console.log('📝 Form data:', formData);
 
       const { host_code, guest_code } = response.data;
 
-      navigation.navigate('CreateEventSuccess', {
+      // ✅ Navigate to StripeLinkingScreen and pass all required values
+      navigation.navigate('StripeLinkingScreen', {
         hostCode: host_code,
         guestCode: guest_code,
+        fullName,
+        email,
+        eventName,
+        guestMessage,
+        image,
       });
     } catch (error) {
       console.error('Error creating campaign:', error);
@@ -85,40 +94,62 @@ console.log('📝 Form data:', formData);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Message for Guests</Text>
-
-      <TextInput
-        style={styles.inputMessage}
-        placeholder="Write a short message to your guests. Let them know what their gift is going towards..."
-        value={guestMessage}
-        onChangeText={setGuestMessage}
-        multiline
+    <View style={{ flex: 1 }}>
+      <Animatable.Image
+        animation="float"
+        iterationCount="infinite"
+        easing="ease-in-out"
+        source={require('../../Assets/Images/flyingfairyscroll.png')}
+        style={localStyles.fairy}
+        resizeMode="contain"
       />
 
-      <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
-        <Text style={styles.photoButtonText}>
-          {image ? 'Change Photo' : 'Add a Photo'}
-        </Text>
-      </TouchableOpacity>
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+        <Text style={styles.title}>Message for Guests</Text>
 
-      {image && (
-        <Image
-          source={{ uri: image.uri }}
-          style={styles.preview}
-          resizeMode="cover"
+        <TextInput
+          style={styles.inputMessage}
+          placeholder="Write a short message to your guests. Let them know what their gift is going towards..."
+          value={guestMessage}
+          onChangeText={setGuestMessage}
+          multiline
         />
-      )}
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}>
-        {loading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.buttonText}>Create Event</Text>
+        <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
+          <Text style={styles.photoButtonText}>
+            {image ? 'Change Photo' : 'Add a Photo'}
+          </Text>
+        </TouchableOpacity>
+
+        {image && (
+          <Image
+            source={{ uri: image.uri }}
+            style={styles.preview}
+            resizeMode="cover"
+          />
         )}
-      </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}>
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.buttonText}>Create Event</Text>
+          )}
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };
+
+const localStyles = StyleSheet.create({
+  fairy: {
+    width: 240,
+    height: 240,
+    position: 'absolute',
+    top: 20,
+    alignSelf: 'center',
+    zIndex: 1,
+  },
+});
 
 export default HostCreateMessageScreen;

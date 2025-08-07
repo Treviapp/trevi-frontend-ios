@@ -12,8 +12,6 @@ import styles from './Style';
 import HostDashboardBackground from '../HostDashboardBackground';
 import { client } from '../../api/config';
 import { useNavigation } from '@react-navigation/native';
-import * as Linking from 'expo-linking';
-import axios from 'axios';
 
 const FRONTEND_BASE = 'https://trevi.app/enter/';
 
@@ -66,24 +64,6 @@ export default function HostDashboardScreen({ route, navigation }) {
     navigation.navigate('GiftListScreen', { hostCode: campaign?.host_code });
   };
 
-  const handleConnectStripe = async () => {
-    try {
-      const res = await axios.post(`${client.defaults.baseURL}/stripe/connect`, {
-        host_code: campaign?.host_code,
-      });
-
-      const url = res.data.url || res.data.onboarding_url;
-      if (url) {
-        Linking.openURL(url);
-      } else {
-        Alert.alert('Error', 'No onboarding URL returned.');
-      }
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Stripe Error', 'Could not start onboarding.');
-    }
-  };
-
   const handleGoHome = () => {
     navigation.navigate('Welcome');
   };
@@ -129,14 +109,10 @@ export default function HostDashboardScreen({ route, navigation }) {
               <Text style={styles.qrLabel}>Your Event QR code</Text>
               <QRCode
                 value={`${FRONTEND_BASE}${campaign.guest_code}`}
-                size={140}
+                size={180}
               />
               <Text style={styles.qrText}>Scan the QR code to join the event</Text>
             </View>
-
-            <TouchableOpacity style={styles.button} onPress={handleConnectStripe}>
-              <Text style={styles.buttonText}>Click here to link your bank account to your event</Text>
-            </TouchableOpacity>
           </View>
 
           <TouchableOpacity

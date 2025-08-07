@@ -1,11 +1,30 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import styles from './Style';
 import WelcomeBackground from '../WelcomeBackground'; // ✅ use new background
+
+// ✅ Register custom float animation
+Animatable.initializeRegistryWithDefinitions({
+  float: {
+    0: { translateY: 0 },
+    0.5: { translateY: -10 },
+    1: { translateY: 0 },
+  },
+});
 
 export default function WelcomeScreen({ navigation, onLayout }) {
   return (
     <WelcomeBackground onLayout={onLayout}>
+      <Animatable.Image
+        animation="float"
+        easing="ease-in-out"
+        iterationCount="infinite"
+        duration={4000}
+        style={localStyles.orb}
+        source={require('../../Assets/Images/orb.png')} // ✅ use your fairy image here
+      />
+
       <Text style={styles.title}>Welcome to Trevi</Text>
 
       <TouchableOpacity
@@ -31,3 +50,12 @@ export default function WelcomeScreen({ navigation, onLayout }) {
     </WelcomeBackground>
   );
 }
+
+const localStyles = StyleSheet.create({
+  orb: {
+    width: 220,
+    height: 220,
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+});

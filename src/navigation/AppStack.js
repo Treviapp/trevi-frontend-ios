@@ -1,11 +1,12 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import VideoIntroScreen from '../Screens/VideoIntroScreen'; // ✅ New import
+import VideoIntroScreen from '../Screens/VideoIntroScreen';
 import WelcomeScreen from '../Screens/WelcomeScreen';
 import EnterEventScreen from '../Screens/EnterEventScreen';
 import CreateEventScreen from '../Screens/CreateEventScreen';
 import HostCreateMessageScreen from '../Screens/HostCreateMessageScreen';
+import StripeLinkingScreen from '../Screens/StripeLinkingScreen';
 import CreateEventSuccessScreen from '../Screens/CreateEventSuccessScreen';
 import HostDashboard from '../Screens/HostDashboardScreen';
 import MakeDonationScreen from '../Screens/MakeDonationScreen';
@@ -26,6 +27,7 @@ export default function AppStack() {
       <Stack.Screen name="EnterEvent" component={EnterEventScreen} />
       <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
       <Stack.Screen name="HostCreateMessage" component={HostCreateMessageScreen} />
+      <Stack.Screen name="StripeLinkingScreen" component={StripeLinkingScreen} />
       <Stack.Screen name="CreateEventSuccess" component={CreateEventSuccessScreen} />
       <Stack.Screen name="HostDashboard" component={HostDashboard} />
       <Stack.Screen name="EventSummaryScreen" component={EventSummaryScreen} />
@@ -36,3 +38,4 @@ export default function AppStack() {
     </Stack.Navigator>
   );
 }
+

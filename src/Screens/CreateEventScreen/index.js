@@ -5,6 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Image,
+  StyleSheet,
 } from 'react-native';
 import styles from './Style';
 import CreateEventBackground from '../CreateEventBackground';
@@ -75,6 +77,24 @@ export default function CreateEventScreen({ navigation }) {
           <Text style={styles.homeButtonText}>Home</Text>
         </TouchableOpacity>
       </View>
+
+      {/* 🧚 Fairy at bottom-right */}
+      <Image
+        source={require('../../Assets/Images/cauldronfairy.png')}
+        style={localStyles.fairy}
+        resizeMode="contain"
+      />
     </CreateEventBackground>
   );
 }
+
+const localStyles = StyleSheet.create({
+  fairy: {
+    width: 300,
+    height: 300,
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    opacity: 0.95,
+  },
+});
