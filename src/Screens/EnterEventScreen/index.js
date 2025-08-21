@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import styles from './Style';
 import EnterEventBackground from '../EnterEventBackground';
 import { client } from '../../api/config'; // ✅ axios instance
@@ -39,6 +39,14 @@ export default function EnterEventScreen({ navigation }) {
 
   return (
     <EnterEventBackground>
+      <View style={styles.imageContainer}>
+        <Image
+          source={require('../../Assets/Images/doorbell.png')}
+          style={styles.image}
+          resizeMode="contain"
+        />
+      </View>
+
       <Text style={styles.title}>Enter Event Code</Text>
 
       <TextInput

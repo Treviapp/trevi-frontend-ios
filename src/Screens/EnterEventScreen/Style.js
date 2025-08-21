@@ -1,10 +1,19 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  imageContainer: {
+    alignItems: 'center',
+    marginTop: 40,
+    marginBottom: 10,
+  },
+  image: {
+    width: 150,
+    height: 150,
+  },
   title: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#758239 ', //
+    color: '#000000', // ✅ Removed trailing space
     textAlign: 'center',
     marginTop: 100,
     marginBottom: 20,
@@ -15,16 +24,16 @@ export default StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     fontSize: 20,
-    marginTop:20,
+    marginTop: 20,
     marginBottom: 40,
     width: '100%',
   },
   button: {
-    backgroundColor: '#8e94f2', 
+    backgroundColor: '#8e94f2',
     paddingVertical: 20,
     borderRadius: 10,
     alignItems: 'center',
-    width: '100%',
+    width: '80%',
   },
   buttonText: {
     color: '#ffffff',
@@ -32,16 +41,15 @@ export default StyleSheet.create({
     fontWeight: '600',
     fontFamily: 'Poppins-SemiBold',
   },
-homeButton: {
-  marginTop: 16,
-  padding: 12,
-  backgroundColor: '#ccc',
-  borderRadius: 8,
-  alignItems: 'center',
-},
+  homeButton: {
+    marginTop: 16,    backgroundColor: '#ccc',
 
-homeButtonText: {
-  color: '#333',
-  fontSize: 16,
-},
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  homeButtonText: {
+    color: '#333',
+    fontSize: 16,
+  },
 });

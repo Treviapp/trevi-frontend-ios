@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Text, TextInput, TouchableOpacity, Alert, Image, View } from 'react-native';
 import styles from './Style';
 import AccessEventBackground from '../AccessEventBackground';
-import { client } from '../../api/config'; // ✅ Add this line
+import { client } from '../../api/config';
 
 export default function AccessEventScreen({ navigation }) {
   const [hostCode, setHostCode] = useState('');
@@ -15,7 +15,6 @@ export default function AccessEventScreen({ navigation }) {
 
     try {
       const response = await client.get(`/campaigns/host/${hostCode.trim()}`);
-
       if (response.data) {
         console.log('✅ Host code valid, navigating to dashboard');
         navigation.navigate('HostDashboard', { hostCode });
@@ -34,6 +33,14 @@ export default function AccessEventScreen({ navigation }) {
 
   return (
     <AccessEventBackground>
+      <View style={styles.imageContainer}>
+        <Image
+          source={require('../../Assets/Images/lockandkey.png')}
+          style={styles.image}
+          resizeMode="contain"
+        />
+      </View>
+
       <Text style={styles.title}>Access Your Event</Text>
 
       <TextInput

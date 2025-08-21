@@ -6,13 +6,13 @@ import {
   ActivityIndicator,
   Alert,
   Linking,
-  Image,
 } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import styles from './Style';
 import { API_BASE_URL, client } from '../../api/config';
 import axios from 'axios';
 
-export default function StripeLinkingScreen({ route, navigation }) {
+export default function StripeLinkingScreen({ route }) {
   const { fullName, email, eventName, guestMessage, image } = route.params;
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +20,7 @@ export default function StripeLinkingScreen({ route, navigation }) {
     setLoading(true);
 
     try {
-      // 1. Create the campaign
+      // 1) Create the campaign
       const formData = new FormData();
       formData.append('creator_name', fullName);
       formData.append('creator_email', email);
@@ -35,41 +35,23 @@ export default function StripeLinkingScreen({ route, navigation }) {
         });
       }
 
-      console.log('📤 Creating campaign with:', {
-        fullName,
-        email,
-        eventName,
-        guestMessage,
-        imagePresent: !!image,
-      });
-
       const campaignRes = await axios.post(`${API_BASE_URL}/campaigns`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      const { host_code, guest_code } = campaignRes.data;
-      console.log('✅ Campaign created with host_code:', host_code);
+      const { host_code } = campaignRes.data;
 
-      // 2. Connect to Stripe with host_code
-      console.log('📡 Sending host_code to Stripe connect:', host_code);
-
-      const stripeRes = await client.post('/stripe/connect', {
-        host_code, // ✅ make sure it's snake_case
-      });
+      // 2) Create Stripe onboarding link using host_code
+      const stripeRes = await client.post('/stripe/connect', { hostCode: host_code });
 
       const url = stripeRes.data.url || stripeRes.data.onboarding_url;
 
       if (url) {
         Linking.openURL(url);
+        // ⚠️ Do NOT navigate manually here — deep link will bring user back
       } else {
         Alert.alert('Error', 'Stripe link not available.');
       }
-
-      // 3. Navigate to success screen
-      navigation.navigate('CreateEventSuccess', {
-        hostCode: host_code,
-        guestCode: guest_code,
-      });
     } catch (error) {
       console.error('❌ Stripe linking error:', error);
       Alert.alert('Error', 'Something went wrong while setting up your event.');
@@ -81,12 +63,23 @@ export default function StripeLinkingScreen({ route, navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Almost There!</Text>
+
       <Text style={styles.subtitle}>
         To receive donations, please link your bank account using Stripe.
       </Text>
 
-      <Image
-        source={require('../../Assets/Images/cauldronfairy.png')}
+      <Text style={styles.note}>
+        Stripe will securely collect your details so we can send your funds. If this is a
+        personal event, select <Text style={{ fontWeight: 'bold' }}>Individual/Sole Trader</Text> when asked.
+        When you’ve finished, return to Trevi to continue.
+      </Text>
+
+      <Animatable.Image
+        animation="float"
+        iterationCount="infinite"
+        easing="ease-in-out"
+        duration={3000}
+        source={require('../../Assets/Images/fairybike.png')}
         style={styles.image}
         resizeMode="contain"
       />
@@ -105,4 +98,3 @@ export default function StripeLinkingScreen({ route, navigation }) {
     </View>
   );
 }
-

@@ -1,5 +1,3 @@
-// src/Screens/HostCreateMessageScreen/index.js
-
 import React, { useState } from 'react';
 import {
   View,
@@ -11,6 +9,8 @@ import {
   ActivityIndicator,
   StyleSheet,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Animatable from 'react-native-animatable';
@@ -21,7 +21,7 @@ import { API_BASE_URL } from '../../api/config';
 const HostCreateMessageScreen = ({ route, navigation }) => {
   const { fullName, email, eventName } = route.params;
   const [guestMessage, setGuestMessage] = useState('');
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(null);        // { uri, width, height, ... }
   const [loading, setLoading] = useState(false);
 
   const pickImage = async () => {
@@ -39,8 +39,8 @@ const HostCreateMessageScreen = ({ route, navigation }) => {
       quality: 0.5,
     });
 
-    if (!result.cancelled) {
-      setImage(result.assets[0]);
+    if (!result.cancelled && result.assets && result.assets[0]) {
+      setImage(result.assets[0]); // includes width/height
     }
   };
 
@@ -68,14 +68,11 @@ const HostCreateMessageScreen = ({ route, navigation }) => {
 
     try {
       const response = await axios.post(`${API_BASE_URL}/campaigns`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       const { host_code, guest_code } = response.data;
 
-      // ✅ Navigate to StripeLinkingScreen and pass all required values
       navigation.navigate('StripeLinkingScreen', {
         hostCode: host_code,
         guestCode: guest_code,
@@ -93,62 +90,92 @@ const HostCreateMessageScreen = ({ route, navigation }) => {
     }
   };
 
+  // Compute aspect ratio for correct non-cropped preview
+  const aspectRatio = image?.width && image?.height ? image.width / image.height : 1;
+
   return (
     <View style={{ flex: 1 }}>
-      <Animatable.Image
-        animation="float"
-        iterationCount="infinite"
-        easing="ease-in-out"
-        source={require('../../Assets/Images/flyingfairyscroll.png')}
-        style={localStyles.fairy}
-        resizeMode="contain"
-      />
-
-      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>Message for Guests</Text>
-
-        <TextInput
-          style={styles.inputMessage}
-          placeholder="Write a short message to your guests. Let them know what their gift is going towards..."
-          value={guestMessage}
-          onChangeText={setGuestMessage}
-          multiline
-        />
-
-        <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
-          <Text style={styles.photoButtonText}>
-            {image ? 'Change Photo' : 'Add a Photo'}
-          </Text>
-        </TouchableOpacity>
-
-        {image && (
-          <Image
-            source={{ uri: image.uri }}
-            style={styles.preview}
-            resizeMode="cover"
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={80}
+      >
+        <ScrollView
+          contentContainerStyle={styles.container}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          style={{ paddingBottom: 10 }} // To avoid extra scroll at bottom
+        >
+          {/* 🧚 Fixed fairy at the top */}
+          <Animatable.Image
+            animation="float"
+            iterationCount="infinite"
+            easing="ease-in-out"
+            source={require('../../Assets/Images/flyingfairyscroll.png')}
+            style={localStyles.fairy}
+            resizeMode="contain"
           />
-        )}
 
-        <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}>
-          {loading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.buttonText}>Create Event</Text>
+          <Text style={styles.title}>Message for Guests</Text>
+
+          <TextInput
+            style={styles.inputMessage}
+            placeholder="Write a short message to your guests. Let them know what their gift is going towards..."
+            value={guestMessage}
+            onChangeText={setGuestMessage}
+            multiline
+          />
+
+          <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
+            <Text style={styles.photoButtonText}>
+              {image ? 'Change Photo' : 'Add a Photo'}
+            </Text>
+          </TouchableOpacity>
+
+          {/* Non-cropping preview */}
+          {image && (
+            <View style={localStyles.previewWrapper}>
+              <Image
+                source={{ uri: image.uri }}
+                style={[localStyles.preview, { aspectRatio }]}
+                resizeMode="contain"
+              />
+            </View>
           )}
-        </TouchableOpacity>
-      </ScrollView>
+
+          <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}>
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.buttonText}>Next</Text>
+            )}
+          </TouchableOpacity>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };
 
 const localStyles = StyleSheet.create({
   fairy: {
-    width: 240,
-    height: 240,
-    position: 'absolute',
-    top: 20,
+    width: 200,
+    height: 200,
     alignSelf: 'center',
-    zIndex: 1,
+    marginTop: 10, // Tightened the space
+    marginBottom: 10, // Reduced bottom space
+  },
+  previewWrapper: {
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  preview: {
+    width: '100%',
+    height: undefined,   // height derived from aspectRatio
+    maxHeight: 250,      // Limit height for the preview
+    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.6)',
   },
 });
 

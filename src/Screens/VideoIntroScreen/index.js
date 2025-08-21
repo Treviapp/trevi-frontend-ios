@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
 import { Video } from 'expo-av';
 import { useNavigation } from '@react-navigation/native';
@@ -8,17 +8,6 @@ const VideoIntroScreen = () => {
   console.log('✅ VideoIntroScreen mounted');
   const video = useRef(null);
   const navigation = useNavigation();
-
-  // Check if user has already seen the intro
-  useEffect(() => {
-    const checkIfSeen = async () => {
-      const seen = await AsyncStorage.getItem('intro_seen');
-      if (seen) {
-        navigation.replace('Welcome');
-      }
-    };
-    checkIfSeen();
-  }, []);
 
   const handleSkip = async () => {
     await AsyncStorage.setItem('intro_seen', 'true');

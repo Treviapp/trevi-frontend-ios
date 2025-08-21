@@ -43,4 +43,13 @@ export default StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Poppins-SemiBold',
   },
+note: {
+  fontSize: 14,
+  color: '#555',
+  textAlign: 'center',
+  marginHorizontal: 20,
+  marginTop: 10,
+  marginBottom: 20,
+  fontFamily: 'Poppins-Regular',
+},
 });

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import Routes from './src/navigation/Routes';
 import { StripeProvider } from '@stripe/stripe-react-native';
@@ -6,6 +6,7 @@ import {
   useFonts,
   DancingScript_700Bold,
 } from '@expo-google-fonts/dancing-script';
+import * as Linking from 'expo-linking';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,8 +18,40 @@ export default function App() {
     DancingScript_700Bold,
   });
 
+  const prefix = Linking.createURL('/');
+
+  const linking = {
+    prefixes: ['trevi://', prefix],
+    config: {
+      screens: {
+        App: {
+          screens: {
+            // Map the path and PARSE query params from the deep link
+            CreateEventSuccess: {
+              path: 'stripe-return',
+              parse: {
+                // backend sends host_code & guest_code → pass them through
+                host_code: (v) => v,
+                guest_code: (v) => v,
+                status: (v) => v,
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
   const onReady = useCallback(() => {
     console.log('✅ Navigation ready');
+  }, []);
+
+  // Log any deep links received (for debugging)
+  useEffect(() => {
+    const sub = Linking.addEventListener('url', (event) => {
+      console.log('🔗 Deep link received:', event.url);
+    });
+    return () => sub.remove();
   }, []);
 
   if (!fontsLoaded) return null;
@@ -26,9 +59,9 @@ export default function App() {
   return (
     <StripeProvider
       publishableKey="pk_test_51RXKLrIMEUGCmkevn3YDd0y1oRaPogoAAo5MpDFrMlfrM9YdO9ISBqrqaAl6kwoLQfQjScaaepDW8ZE0Tx7vyIKx00eiMFSmEZ"
-      merchantIdentifier="merchant.com.trevi" // optional for Apple Pay
+      merchantIdentifier="merchant.com.trevi"
     >
-      <NavigationContainer onReady={onReady}>
+      <NavigationContainer linking={linking} onReady={onReady}>
         <Routes />
       </NavigationContainer>
     </StripeProvider>

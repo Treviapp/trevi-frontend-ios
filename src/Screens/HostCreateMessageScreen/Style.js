@@ -4,8 +4,8 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    padding: 24,
-paddingTop: 260, 
+    padding: 30,
+paddingTop: 20, 
     justifyContent: 'flex-start',   // ⬅️ shift layout to top
                    // ⬅️ creates space for fairy
   },
@@ -55,13 +55,13 @@ paddingTop: 260,
   button: {
     backgroundColor: '#8e94f2',
     paddingVertical: 14,
-    paddingHorizontal: 24,
+    paddingHorizontal: 12,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 20,
-    width: '80%',
+    width: '40%',
   },
   buttonText: {
     color: '#fff',

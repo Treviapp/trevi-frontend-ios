@@ -24,7 +24,7 @@ export default StyleSheet.create({
     fontFamily: 'Poppins-Bold',
   },
   label: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '500',
     color: '#000000',
     marginTop: 30,
@@ -52,7 +52,7 @@ export default StyleSheet.create({
     fontFamily: 'Poppins-Bold',
   },
   note: {
-    fontSize: 20,
+    fontSize: 12,
     color: '#555',
     textAlign: 'center',
     marginTop: 30,
@@ -69,7 +69,7 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: '#ffffff',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     fontFamily: 'Poppins-SemiBold',
   },

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import {
-  View,
   Text,
   TextInput,
   TouchableOpacity,
   Alert,
   Image,
   StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import styles from './Style';
 import CreateEventBackground from '../CreateEventBackground';
@@ -38,52 +40,62 @@ export default function CreateEventScreen({ navigation }) {
 
   return (
     <CreateEventBackground>
-      <View style={styles.container}>
-        <Text style={styles.title}>Create Your Event</Text>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={80}
+      >
+        <ScrollView
+          contentContainerStyle={styles.container}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          <Text style={styles.title}>Create Your Event</Text>
 
-        <TextInput
-          style={styles.input}
-          value={fullName}
-          onChangeText={setFullName}
-          placeholder="Enter your name"
-          maxLength={30}
-          autoCapitalize="words"
-        />
+          <TextInput
+            style={styles.input}
+            value={fullName}
+            onChangeText={setFullName}
+            placeholder="Enter your name"
+            maxLength={30}
+            autoCapitalize="words"
+          />
 
-        <TextInput
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Enter your email"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          maxLength={40}
-        />
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Enter your email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            maxLength={40}
+          />
 
-        <TextInput
-          style={styles.input}
-          value={eventName}
-          onChangeText={setEventName}
-          placeholder="Enter your event name"
-          maxLength={40}
-          autoCapitalize="words"
-        />
+          <TextInput
+            style={styles.input}
+            value={eventName}
+            onChangeText={setEventName}
+            placeholder="Enter your event name"
+            maxLength={40}
+            autoCapitalize="words"
+          />
 
-        <TouchableOpacity style={styles.button} onPress={handleNext}>
-          <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleNext}>
+            <Text style={styles.buttonText}>Next</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.homeButton} onPress={handleGoHome}>
-          <Text style={styles.homeButtonText}>Home</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity style={styles.homeButton} onPress={handleGoHome}>
+            <Text style={styles.homeButtonText}>Home</Text>
+          </TouchableOpacity>
 
-      {/* 🧚 Fairy at bottom-right */}
-      <Image
-        source={require('../../Assets/Images/cauldronfairy.png')}
-        style={localStyles.fairy}
-        resizeMode="contain"
-      />
+          {/* 🧚 Fairy now at bottom of scroll content */}
+          <Image
+            source={require('../../Assets/Images/cauldronfairy.png')}
+            style={localStyles.fairy}
+            resizeMode="contain"
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </CreateEventBackground>
   );
 }
@@ -92,9 +104,8 @@ const localStyles = StyleSheet.create({
   fairy: {
     width: 300,
     height: 300,
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
+    alignSelf: 'center',
+    marginTop: 5,
     opacity: 0.95,
   },
 });
