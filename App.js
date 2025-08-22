@@ -26,16 +26,17 @@ export default function App() {
       screens: {
         App: {
           screens: {
-            // Map the path and PARSE query params from the deep link
+            // Stripe onboarding return (includes query params)
             CreateEventSuccess: {
               path: 'stripe-return',
               parse: {
-                // backend sends host_code & guest_code → pass them through
                 host_code: (v) => v,
                 guest_code: (v) => v,
                 status: (v) => v,
               },
             },
+            // QR: trevi://event/ABC123 -> EventSummaryScreen with param { code: 'ABC123' }
+            EventSummaryScreen: 'event/:code',
           },
         },
       },
@@ -46,7 +47,6 @@ export default function App() {
     console.log('✅ Navigation ready');
   }, []);
 
-  // Log any deep links received (for debugging)
   useEffect(() => {
     const sub = Linking.addEventListener('url', (event) => {
       console.log('🔗 Deep link received:', event.url);

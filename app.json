@@ -2,7 +2,7 @@
   "expo": {
     "name": "Trevi",
     "slug": "trevi",
-    "version": "1.0.0",
+    "version": "1.0.1",                   // ⬅️ bump this
     "scheme": "trevi",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
@@ -12,12 +12,8 @@
       "resizeMode": "cover",
       "backgroundColor": "#E6DAF5"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "updates": { "fallbackToCacheTimeout": 0 },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.amandatreviapp.trevi",
@@ -27,35 +23,27 @@
         "NSPhotoLibraryUsageDescription": "Trevi needs photo library access so donors can choose a photo to include with their gift.",
         "NSPhotoLibraryAddUsageDescription": "Trevi may save the photo you choose to include with your gift."
       },
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.0.1",              // (optional) bump iOS too
       "deploymentTarget": "12.0"
     },
-    "plugins": [
-      "expo-font"
-    ],
+    "plugins": ["expo-font"],
     "extra": {
-      "eas": {
-        "projectId": "589e2861-59b7-4fa3-bf31-93de216d73b0"
-      }
+      "eas": { "projectId": "589e2861-59b7-4fa3-bf31-93de216d73b0" }
     },
     "android": {
       "package": "com.amandatreviapp.trevi",
+      "versionCode": 2,                    // ⬅️ REQUIRED for Play; increase by 1 each upload
       "splash": {
         "image": "./src/Assets/trevi-splash.png",
         "resizeMode": "cover",
         "backgroundColor": "#E6DAF5"
       },
-      "adaptiveIcon": {
-        "backgroundColor": "#E6DAF5"
-      },
+      "adaptiveIcon": { "backgroundColor": "#E6DAF5" },
       "intentFilters": [
-        {
-          "action": "VIEW",
-          "category": ["BROWSABLE", "DEFAULT"],
-          "data": [{ "scheme": "trevi" }]
-        }
+        { "action": "VIEW", "category": ["BROWSABLE", "DEFAULT"], "data": [{ "scheme": "trevi" }] }
       ]
     }
   }
 }
+
 

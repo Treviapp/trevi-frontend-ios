@@ -12,7 +12,8 @@ import styles from './Style';
 import EventSummaryBackground from '../EventSummaryBackground';
 
 export default function EventSummaryScreen({ route, navigation }) {
-  const guestCode = route?.params?.guestCode || '';
+  // ✅ handle both guestCode and code params
+  const guestCode = route?.params?.guestCode || route?.params?.code || '';
   const [loading, setLoading] = useState(true);
   const [campaign, setCampaign] = useState(null);
 
@@ -56,7 +57,7 @@ export default function EventSummaryScreen({ route, navigation }) {
         <Image
           source={{ uri: campaign.host_image }}
           style={styles.image}
-          resizeMode="contain" // ✅ updated
+          resizeMode="contain"
         />
       )}
 
@@ -79,3 +80,4 @@ export default function EventSummaryScreen({ route, navigation }) {
     </EventSummaryBackground>
   );
 }
+

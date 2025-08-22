@@ -33,16 +33,27 @@ export default function MakePaymentScreen({ route, navigation }) {
       console.log('📦 hostCode being sent:', hostCode);
       console.log('🧪 route.params:', route.params);
 
+      // ✅ Build FormData for sending text + optional image
+      const formData = new FormData();
+      formData.append('amount', Math.round(parseFloat(amount) * 100));
+      formData.append('host_code', hostCode);
+      formData.append('name', name ?? '');
+      formData.append('message', message ?? '');
+
+      if (photo?.uri) {
+        const fileName = photo.uri.split('/').pop();
+        const fileType = fileName.split('.').pop();
+        formData.append('photo', {
+          uri: photo.uri,
+          name: fileName,
+          type: `image/${fileType}`,
+        });
+      }
+
       const response = await fetch(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: Math.round(parseFloat(amount) * 100),
-          host_code: hostCode,
-          name: name ?? '',
-          message: message ?? '',
-          photo_path: photo?.uri ?? '',
-        }),
+        body: formData,
+        headers: { Accept: 'application/json' },
       });
 
       const rawText = await response.text();
