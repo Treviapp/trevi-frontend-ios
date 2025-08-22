@@ -2,7 +2,7 @@
   "expo": {
     "name": "Trevi",
     "slug": "trevi",
-    "version": "1.0.1",                   // ⬅️ bump this
+    "version": "1.0.2",
     "scheme": "trevi",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
@@ -23,7 +23,7 @@
         "NSPhotoLibraryUsageDescription": "Trevi needs photo library access so donors can choose a photo to include with their gift.",
         "NSPhotoLibraryAddUsageDescription": "Trevi may save the photo you choose to include with your gift."
       },
-      "buildNumber": "1.0.1",              // (optional) bump iOS too
+      "buildNumber": "1.0.2",
       "deploymentTarget": "12.0"
     },
     "plugins": ["expo-font"],
@@ -32,7 +32,7 @@
     },
     "android": {
       "package": "com.amandatreviapp.trevi",
-      "versionCode": 2,                    // ⬅️ REQUIRED for Play; increase by 1 each upload
+      "versionCode": 3,
       "splash": {
         "image": "./src/Assets/trevi-splash.png",
         "resizeMode": "cover",
@@ -40,7 +40,11 @@
       },
       "adaptiveIcon": { "backgroundColor": "#E6DAF5" },
       "intentFilters": [
-        { "action": "VIEW", "category": ["BROWSABLE", "DEFAULT"], "data": [{ "scheme": "trevi" }] }
+        {
+          "action": "VIEW",
+          "category": ["BROWSABLE", "DEFAULT"],
+          "data": [{ "scheme": "trevi" }]
+        }
       ]
     }
   }
