@@ -35,20 +35,27 @@ export default function StripeLinkingScreen({ route }) {
         });
       }
 
+      console.log("📡 About to POST campaign to:", `${API_BASE_URL}/campaigns`);
       const campaignRes = await axios.post(`${API_BASE_URL}/campaigns`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       const { host_code } = campaignRes.data;
+      console.log("✅ Campaign created, host_code:", host_code);
 
       // 2) Create Stripe onboarding link using host_code
-      const stripeRes = await client.post('/stripe/connect', { hostCode: host_code });
+      console.log("📡 About to POST to:", `${API_BASE_URL}/stripe/connect`);
+      console.log("📦 Payload:", { host_code });
+
+      const stripeRes = await client.post('/stripe/connect', { host_code: host_code });
+
+      console.log("✅ Stripe response:", stripeRes.data);
 
       const url = stripeRes.data.url || stripeRes.data.onboarding_url;
 
       if (url) {
+        console.log("🔗 Opening Stripe URL:", url);
         Linking.openURL(url);
-        // ⚠️ Do NOT navigate manually here — deep link will bring user back
       } else {
         Alert.alert('Error', 'Stripe link not available.');
       }

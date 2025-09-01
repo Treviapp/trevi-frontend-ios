@@ -30,7 +30,9 @@ export default function GiftListScreen({ route }) {
       // Filter duplicates based on payment_intent_id if available
       const seen = new Set();
       const uniqueGifts = rawGifts.filter((gift) => {
-        const key = gift.payment_intent_id || `${gift.message}-${gift.amount}-${gift.created_at}`;
+        const key =
+          gift.payment_intent_id ||
+          `${gift.message}-${gift.amount}-${gift.created_at}`;
         if (seen.has(key)) return false;
         seen.add(key);
         return true;
@@ -57,16 +59,9 @@ export default function GiftListScreen({ route }) {
         ) : (
           gifts.map((gift, index) => (
             <View key={index} style={styles.giftCard}>
-              {gift.photo_path && (
+              {gift.photo_url && (
                 <Image
-                  source={{
-                    uri: gift.photo_path.startsWith('file://')
-                      ? gift.photo_path
-                      : `${client.defaults.baseURL.replace(
-                          '/api',
-                          ''
-                        )}/storage/${gift.photo_path}`,
-                  }}
+                  source={{ uri: gift.photo_url }}
                   style={styles.image}
                   resizeMode="contain"
                 />
@@ -78,7 +73,7 @@ export default function GiftListScreen({ route }) {
                 {gift.message || '(No message)'}
               </Text>
               <Text style={styles.amount}>
-                £{(gift.amount / 100).toFixed(2)}
+                £{((gift.net_payout || 0) / 100).toFixed(2)}
               </Text>
             </View>
           ))

@@ -58,7 +58,7 @@ export default function HostDashboardScreen({ route, navigation }) {
   };
 
   const getTotalRaised = () =>
-    donations.reduce((sum, d) => sum + (d.amount || 0), 0);
+    donations.reduce((sum, d) => sum + (d.net_payout || 0), 0);
 
   const handleViewGifts = () => {
     navigation.navigate('GiftListScreen', { hostCode: campaign?.host_code });

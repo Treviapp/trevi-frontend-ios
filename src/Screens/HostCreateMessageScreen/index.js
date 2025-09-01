@@ -67,7 +67,7 @@ const HostCreateMessageScreen = ({ route, navigation }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/campaigns`, formData, {
+      const response = await axios.post(`${API_BASE_URL}/debug/campaign`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
