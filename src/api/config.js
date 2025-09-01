@@ -7,8 +7,8 @@ import { store } from '../redux';
    Base URLs
    ------------------------------------------------------------------ */
 
-// ✅ Use your PRODUCTION domain here
-const ROOT_URL = 'https://9e03982aff8a.ngrok-free.app';
+// ✅ Production backend on Render
+const ROOT_URL = 'https://trevi-backend.onrender.com';
 
 const BASE_URL = `${ROOT_URL}/api`;
 
@@ -49,4 +49,3 @@ client.interceptors.request.use(
    ------------------------------------------------------------------ */
 export { ROOT_URL, BASE_URL, client };
 export const API_BASE_URL = BASE_URL;
-
