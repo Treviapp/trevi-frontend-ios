@@ -18,8 +18,9 @@ export default function MakePaymentScreen({ route, navigation }) {
   const { name, amount, message, photo, hostCode } = route.params;
   const { confirmPayment, loading } = useConfirmPayment();
   const [cardDetails, setCardDetails] = useState();
-  const treviFee = 1.2;
-  const totalAmount = parseFloat(amount) + treviFee;
+
+  // ❌ removed TreviFee calculation, backend handles it now
+  const totalAmount = parseFloat(amount); // just the gift amount
 
   const handleConfirmPayment = async () => {
     if (!cardDetails?.complete) {
@@ -35,7 +36,7 @@ export default function MakePaymentScreen({ route, navigation }) {
 
       // ✅ Build FormData for sending text + optional image
       const formData = new FormData();
-      formData.append('amount', Math.round(parseFloat(amount) * 100));
+      formData.append('amount', Math.round(parseFloat(amount) * 100)); // gift only
       formData.append('host_code', hostCode);
       formData.append('name', name ?? '');
       formData.append('message', message ?? '');
@@ -107,9 +108,9 @@ export default function MakePaymentScreen({ route, navigation }) {
           <Text style={styles.title}>Confirm & Pay</Text>
 
           <Text style={styles.summary}>Gift Amount: £{amount}</Text>
-          <Text style={styles.summary}>Trevi Fee: £1.20</Text>
+          {/* Removed Trevi fee display */}
           <Text style={styles.summaryTotal}>
-            Total to Pay: £{totalAmount.toFixed(2)}
+            Total to Pay: £{totalAmount.toFixed(2)} + £1.20 Trevi fee (applied at checkout)
           </Text>
 
           {message ? <Text style={styles.summary}>Message: {message}</Text> : null}
@@ -148,3 +149,4 @@ export default function MakePaymentScreen({ route, navigation }) {
     </MakePaymentBackground>
   );
 }
+
