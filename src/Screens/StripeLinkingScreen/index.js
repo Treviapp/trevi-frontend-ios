@@ -13,14 +13,22 @@ import styles from './Style';
 import { API_BASE_URL, client } from '../../api/config';
 import axios from 'axios';
 
-export default function StripeLinkingScreen({ route }) {
-  const { fullName, email, eventName, guestMessage, image } = route.params;
+export default function StripeLinkingScreen({ route, navigation }) {
+  // ✅ Safe params with defaults
+  const {
+    fullName = '',
+    email = '',
+    eventName = '',
+    guestMessage = '',
+    image = null,
+  } = route?.params ?? {};
+
   const [loading, setLoading] = useState(false);
   const [slow, setSlow] = useState(false);
+  const [createdCodes, setCreatedCodes] = useState(null);
   const slowTimerRef = useRef(null);
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
   const isRetriable = (err) => {
     const status = err?.response?.status;
     return err?.code === 'ECONNABORTED' || !status || status >= 500;
@@ -77,13 +85,18 @@ export default function StripeLinkingScreen({ route }) {
     const start = Date.now();
 
     try {
+      if (!fullName || !email || !eventName) {
+        Alert.alert('Missing info', 'Please start from the Create Event screen.');
+        navigation.navigate('CreateEvent');
+        return;
+      }
+
       // 1) Create the campaign
       const formData = new FormData();
       formData.append('creator_name', fullName);
       formData.append('creator_email', email);
       formData.append('name', eventName);
       formData.append('guest_message', guestMessage);
-
       if (image?.uri) {
         formData.append('host_image', {
           uri: image.uri,
@@ -92,33 +105,35 @@ export default function StripeLinkingScreen({ route }) {
         });
       }
 
-      console.log('📡 About to POST campaign to:', `${API_BASE_URL}/campaigns`);
       const campaignData = await createCampaign(formData);
-      const { host_code } = campaignData || {};
+      const { host_code, guest_code } = campaignData || {};
       if (!host_code) throw new Error('No host_code returned from server');
-      console.log('✅ Campaign created, host_code:', host_code);
+
+      setCreatedCodes({
+        hostCode: host_code,
+        guestCode: guest_code || '',
+        eventName,
+        fullName,
+        email,
+        message: guestMessage,
+        photo: image,
+        status: campaignData?.status,
+      });
 
       // 2) Create Stripe onboarding link
       const stripeData = await createStripeLink(host_code);
-      console.log('✅ Stripe response:', stripeData);
-
       const url = stripeData?.url || stripeData?.onboarding_url;
       if (!url) throw new Error('Stripe link not available from server response');
 
-      console.log('🔗 Opening Stripe URL:', url);
       const canOpen = await Linking.canOpenURL(url);
       if (!canOpen) throw new Error('Cannot open Stripe URL on this device');
       await Linking.openURL(url);
     } catch (error) {
-      console.error('❌ Stripe linking error (full):', JSON.stringify(error?.response?.data || error, null, 2));
-      if (error?.response) {
-        console.error('🔴 Response status:', error.response.status);
-      }
+      console.error('❌ Stripe linking error:', JSON.stringify(error?.response?.data || error, null, 2));
       Alert.alert('Error', 'Something went wrong while setting up your event. Please try again.');
     } finally {
       const elapsed = Date.now() - start;
       if (elapsed < minLoadMs) await sleep(minLoadMs - elapsed);
-
       if (slowTimerRef.current) {
         clearTimeout(slowTimerRef.current);
         slowTimerRef.current = null;
@@ -126,6 +141,26 @@ export default function StripeLinkingScreen({ route }) {
       setLoading(false);
     }
   };
+
+  const handleContinue = () => {
+    if (!createdCodes) return;
+    // ✅ AppStack route name is "CreateEventSuccess"
+    navigation.navigate('CreateEventSuccess', { ...createdCodes });
+  };
+
+  // Friendly guard if deep-linked here without params
+  const missingRequired = !fullName || !email || !eventName;
+  if (missingRequired) {
+    return (
+      <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
+        <Text style={styles.title}>We need a few details first</Text>
+        <Text style={styles.subtitle}>Please start from the Create Event flow.</Text>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateEvent')}>
+          <Text style={styles.buttonText}>Go to Create Event</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -154,6 +189,13 @@ export default function StripeLinkingScreen({ route }) {
       <TouchableOpacity style={[styles.button, loading && { opacity: 0.6 }]} onPress={handleConnectStripe} disabled={loading}>
         {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Connect with Stripe</Text>}
       </TouchableOpacity>
+
+      {/* After campaign is created, let the user continue to codes */}
+      {!loading && createdCodes && (
+        <TouchableOpacity style={[styles.button, { marginTop: 12 }]} onPress={handleContinue}>
+          <Text style={styles.buttonText}>I’ve finished linking — Show my event codes</Text>
+        </TouchableOpacity>
+      )}
 
       {loading && (
         <View style={localStyles.overlay}>

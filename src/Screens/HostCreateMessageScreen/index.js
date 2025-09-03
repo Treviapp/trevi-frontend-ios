@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  ActivityIndicator,
   StyleSheet,
   ScrollView,
   KeyboardAvoidingView,
@@ -14,22 +13,18 @@ import {
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Animatable from 'react-native-animatable';
-import axios from 'axios';
 import styles from './Style';
-import { API_BASE_URL } from '../../api/config';
 
 const HostCreateMessageScreen = ({ route, navigation }) => {
-  const { fullName, email, eventName } = route.params;
+  // ✅ Safe params with defaults
+  const { fullName = '', email = '', eventName = '' } = route?.params ?? {};
   const [guestMessage, setGuestMessage] = useState('');
-  const [image, setImage] = useState(null);        // { uri, width, height, ... }
-  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null); // { uri, width, height, ... }
 
   const pickImage = async () => {
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
-      alert('Permission to access gallery is required!');
+      Alert.alert('Permission needed', 'Please allow access to your photo library.');
       return;
     }
 
@@ -39,59 +34,32 @@ const HostCreateMessageScreen = ({ route, navigation }) => {
       quality: 0.5,
     });
 
-    if (!result.cancelled && result.assets && result.assets[0]) {
-      setImage(result.assets[0]); // includes width/height
+    // supports both new (canceled) and old (cancelled)
+    const userCancelled = result.canceled ?? result.cancelled;
+    if (!userCancelled && result.assets && result.assets[0]) {
+      setImage(result.assets[0]);
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!fullName || !email || !eventName) {
-      Alert.alert('Missing fields', 'Please go back and complete all fields.');
+      Alert.alert('Missing info', 'Please start from the Create Event screen.');
+      navigation.navigate('CreateEventScreen');
       return;
     }
 
-    const formData = new FormData();
-    formData.append('creator_name', fullName);
-    formData.append('creator_email', email);
-    formData.append('name', eventName);
-    formData.append('guest_message', guestMessage);
-
-    if (image) {
-      formData.append('host_image', {
-        uri: image.uri,
-        name: 'host_image.jpg',
-        type: 'image/jpeg',
-      });
-    }
-
-    setLoading(true);
-
-    try {
-      const response = await axios.post(`${API_BASE_URL}/debug/campaign`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
-      const { host_code, guest_code } = response.data;
-
-      navigation.navigate('StripeLinkingScreen', {
-        hostCode: host_code,
-        guestCode: guest_code,
-        fullName,
-        email,
-        eventName,
-        guestMessage,
-        image,
-      });
-    } catch (error) {
-      console.error('Error creating campaign:', error);
-      Alert.alert('Error', 'Something went wrong while creating the event.');
-    } finally {
-      setLoading(false);
-    }
+    // 🚀 No backend call here — pass along to StripeLinkingScreen
+    navigation.navigate('StripeLinkingScreen', {
+      fullName,
+      email,
+      eventName,
+      guestMessage,
+      image,
+    });
   };
 
-  // Compute aspect ratio for correct non-cropped preview
-  const aspectRatio = image?.width && image?.height ? image.width / image.height : 1;
+  const aspectRatio =
+    image?.width && image?.height ? image.width / image.height : 1;
 
   return (
     <View style={{ flex: 1 }}>
@@ -104,7 +72,7 @@ const HostCreateMessageScreen = ({ route, navigation }) => {
           contentContainerStyle={styles.container}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
-          style={{ paddingBottom: 10 }} // To avoid extra scroll at bottom
+          style={{ paddingBottom: 10 }}
         >
           {/* 🧚 Fixed fairy at the top */}
           <Animatable.Image
@@ -143,12 +111,8 @@ const HostCreateMessageScreen = ({ route, navigation }) => {
             </View>
           )}
 
-          <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}>
-            {loading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={styles.buttonText}>Next</Text>
-            )}
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -161,8 +125,8 @@ const localStyles = StyleSheet.create({
     width: 200,
     height: 200,
     alignSelf: 'center',
-    marginTop: 10, // Tightened the space
-    marginBottom: 10, // Reduced bottom space
+    marginTop: 10,
+    marginBottom: 10,
   },
   previewWrapper: {
     width: '100%',
@@ -172,8 +136,8 @@ const localStyles = StyleSheet.create({
   },
   preview: {
     width: '100%',
-    height: undefined,   // height derived from aspectRatio
-    maxHeight: 250,      // Limit height for the preview
+    height: undefined, // derived from aspectRatio
+    maxHeight: 250,
     borderRadius: 12,
     backgroundColor: 'rgba(255,255,255,0.6)',
   },
