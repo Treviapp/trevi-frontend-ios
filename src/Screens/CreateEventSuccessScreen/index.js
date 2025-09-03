@@ -1,7 +1,9 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, TouchableOpacity, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import styles from './Style';
 import CreateEventSuccessBackground from '../CreateEventSuccessBackground';
+import axios from 'axios';
+import { API_URL } from '../../api/config';
 
 export default function CreateEventSuccessScreen({ route, navigation }) {
   const {
@@ -23,16 +25,64 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
   const finalHostCode = hostCode ?? host_code ?? '';
   const finalGuestCode = guestCode ?? guest_code ?? '';
 
-  const handleContinue = () => {
-    navigation.navigate('HostDashboard', {
-      hostCode: finalHostCode,
-      eventName,
-      fullName,
-      email,
-      message,
-      photo,
-      status,
-    });
+  // --- gentle stability guards for Render latency ---
+  const [submitting, setSubmitting] = useState(false);
+  const [slow, setSlow] = useState(false);
+  const slowTimerRef = useRef(null);
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  const handleContinue = async () => {
+    // If no host code, just go (nothing to pre-warm)
+    if (!finalHostCode) {
+      navigation.navigate('HostDashboard', {
+        hostCode: finalHostCode,
+        eventName,
+        fullName,
+        email,
+        message,
+        photo,
+        status,
+      });
+      return;
+    }
+
+    setSubmitting(true);
+    setSlow(false);
+
+    // If it takes >2s, show a softer "Still working…" message
+    slowTimerRef.current = setTimeout(() => setSlow(true), 2000);
+
+    const start = Date.now();
+    try {
+      // Quick pre-warm/readiness check (no hard dependency)
+      // If your host endpoint differs, you can point this at any cheap GET that touches the campaign.
+      await axios.get(`${API_URL}/api/campaigns/${finalHostCode}`, { timeout: 12000 });
+    } catch (_e) {
+      // Intentionally swallow here — we only want to give the DB a moment to catch up,
+      // not block the user with an error on this screen.
+    } finally {
+      const elapsed = Date.now() - start;
+      const minLoadMs = 900; // keep UX smooth, prevent instant jump
+      if (elapsed < minLoadMs) await sleep(minLoadMs - elapsed);
+
+      if (slowTimerRef.current) {
+        clearTimeout(slowTimerRef.current);
+        slowTimerRef.current = null;
+      }
+
+      setSubmitting(false);
+
+      navigation.navigate('HostDashboard', {
+        hostCode: finalHostCode,
+        eventName,
+        fullName,
+        email,
+        message,
+        photo,
+        status,
+      });
+    }
   };
 
   return (
@@ -54,8 +104,14 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
           Share the guest code with your friends so they can donate to your big event.
         </Text>
 
-        <TouchableOpacity style={styles.button} onPress={handleContinue}>
-          <Text style={styles.buttonText}>Continue to Dashboard</Text>
+        <TouchableOpacity
+          style={[styles.button, submitting && { opacity: 0.6 }]}
+          onPress={handleContinue}
+          disabled={submitting}
+        >
+          <Text style={styles.buttonText}>
+            {submitting ? 'Preparing your dashboard…' : 'Continue to Dashboard'}
+          </Text>
         </TouchableOpacity>
 
         <Image
@@ -64,6 +120,15 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
           resizeMode="contain"
         />
       </View>
+
+      {submitting && (
+        <View style={localStyles.overlay}>
+          <ActivityIndicator size="large" />
+          <Text style={localStyles.overlayText}>
+            {slow ? 'Still working…' : 'Loading…'}
+          </Text>
+        </View>
+      )}
     </CreateEventSuccessBackground>
   );
 }
@@ -79,5 +144,16 @@ const localStyles = StyleSheet.create({
     width: 200,
     height: 200,
     opacity: 0.95,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    backgroundColor: 'rgba(0,0,0,0.15)',
+  },
+  overlayText: {
+    marginTop: 10,
+    fontSize: 16,
   },
 });

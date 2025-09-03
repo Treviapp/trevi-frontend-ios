@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Alert,
+  StyleSheet,
 } from 'react-native';
 import { client } from '../../api/config';
 import styles from './Style';
@@ -13,29 +14,100 @@ import EventSummaryBackground from '../EventSummaryBackground';
 
 export default function EventSummaryScreen({ route, navigation }) {
   // ✅ handle both guestCode and code params
-  const guestCode = route?.params?.guestCode || route?.params?.code || '';
+  const guestCodeParam = route?.params?.guestCode || route?.params?.code || '';
   const [loading, setLoading] = useState(true);
+  const [slow, setSlow] = useState(false);
   const [campaign, setCampaign] = useState(null);
 
+  const slowTimerRef = useRef(null);
+  const mounted = useRef(true);
+
   useEffect(() => {
-    if (guestCode) {
-      client
-        .get(`/campaigns/guest/${guestCode}`)
-        .then(({ data }) => {
-          setCampaign(data);
-        })
-        .catch(err => {
-          console.error('❌ EventSummary error:', err.message);
-          Alert.alert('Error', 'Could not load event.');
-        })
-        .finally(() => setLoading(false));
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      if (slowTimerRef.current) {
+        clearTimeout(slowTimerRef.current);
+        slowTimerRef.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (guestCodeParam) {
+      loadCampaign();
+    } else {
+      setLoading(false);
     }
-  }, [guestCode]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [guestCodeParam]);
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  const isRetriable = (err) => {
+    const status = err?.response?.status;
+    return err?.code === 'ECONNABORTED' || !status || status >= 500;
+  };
+
+  const loadCampaign = async () => {
+    setLoading(true);
+    setSlow(false);
+    if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
+    slowTimerRef.current = setTimeout(() => setSlow(true), 2000);
+
+    const minLoadMs = 900;
+    const start = Date.now();
+    const code = guestCodeParam.trim().toUpperCase();
+
+    try {
+      let res;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          res = await client.get(`/campaigns/guest/${code}`, { timeout: 15000 });
+          break; // success
+        } catch (err) {
+          if (attempt === 0 && isRetriable(err)) {
+            await sleep(700); // small backoff
+            continue;
+          }
+          throw err;
+        }
+      }
+
+      if (!mounted.current) return;
+      setCampaign(res.data);
+    } catch (err) {
+      if (!mounted.current) return;
+      console.error('❌ EventSummary error:', err?.message || err);
+      Alert.alert(
+        'Error',
+        err?.response?.status === 404
+          ? 'Event not found. Please check your code.'
+          : 'Could not load event. Please try again.'
+      );
+      setCampaign(null);
+    } finally {
+      const elapsed = Date.now() - start;
+      if (elapsed < minLoadMs) await sleep(minLoadMs - elapsed);
+
+      if (!mounted.current) return;
+      setLoading(false);
+      if (slowTimerRef.current) {
+        clearTimeout(slowTimerRef.current);
+        slowTimerRef.current = null;
+      }
+    }
+  };
 
   if (loading) {
     return (
       <EventSummaryBackground>
-        <ActivityIndicator size="large" />
+        <View style={localStyles.center}>
+          <ActivityIndicator size="large" />
+          <Text style={localStyles.loadingText}>
+            {slow ? 'Still working…' : 'Loading…'}
+          </Text>
+        </View>
       </EventSummaryBackground>
     );
   }
@@ -62,15 +134,14 @@ export default function EventSummaryScreen({ route, navigation }) {
       )}
 
       <Text style={styles.message}>
-        {campaign.guest_message ||
-          'Welcome and thank you for celebrating with me!'}
+        {campaign.guest_message || 'Welcome and thank you for celebrating with me!'}
       </Text>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() =>
           navigation.navigate('MakeDonation', {
-            guestCode,
+            guestCode: guestCodeParam,
             hostCode: campaign.host_code,
           })
         }
@@ -80,4 +151,16 @@ export default function EventSummaryScreen({ route, navigation }) {
     </EventSummaryBackground>
   );
 }
+
+const localStyles = StyleSheet.create({
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 24,
+  },
+  loadingText: {
+    marginTop: 8,
+    fontSize: 16,
+  },
+});
 
