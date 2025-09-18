@@ -15,7 +15,16 @@
       }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "ios": {
+        "image": "macos-sequoia-15.3-xcode-16.2"
+      }
+    },
+    "simulator": {
+      "developmentClient": true,
+      "ios": {
+        "simulator": true
+      }
     }
   },
   "submit": {

@@ -3,19 +3,19 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   imageContainer: {
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 10,
+    marginTop: 100,
+    marginBottom: 5,
   },
   image: {
-    width: 150,
-    height: 150,
+    width: 300,
+    height: 300,
   },
   title: {
     fontSize: 24,
     fontWeight: '600',
     color: '#000000', // ✅ Removed trailing space
     textAlign: 'center',
-    marginTop: 100,
+    marginTop: 5,
     marginBottom: 20,
     fontFamily: 'Poppins-Bold',
   },
@@ -26,14 +26,15 @@ export default StyleSheet.create({
     fontSize: 20,
     marginTop: 20,
     marginBottom: 40,
-    width: '100%',
+alignItems: 'center',
+    width: '70%',
   },
   button: {
     backgroundColor: '#8e94f2',
     paddingVertical: 20,
     borderRadius: 10,
     alignItems: 'center',
-    width: '80%',
+    width: '70%',
   },
   buttonText: {
     color: '#ffffff',

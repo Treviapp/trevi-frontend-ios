@@ -229,7 +229,7 @@ export default function HostDashboardScreen({ route, navigation }) {
                 value={`${FRONTEND_BASE}${campaign.guest_code}`}
                 size={180}
               />
-              <Text style={styles.qrText}>Scan the QR code to join the event</Text>
+              <Text style={styles.qrText}>Share this QR code with guests & donors to allow instant access to your event </Text>
             </View>
           </View>
 

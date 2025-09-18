@@ -1,40 +1,29 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import VideoIntroScreen from '../Screens/VideoIntroScreen';
-import WelcomeScreen from '../Screens/WelcomeScreen';
-import EnterEventScreen from '../Screens/EnterEventScreen';
-import CreateEventScreen from '../Screens/CreateEventScreen';
-import HostCreateMessageScreen from '../Screens/HostCreateMessageScreen';
-import StripeLinkingScreen from '../Screens/StripeLinkingScreen';
-import CreateEventSuccessScreen from '../Screens/CreateEventSuccessScreen';
-import HostDashboard from '../Screens/HostDashboardScreen';
-import MakeDonationScreen from '../Screens/MakeDonationScreen';
-import MakePaymentScreen from '../Screens/MakePaymentScreen';
-import DonationSuccessScreen from '../Screens/DonationSuccessScreen';
-import EventSummaryScreen from '../Screens/EventSummaryScreen';
-import AccessEventScreen from '../Screens/AccessEventScreen';
-import GiftListScreen from '../Screens/GiftListScreen';
+import WelcomeScreen from '../Screens/WelcomeScreen'; // eager (first screen)
 
 const Stack = createNativeStackNavigator();
 
 export default function AppStack() {
   return (
-    <Stack.Navigator initialRouteName="VideoIntro" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="VideoIntro" component={VideoIntroScreen} />
+    <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
+      {/* First screen loads immediately */}
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
-      <Stack.Screen name="AccessEvent" component={AccessEventScreen} />
-      <Stack.Screen name="EnterEvent" component={EnterEventScreen} />
-      <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
-      <Stack.Screen name="HostCreateMessage" component={HostCreateMessageScreen} />
-      <Stack.Screen name="StripeLinkingScreen" component={StripeLinkingScreen} />
-      <Stack.Screen name="CreateEventSuccess" component={CreateEventSuccessScreen} />
-      <Stack.Screen name="HostDashboard" component={HostDashboard} />
-      <Stack.Screen name="EventSummaryScreen" component={EventSummaryScreen} />
-      <Stack.Screen name="MakeDonation" component={MakeDonationScreen} />
-      <Stack.Screen name="MakePaymentScreen" component={MakePaymentScreen} />
-      <Stack.Screen name="DonationSuccess" component={DonationSuccessScreen} />
-      <Stack.Screen name="GiftListScreen" component={GiftListScreen} />
+
+      {/* Lazy-loaded screens (only load when navigated to) */}
+      <Stack.Screen name="VideoIntro" getComponent={() => require('../Screens/VideoIntroScreen').default} />
+      <Stack.Screen name="AccessEvent" getComponent={() => require('../Screens/AccessEventScreen').default} />
+      <Stack.Screen name="EnterEvent" getComponent={() => require('../Screens/EnterEventScreen').default} />
+      <Stack.Screen name="CreateEvent" getComponent={() => require('../Screens/CreateEventScreen').default} />
+      <Stack.Screen name="HostCreateMessage" getComponent={() => require('../Screens/HostCreateMessageScreen').default} />
+      <Stack.Screen name="StripeLinkingScreen" getComponent={() => require('../Screens/StripeLinkingScreen').default} />
+      <Stack.Screen name="CreateEventSuccess" getComponent={() => require('../Screens/CreateEventSuccessScreen').default} />
+      <Stack.Screen name="HostDashboard" getComponent={() => require('../Screens/HostDashboardScreen').default} />
+      <Stack.Screen name="EventSummaryScreen" getComponent={() => require('../Screens/EventSummaryScreen').default} />
+      <Stack.Screen name="MakeDonation" getComponent={() => require('../Screens/MakeDonationScreen').default} />
+      <Stack.Screen name="MakePaymentScreen" getComponent={() => require('../Screens/MakePaymentScreen').default} />
+      <Stack.Screen name="DonationSuccess" getComponent={() => require('../Screens/DonationSuccessScreen').default} />
+      <Stack.Screen name="GiftListScreen" getComponent={() => require('../Screens/GiftListScreen').default} />
     </Stack.Navigator>
   );
 }

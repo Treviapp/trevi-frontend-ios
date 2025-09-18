@@ -7,12 +7,13 @@ import {
   ActivityIndicator,
   Alert,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 import styles from './Style';
 import GiftListBackground from '../GiftListBackground';
 import { client } from '../../api/config';
 
-export default function GiftListScreen({ route }) {
+export default function GiftListScreen({ route, navigation }) {
   const hostCode = route?.params?.hostCode || '';
   const [gifts, setGifts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -76,7 +77,6 @@ export default function GiftListScreen({ route }) {
     } catch (err) {
       console.error(err);
       if (!mounted.current) return;
-      // Keep the UX calm; only alert if it’s clearly not transient
       Alert.alert('Error', 'Unable to fetch gifts right now. Please try again.');
     } finally {
       const elapsed = Date.now() - start;
@@ -87,20 +87,18 @@ export default function GiftListScreen({ route }) {
         clearTimeout(slowTimerRef.current);
         slowTimerRef.current = null;
       }
-      // Short first-open sync window to catch webhook delay
       startInitialSync();
     }
   };
 
   const startInitialSync = async () => {
     setSyncing(true);
-    const backoffs = [1200, 1700, 2500, 3500, 5000]; // ~14–16s total + jitter
+    const backoffs = [1200, 1700, 2500, 3500, 5000]; // ~14–16s total
     const t0 = Date.now();
     const MAX_MS = 20000;
 
     let i = 0;
     while (mounted.current && Date.now() - t0 < MAX_MS) {
-      // wait with a little jitter
       const delay = backoffs[Math.min(i, backoffs.length - 1)] + Math.floor(Math.random() * 300);
       await sleep(delay);
       if (!mounted.current) break;
@@ -110,22 +108,23 @@ export default function GiftListScreen({ route }) {
         const uniqueGifts = dedupeGifts(res.data?.donations || []);
         if (!mounted.current) break;
 
-        // Update if the list size changed (new gift landed)
         if (uniqueGifts.length !== giftsRef.current.length) {
           setGifts(uniqueGifts);
-          break; // stop polling once we see a change
+          break; // stop once we detect a change
         }
       } catch (_e) {
-        // Swallow and continue—this is a soft sync phase
+        // soft-sync swallow
       }
       i++;
     }
     if (mounted.current) setSyncing(false);
   };
 
+  const handleGoHome = () => navigation.navigate('Welcome');
+
   return (
     <GiftListBackground>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView contentContainerStyle={[styles.container, localStyles.content]}>
         <Text style={styles.title}>My Gifts</Text>
 
         {loading ? (
@@ -173,12 +172,20 @@ export default function GiftListScreen({ route }) {
             ))}
           </>
         )}
+
+        {/* Bottom Home button (same style as Host Dashboard) */}
+        <TouchableOpacity style={[styles.homeButton, { marginTop: 16 }]} onPress={handleGoHome}>
+          <Text style={styles.homeButtonText}>Home</Text>
+        </TouchableOpacity>
       </ScrollView>
     </GiftListBackground>
   );
 }
 
 const localStyles = StyleSheet.create({
+  content: {
+    paddingBottom: 20,
+  },
   center: {
     alignItems: 'center',
     justifyContent: 'center',

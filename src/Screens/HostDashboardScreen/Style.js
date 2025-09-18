@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   handwritingTitle: {
-    fontSize: 50,
-    fontFamily: 'DancingScript-Bold',
-    color: '#000000',
+    fontSize: 46,
+    fontFamily: 'DancingScript_700Bold',
+    color: '#8e94f2',
     textAlign: 'center',
     marginTop: 40,
     marginBottom: 8,
@@ -28,8 +28,8 @@ export default StyleSheet.create({
     marginBottom: 8,
   },
   qrText: {
-    fontSize: 20,
-    color: '#000000',
+    fontSize: 18,
+    color: '#3D0900',
     marginTop: 8,
     textAlign: 'center',
   },
@@ -48,13 +48,13 @@ export default StyleSheet.create({
   },
   message: {
     fontSize: 20,
-    color: '#ffffff',
+    color: '#',
     marginBottom: 4,
   },
   amount: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#fffffff',
+    color: '#000000',
   },
   viewGiftsButton: {
     marginTop: 4,
@@ -63,7 +63,7 @@ export default StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 10,
     alignItems: 'center',
-    width: '80%',
+    width: '60%',
   },
   viewGiftsButtonText: {
     color: '#ffffff',
@@ -102,7 +102,7 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   homeButton: {
-    marginTop: 8,
+    marginTop: 14,
     padding: 12,
     backgroundColor: '#ccc',
     borderRadius: 8,

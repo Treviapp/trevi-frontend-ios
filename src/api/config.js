@@ -1,25 +1,20 @@
-// C:\Users\Amanda Hughes\Projects\trevi-frontend\src\api\config.js
-
-import axios from 'axios';
-import { store } from '../redux';
+import axios from "axios";
+import store from "../redux/store";
 
 /* ------------------------------------------------------------------
-   Base URLs
+   Define Backend URLs
    ------------------------------------------------------------------ */
-
-// ✅ Production backend on Render
-const ROOT_URL = 'https://trevi-backend.onrender.com';
-
-const BASE_URL = `${ROOT_URL}/api`;
+export const BASE_URL = "https://trevi-backend.onrender.com";
+export const ROOT_URL = BASE_URL;
 
 /* ------------------------------------------------------------------
-   Axios instance
+   Axios client
    ------------------------------------------------------------------ */
 const client = axios.create({
   baseURL: BASE_URL,
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+    Accept: "application/json",
+    "Content-Type": "application/json",
   },
 });
 
@@ -33,8 +28,8 @@ client.interceptors.request.use(
     return {
       ...config,
       headers: {
-        Accept: 'application/json',
-        'Content-Type': config.headers['Content-Type'] || 'application/json',
+        Accept: "application/json",
+        "Content-Type": config.headers["Content-Type"] || "application/json",
         ...(authenticationToken && {
           Authorization: `Bearer ${authenticationToken.token}`,
         }),
@@ -47,5 +42,5 @@ client.interceptors.request.use(
 /* ------------------------------------------------------------------
    Export everything needed
    ------------------------------------------------------------------ */
-export { ROOT_URL, BASE_URL, client };
+export { client };
 export const API_BASE_URL = BASE_URL;

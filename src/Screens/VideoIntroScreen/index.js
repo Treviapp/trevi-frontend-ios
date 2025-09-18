@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
 import { Video } from 'expo-av';
 import { useNavigation } from '@react-navigation/native';
@@ -10,9 +10,22 @@ const VideoIntroScreen = () => {
   const navigation = useNavigation();
 
   const handleSkip = async () => {
-    await AsyncStorage.setItem('intro_seen', 'true');
+    try {
+      await AsyncStorage.setItem('intro_seen', 'true');
+    } catch (e) {
+      console.log('⚠️ Failed to save intro_seen:', e);
+    }
     navigation.replace('Welcome');
   };
+
+  useEffect(() => {
+    // Safety fallback: auto-skip if video hasn’t started in 5s
+    const timer = setTimeout(() => {
+      console.log('⏱️ Video failed to start, skipping intro');
+      handleSkip();
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -28,6 +41,10 @@ const VideoIntroScreen = () => {
         style={styles.video}
         onPlaybackStatusUpdate={(status) => {
           if (status.didJustFinish) handleSkip();
+        }}
+        onError={(err) => {
+          console.log('❌ Video load error:', err);
+          handleSkip();
         }}
       />
       <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
