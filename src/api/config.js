@@ -1,10 +1,10 @@
 import axios from "axios";
-import store from "../redux/store";
+import store from "../redux";
 
 /* ------------------------------------------------------------------
    Define Backend URLs
    ------------------------------------------------------------------ */
-export const BASE_URL = "https://trevi-backend.onrender.com";
+export const BASE_URL = "https://trevi-backend.onrender.com/api";
 export const ROOT_URL = BASE_URL;
 
 /* ------------------------------------------------------------------
