@@ -1,17 +1,17 @@
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AppStack from './AppStack';
+import AppStack from './AppStack'; // default export
 
 const Stack = createNativeStackNavigator();
 
-const Routes = () => {
-  console.log("✅ Routes.js loaded");
-
+export default function Routes() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="App" component={AppStack} />
-    </Stack.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="App" component={AppStack} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-};
+}
 
-export default Routes;
