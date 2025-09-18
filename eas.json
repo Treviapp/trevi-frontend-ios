@@ -6,7 +6,10 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "ios": {
+        "image": "macos-sequoia-15.3-xcode-16.2"
+      }
     },
     "preview": {
       "distribution": "internal",
@@ -23,7 +26,8 @@
     "simulator": {
       "developmentClient": true,
       "ios": {
-        "simulator": true
+        "simulator": true,
+        "image": "macos-sequoia-15.3-xcode-16.2"
       }
     }
   },
@@ -31,3 +35,4 @@
     "production": {}
   }
 }
+
