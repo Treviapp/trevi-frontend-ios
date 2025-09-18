@@ -1,4 +1,4 @@
 import { registerRootComponent } from 'expo';
-import App from './src/navigation/Routes';
+import Routes from './src/navigation/Routes';
 
-registerRootComponent(App);
+registerRootComponent(Routes);
