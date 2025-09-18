@@ -1,3 +1,4 @@
+// src/Screens/WelcomeBackground/index.js
 import React from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 
@@ -28,4 +29,3 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 });
-

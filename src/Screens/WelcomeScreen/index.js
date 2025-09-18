@@ -1,7 +1,8 @@
+// src/Screens/WelcomeScreen/index.js
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import styles from './Style';
-import WelcomeBackground from '../WelcomeBackground'; // background stays
+import WelcomeBackground from '../WelcomeBackground';
 
 export default function WelcomeScreen({ navigation, onLayout }) {
   return (
@@ -31,3 +32,4 @@ export default function WelcomeScreen({ navigation, onLayout }) {
     </WelcomeBackground>
   );
 }
+
