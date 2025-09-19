@@ -25,7 +25,10 @@
         "ITSAppUsesNonExemptEncryption": false,
         "NSCameraUsageDescription": "Trevi needs camera access so donors can attach a photo with their gift.",
         "NSPhotoLibraryUsageDescription": "Trevi needs photo library access so donors can choose a photo to include with their gift.",
-        "NSPhotoLibraryAddUsageDescription": "Trevi may save the photo you choose to include with your gift."
+        "NSPhotoLibraryAddUsageDescription": "Trevi may save the photo you choose to include with your gift.",
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
       },
       "buildNumber": "1.0.2",
       "deploymentTarget": "13.0",
@@ -70,3 +73,4 @@
     }
   }
 }
+
