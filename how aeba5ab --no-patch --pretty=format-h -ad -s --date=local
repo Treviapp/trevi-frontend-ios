@@ -1,0 +1,75 @@
+[33me939855[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m Fix dependencies for Expo 53 build
+[33m4a57486[m Restore dependencies to last known working build
+[33me334673[m Disable EAS build cache in eas.json
+[33m9176a21[m Add NSAppTransportSecurity to allow http for dev
+[33m527f3c6[m Align react-native to 0.76.6 for Expo SDK 53 compatibility
+[33mb6c4247[m Downgrade react-native-reanimated to ~3.15.0 for iOS build
+[33md5795d5[m Bypass VideoIntro and go straight to WelcomeScreen
+[33me0d390c[m Restore AppStack.js from 18 Sept
+[33m8ed2473[m GitHub test 19sept
+[33md1f753c[m fix
+[33md52a120[m fix
+[33md3ef194[m test
+[33mb2ad9ca[m test
+[33mbac0e12[m ficx
+[33m472460e[m Appstack straight to WElcome no Video Intro-fix later
+[33mad0a5f5[m skip video
+[33m2694680[m animation float changed to pulse
+[33m83bf823[m fairy
+[33m4bb5ed7[m video skip
+[33m682da70[m video
+[33m3a438ed[m add video
+[33m37dcd4a[m add into video back
+[33m39af70b[m Update navigation and Welcome screen files
+[33m27f99e9[m Test: only WelcomeScreen in AppStack
+[33m59ab310[m Test: only WelcomeScreen in AppStack
+[33m0edeb51[m Test: only WelcomeScreen in AppStack
+[33m00f88a8[m Fix babel plugin to react-native-reanimated
+[33mec7b4cc[m Fix Routes and Redux setup
+[33meb6cd46[m fix root import to Routes
+[33m9a5fed4[m fix redux exports and wrap with PersistGate
+[33mff6cfb8[m wrap routes in NavigationContainer
+[33maebe76c[m fix App.js to use registerRootComponent
+[33m0d2f00c[m fix entry point and babel config
+[33m022a5bb[m fix App.js to use registerRootComponent
+[33mf50d4fe[m add react-native-reanimated and update babel config
+[33m813ab49[m set xcode 16.2 image for all ios builds
+[33med69bca[m fix splash path
+[33m3641076[m latest changes
+[33maeba5ab[m all working
+[33m7e9337b[m UX: add gentle latency guards + retries to key screens
+[33m47ac300[m fix: move Trevi fee logic to backend, frontend sends gift only
+[33m3a5bda7[m Add StripeLinkingScreen debug logs
+[33m5325dcc[m Point API to Render backend
+[33m379d23e[m chore(android): bump versionCode to 3; version 1.0.2
+[33mffa7914[m feat: show host/guest images; update assets and payment screen
+[33mec05e5a[m full eworking with correct spripe redirection
+[33m32dc4dd[m Add StripeLinkingScreen and remove Stripe link from HostDashboard
+[33md72bf35[m Fully working with acceptable splash
+[33mbb233f6[m 🎉 Add email sending with SendGrid for campaign creation
+[33m7a25b12[m all working including intro video
+[33mb946939[m All workng Restored CreateEventSuccess styling and added email notice
+[33mc3ced4c[m All working and Image preview fix
+[33m159bdbc[m ✅ Home buttons added to all screens
+[33m405f5fa[m Fix: gift name/photo display
+[33m705788e[m 🎁 Add working donation + payment flow with hostCode fix
+[33mef30e5d[m ✅ Resolve merge conflict in GiftListBackground styles
+[33ma520982[m ✅ Resolve merge conflict in GiftListScreen styles
+[33m43e6c03[m ✅ Resolve merge conflict in GiftListScreen
+[33m102e5af[m ✅ Resolve merge conflict in HostDashboardScreen
+[33m6ba1940[m ✅ Stripe payment flow working, screen cleanup, renamed EventSummaryScreen
+[33m956565d[m backup before splash fix
+[33m0bc8b6d[m Add GiftList screen no Stripe connect yet
+[33m7865b78[m ✅ Restore working version without Stripe bugs
+[33m89d71bb[m with beginnings of giftlist
+[33mee7b512[m Add image upload to CreateEventScreen and update styling
+[33m246b8e1[m 💸 Styled donation amount buttons and photo upload layout
+[33m1c4c786[m Add Trevi fee and update total payment logic
+[33mbd87cb4[m 🎨 Updated MakeDonation layout and styles for better spacing and full-width button
+[33m732537f[m 💾 Save working version before MakeDonation screen changes
+[33mb8ed4e9[m Updated Welcome and CreateEventScreen and all working
+[33m529ea1c[m latest all working
+[33md571ef6[m Updated font size and styles and all working
+[33m0578be6[m ✅ Working version: create event, LAN + Stripe-ready setup
+[33m4e9358f[m Simplified MakeDonationScreen for testing background and CardField
+[33ma57565e[m Rollback to working version from July 15
