@@ -43,7 +43,14 @@
         "expo-build-properties",
         {
           "ios": {
-            "deploymentTarget": "17.0"
+            "deploymentTarget": "17.0",
+            "useFrameworks": "static",
+            "extraPods": [
+              {
+                "name": "RCT-Folly",
+                "version": "2021.07.22.00"
+              }
+            ]
           }
         }
       ]
