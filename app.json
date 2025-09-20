@@ -43,7 +43,13 @@
         "expo-build-properties",
         {
           "ios": {
-            "deploymentTarget": "17.0"
+            "deploymentTarget": "17.0",
+            "extraPods": [
+              {
+                "name": "React-jsi",
+                "configurations": ["Debug", "Release"]
+              }
+            ]
           }
         }
       ]
@@ -82,5 +88,6 @@
     }
   }
 }
+
 
 
