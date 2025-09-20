@@ -35,8 +35,7 @@
   "version": "1.0.0",
   "scripts": {
     "android": "expo run:android",
-    "ios": "expo run:ios",
-    "postinstall": "patch-package"
+    "ios": "expo run:ios"
   },
   "devDependencies": {
     "patch-package": "^8.0.0"
