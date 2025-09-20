@@ -16,6 +16,7 @@
     "expo-dev-client": "~2.4.12",
     "expo-font": "~13.2.1",
     "expo-image-picker": "~16.1.4",
+    "expo-modules-autolinking": "1.11.1",
     "expo-splash-screen": "~0.26.2",
     "react": "18.2.0",
     "react-native": "0.72.6",
