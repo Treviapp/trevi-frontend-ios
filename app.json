@@ -31,14 +31,23 @@
         }
       },
       "buildNumber": "1.0.2",
-      "deploymentTarget": "13.0",
       "splash": {
         "image": "./src/Assets/Images/splash.png",
         "resizeMode": "cover",
         "backgroundColor": "#E6DAF5"
       }
     },
-    "plugins": ["expo-font"],
+    "plugins": [
+      "expo-font",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "15.0"
+          }
+        }
+      ]
+    ],
     "extra": {
       "eas": {
         "projectId": "589e2861-59b7-4fa3-bf31-93de216d73b0"
