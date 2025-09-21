@@ -1,9 +1,16 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import styles from './Style';
 import CreateEventSuccessBackground from '../CreateEventSuccessBackground';
 import axios from 'axios';
-import { API_BASE_URL } from '../../api/config'; // ✅ fixed
+import { API_URL } from '../../api/config';
 
 export default function CreateEventSuccessScreen({ route, navigation }) {
   const {
@@ -33,29 +40,32 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
 
   const handleContinue = async () => {
     if (!finalHostCode) {
+      // still let them in, but with empty codes
       navigation.navigate('HostDashboard', {
-        hostCode: finalHostCode,
-        eventName,
-        fullName,
-        email,
-        message,
-        photo,
-        status,
+        campaign: {
+          host_code: '',
+          guest_code: '',
+          title: eventName,
+          host: fullName,
+          status,
+          donations: [],
+        },
       });
       return;
     }
 
     setSubmitting(true);
     setSlow(false);
-
     slowTimerRef.current = setTimeout(() => setSlow(true), 2000);
 
     const start = Date.now();
     try {
-      // ✅ fixed constant here
-      await axios.get(`${API_BASE_URL}/api/campaigns/${finalHostCode}`, { timeout: 12000 });
+      // prewarm request (optional, safe if it fails)
+      await axios.get(`${API_URL}/api/campaigns/${finalHostCode}`, {
+        timeout: 12000,
+      });
     } catch (_e) {
-      // Swallow error: just a pre-warm
+      // ignore errors here
     } finally {
       const elapsed = Date.now() - start;
       const minLoadMs = 900;
@@ -69,13 +79,14 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
       setSubmitting(false);
 
       navigation.navigate('HostDashboard', {
-        hostCode: finalHostCode,
-        eventName,
-        fullName,
-        email,
-        message,
-        photo,
-        status,
+        campaign: {
+          host_code: finalHostCode,
+          guest_code: finalGuestCode,
+          title: eventName,
+          host: fullName,
+          status,
+          donations: [],
+        },
       });
     }
   };
@@ -96,7 +107,8 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
         </Text>
 
         <Text style={styles.note}>
-          Share the guest code with your friends so they can donate to your big event.
+          Share the guest code with your friends so they can donate to your big
+          event.
         </Text>
 
         <TouchableOpacity
