@@ -108,7 +108,7 @@ export default function CreateEventScreen({ navigation }) {
 
           {/* —— Fairy at the bottom —— */}
           <Animatable.View
-            animation="float"
+            animation="pulse"
             iterationCount="infinite"
             easing="ease-in-out"
             duration={3000}
@@ -146,4 +146,3 @@ const localStyles = StyleSheet.create({
     opacity: 0.98,
   },
 });
-
