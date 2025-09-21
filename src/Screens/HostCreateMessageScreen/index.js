@@ -76,7 +76,7 @@ const HostCreateMessageScreen = ({ route, navigation }) => {
         >
           {/* 🧚 Fixed fairy at the top */}
           <Animatable.Image
-            animation="float"
+            animation="pulse"
             iterationCount="infinite"
             easing="ease-in-out"
             source={require('../../Assets/Images/flyingfairyscroll.png')}
@@ -144,3 +144,4 @@ const localStyles = StyleSheet.create({
 });
 
 export default HostCreateMessageScreen;
+
