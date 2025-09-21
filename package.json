@@ -34,6 +34,8 @@
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0",
+    "text-encoding": "^0.7.0",
+    "text-encoding-polyfill": "^0.6.7",
     "typescript": "~5.8.3"
   },
   "devDependencies": {

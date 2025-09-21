@@ -115,7 +115,8 @@ export default function HostDashboardScreen({ route, navigation }) {
       } else if (err?.message === 'Network Error' || err?.code === 'ECONNABORTED') {
         Alert.alert('Network error', 'Check your connection');
       } else {
-        Alert.alert('Unexpected error');
+        console.error('❌ Dashboard load error:', err?.message, err?.response?.data);
+        Alert.alert('Unexpected error', err?.message || 'Check Metro logs for details');
       }
     } finally {
       const elapsed = Date.now() - start;
@@ -233,7 +234,9 @@ export default function HostDashboardScreen({ route, navigation }) {
                 value={`${FRONTEND_BASE}${campaign.guest_code}`}
                 size={180}
               />
-              <Text style={styles.qrText}>Share this QR code with guests & donors to allow instant access to your event </Text>
+              <Text style={styles.qrText}>
+                Share this QR code with guests & donors to allow instant access to your event
+              </Text>
             </View>
           </View>
 

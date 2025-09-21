@@ -15,7 +15,8 @@ export default function DonationSuccessScreen({ route }) {
     amount = 0,
   } = route?.params || {};
 
-  const safeAmount = (amount / 100).toFixed(2);
+  // ✅ amount is already in pounds (e.g. 5 for £5)
+  const safeAmount = parseFloat(amount).toFixed(2);
 
   const handleGoToEvent = () => {
     if (!guestCode) {
@@ -65,3 +66,4 @@ const localStyles = StyleSheet.create({
     paddingHorizontal: 24,
   },
 });
+

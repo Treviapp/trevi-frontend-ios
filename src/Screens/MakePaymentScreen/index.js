@@ -140,7 +140,7 @@ export default function MakePaymentScreen({ route, navigation }) {
 
       if (paymentIntent && paymentIntent.status === 'Succeeded') {
         console.log('✅ Payment succeeded! Navigating to success screen...');
-        navigation.navigate('DonationSuccess', { name, amount });
+        navigation.navigate('DonationSuccess', { donorName: name, amount });
         return;
       }
 
