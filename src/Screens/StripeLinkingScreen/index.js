@@ -144,11 +144,9 @@ export default function StripeLinkingScreen({ route, navigation }) {
 
   const handleContinue = () => {
     if (!createdCodes) return;
-    // ✅ AppStack route name is "CreateEventSuccess"
     navigation.navigate('CreateEventSuccess', { ...createdCodes });
   };
 
-  // Friendly guard if deep-linked here without params
   const missingRequired = !fullName || !email || !eventName;
   if (missingRequired) {
     return (
@@ -177,7 +175,7 @@ export default function StripeLinkingScreen({ route, navigation }) {
       </Text>
 
       <Animatable.Image
-        animation="float"
+        animation="pulse"   // ✅ fixed: use safe built-in animation
         iterationCount="infinite"
         easing="ease-in-out"
         duration={3000}
@@ -190,7 +188,6 @@ export default function StripeLinkingScreen({ route, navigation }) {
         {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Connect with Stripe</Text>}
       </TouchableOpacity>
 
-      {/* After campaign is created, let the user continue to codes */}
       {!loading && createdCodes && (
         <TouchableOpacity style={[styles.button, { marginTop: 12 }]} onPress={handleContinue}>
           <Text style={styles.buttonText}>I’ve finished linking — Show my event codes</Text>
