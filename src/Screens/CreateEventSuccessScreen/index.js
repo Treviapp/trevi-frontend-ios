@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet, ActivityIndicator } fr
 import styles from './Style';
 import CreateEventSuccessBackground from '../CreateEventSuccessBackground';
 import axios from 'axios';
-import { API_URL } from '../../api/config';
+import { API_BASE_URL } from '../../api/config'; // ✅ fixed
 
 export default function CreateEventSuccessScreen({ route, navigation }) {
   const {
@@ -25,7 +25,6 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
   const finalHostCode = hostCode ?? host_code ?? '';
   const finalGuestCode = guestCode ?? guest_code ?? '';
 
-  // --- gentle stability guards for Render latency ---
   const [submitting, setSubmitting] = useState(false);
   const [slow, setSlow] = useState(false);
   const slowTimerRef = useRef(null);
@@ -33,7 +32,6 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   const handleContinue = async () => {
-    // If no host code, just go (nothing to pre-warm)
     if (!finalHostCode) {
       navigation.navigate('HostDashboard', {
         hostCode: finalHostCode,
@@ -50,20 +48,17 @@ export default function CreateEventSuccessScreen({ route, navigation }) {
     setSubmitting(true);
     setSlow(false);
 
-    // If it takes >2s, show a softer "Still working…" message
     slowTimerRef.current = setTimeout(() => setSlow(true), 2000);
 
     const start = Date.now();
     try {
-      // Quick pre-warm/readiness check (no hard dependency)
-      // If your host endpoint differs, you can point this at any cheap GET that touches the campaign.
-      await axios.get(`${API_URL}/api/campaigns/${finalHostCode}`, { timeout: 12000 });
+      // ✅ fixed constant here
+      await axios.get(`${API_BASE_URL}/api/campaigns/${finalHostCode}`, { timeout: 12000 });
     } catch (_e) {
-      // Intentionally swallow here — we only want to give the DB a moment to catch up,
-      // not block the user with an error on this screen.
+      // Swallow error: just a pre-warm
     } finally {
       const elapsed = Date.now() - start;
-      const minLoadMs = 900; // keep UX smooth, prevent instant jump
+      const minLoadMs = 900;
       if (elapsed < minLoadMs) await sleep(minLoadMs - elapsed);
 
       if (slowTimerRef.current) {
