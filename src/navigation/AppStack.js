@@ -7,12 +7,12 @@ const Stack = createNativeStackNavigator();
 
 export default function AppStack() {
   return (
-    <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="VideoIntro" screenOptions={{ headerShown: false }}>
       {/* First screen */}
+      <Stack.Screen name="VideoIntro" getComponent={() => require('../Screens/VideoIntroScreen').default} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
 
       {/* Other screens */}
-      <Stack.Screen name="VideoIntro" getComponent={() => require('../Screens/VideoIntroScreen').default} />
       <Stack.Screen name="AccessEvent" getComponent={() => require('../Screens/AccessEventScreen').default} />
       <Stack.Screen name="EnterEvent" getComponent={() => require('../Screens/EnterEventScreen').default} />
       <Stack.Screen name="CreateEvent" getComponent={() => require('../Screens/CreateEventScreen').default} />
