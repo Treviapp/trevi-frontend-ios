@@ -1,41 +1,67 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
-import * as Animatable from 'react-native-animatable';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import styles from './Style';
-import DonationSuccessBackground from '../DonationSuccessBackground';
+import { useNavigation } from '@react-navigation/native';
 
-export default function DonationSuccessScreen({ navigation }) {
+export default function DonationSuccessScreen({ route }) {
+  const navigation = useNavigation();
+
+  // ✅ pull params safely with defaults
+  const {
+    hostCode = '',
+    guestCode = '',
+    eventName = '',
+    donorName = '',
+    amount = 0,
+  } = route?.params || {};
+
+  const safeAmount = (amount / 100).toFixed(2);
+
+  const handleGoToEvent = () => {
+    if (!guestCode) {
+      Alert.alert(
+        "Missing event code",
+        "We couldn’t find your event. Please re-enter the event code."
+      );
+      navigation.navigate('EnterEvent');
+      return;
+    }
+    navigation.navigate('EventSummaryScreen', { guestCode });
+  };
+
+  const handleGoHome = () => {
+    navigation.navigate('Welcome');
+  };
+
   return (
-    <DonationSuccessBackground>
-      {/* ✨ Sparkle Trail Animation (drops in once) */}
-      <Animatable.Image
-        animation="slideInDown"
-        duration={1600}
-        easing="ease-in-out"
-        source={require('../../Assets/Images/sparkletrail.png')}
-        style={localStyles.sparkle}
-        resizeMode="contain"
-      />
+    <View style={[styles.container, localStyles.center]}>
+      <Text style={styles.title}>Thank You! 🎉</Text>
 
-      <Text style={styles.title}>Thank You!</Text>
-      <Text style={styles.message}>Your gift has been sent successfully.</Text>
+      <Text style={styles.note}>
+        {donorName ? `${donorName}, ` : ''}your gift of £{safeAmount} has been sent.
+      </Text>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Welcome')}
-      >
-        <Text style={styles.buttonText}>Back to Home</Text>
+      {eventName ? (
+        <Text style={styles.note}>You supported {eventName}.</Text>
+      ) : (
+        <Text style={styles.note}>Thanks for supporting this event.</Text>
+      )}
+
+      <TouchableOpacity style={styles.button} onPress={handleGoToEvent}>
+        <Text style={styles.buttonText}>View Event</Text>
       </TouchableOpacity>
-    </DonationSuccessBackground>
+
+      <TouchableOpacity style={[styles.homeButton, { marginTop: 12 }]} onPress={handleGoHome}>
+        <Text style={styles.homeButtonText}>Home</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const localStyles = StyleSheet.create({
-  sparkle: {
-    width: 260,
-    height: 260 ,
-    alignSelf: 'center',
-    marginBottom: 20,
-    opacity: 0.9,
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 24,
   },
 });

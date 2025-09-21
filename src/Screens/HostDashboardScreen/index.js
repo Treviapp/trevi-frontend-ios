@@ -164,7 +164,11 @@ export default function HostDashboardScreen({ route, navigation }) {
     donations.reduce((sum, d) => sum + (d.net_payout || 0), 0);
 
   const handleViewGifts = () => {
-    navigation.navigate('GiftListScreen', { hostCode: campaign?.host_code });
+    if (!campaign?.host_code) {
+      Alert.alert("Missing host code", "We couldn’t find your event code. Please reload your dashboard.");
+      return;
+    }
+    navigation.navigate('GiftListScreen', { hostCode: campaign.host_code });
   };
 
   const handleGoHome = () => {
@@ -279,5 +283,4 @@ const localStyles = StyleSheet.create({
     fontSize: 14,
   },
 });
-
 
