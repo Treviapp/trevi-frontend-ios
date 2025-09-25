@@ -49,5 +49,18 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     color: '#4C2A85',
   },
+  homeButton: {
+    backgroundColor: '#4C2A85',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  homeButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
 });
 

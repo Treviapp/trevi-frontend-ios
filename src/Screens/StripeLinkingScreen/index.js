@@ -12,8 +12,11 @@ import * as Animatable from 'react-native-animatable';
 import styles from './Style';
 import { API_BASE_URL, client } from '../../api/config';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
-export default function StripeLinkingScreen({ route, navigation }) {
+export default function StripeLinkingScreen({ route }) {
+  const navigation = useNavigation();
+
   // ✅ Safe params with defaults
   const {
     fullName = '',
@@ -34,6 +37,7 @@ export default function StripeLinkingScreen({ route, navigation }) {
     return err?.code === 'ECONNABORTED' || !status || status >= 500;
   };
 
+  // ✅ Step 1: Create Campaign
   const createCampaign = async (formData) => {
     let lastErr;
     for (let attempt = 0; attempt < 2; attempt++) {
@@ -56,6 +60,7 @@ export default function StripeLinkingScreen({ route, navigation }) {
     }
   };
 
+  // ✅ Step 2: Create Stripe Onboarding Link
   const createStripeLink = async (host_code) => {
     let lastErr;
     for (let attempt = 0; attempt < 2; attempt++) {
@@ -109,6 +114,7 @@ export default function StripeLinkingScreen({ route, navigation }) {
       const { host_code, guest_code } = campaignData || {};
       if (!host_code) throw new Error('No host_code returned from server');
 
+      // Store codes but don’t show them yet
       setCreatedCodes({
         hostCode: host_code,
         guestCode: guest_code || '',
@@ -125,11 +131,21 @@ export default function StripeLinkingScreen({ route, navigation }) {
       const url = stripeData?.url || stripeData?.onboarding_url;
       if (!url) throw new Error('Stripe link not available from server response');
 
-      const canOpen = await Linking.canOpenURL(url);
-      if (!canOpen) throw new Error('Cannot open Stripe URL on this device');
+      console.log('🌍 Opening Stripe URL directly:', url);
       await Linking.openURL(url);
+
+      // ✅ Navigate to success screen after onboarding is launched
+      navigation.replace('CreateEventSuccess', {
+        hostCode: host_code,
+        guestCode: guest_code || '',
+        eventName,
+        fullName,
+        email,
+        message: guestMessage,
+        photo: image,
+      });
     } catch (error) {
-      console.error('❌ Stripe linking error:', JSON.stringify(error?.response?.data || error, null, 2));
+      console.error('❌ Stripe linking error (frontend):', error?.message || error);
       Alert.alert('Error', 'Something went wrong while setting up your event. Please try again.');
     } finally {
       const elapsed = Date.now() - start;
@@ -140,11 +156,6 @@ export default function StripeLinkingScreen({ route, navigation }) {
       }
       setLoading(false);
     }
-  };
-
-  const handleContinue = () => {
-    if (!createdCodes) return;
-    navigation.navigate('CreateEventSuccess', { ...createdCodes });
   };
 
   const missingRequired = !fullName || !email || !eventName;
@@ -175,7 +186,7 @@ export default function StripeLinkingScreen({ route, navigation }) {
       </Text>
 
       <Animatable.Image
-        animation="pulse"   // ✅ fixed: use safe built-in animation
+        animation="pulse"
         iterationCount="infinite"
         easing="ease-in-out"
         duration={3000}
@@ -187,12 +198,6 @@ export default function StripeLinkingScreen({ route, navigation }) {
       <TouchableOpacity style={[styles.button, loading && { opacity: 0.6 }]} onPress={handleConnectStripe} disabled={loading}>
         {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Connect with Stripe</Text>}
       </TouchableOpacity>
-
-      {!loading && createdCodes && (
-        <TouchableOpacity style={[styles.button, { marginTop: 12 }]} onPress={handleContinue}>
-          <Text style={styles.buttonText}>I’ve finished linking — Show my event codes</Text>
-        </TouchableOpacity>
-      )}
 
       {loading && (
         <View style={localStyles.overlay}>
@@ -217,4 +222,3 @@ const localStyles = StyleSheet.create({
     fontSize: 16,
   },
 });
-

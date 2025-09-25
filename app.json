@@ -45,6 +45,10 @@
           "ios": {
             "deploymentTarget": "17.0",
             "useFrameworks": "static"
+          },
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35
           }
         }
       ]
@@ -83,7 +87,6 @@
     }
   }
 }
-
 
 
 

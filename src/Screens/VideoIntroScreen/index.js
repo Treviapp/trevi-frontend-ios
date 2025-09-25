@@ -19,12 +19,17 @@ const VideoIntroScreen = () => {
   };
 
   useEffect(() => {
-    // Safety fallback: auto-skip if video hasn’t started in 5s
+    let cancelled = false;
     const timer = setTimeout(() => {
-      console.log('⏱️ Video failed to start, skipping intro');
-      handleSkip();
+      if (!cancelled && !video.current) {
+        console.log('⏱️ Video never started, skipping intro');
+        handleSkip();
+      }
     }, 5000);
-    return () => clearTimeout(timer);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
@@ -40,6 +45,7 @@ const VideoIntroScreen = () => {
         isLooping={false}
         style={styles.video}
         onPlaybackStatusUpdate={(status) => {
+          console.log('🎬 Playback status:', status);
           if (status.didJustFinish) handleSkip();
         }}
         onError={(err) => {
@@ -82,3 +88,4 @@ const styles = StyleSheet.create({
 });
 
 export default VideoIntroScreen;
+

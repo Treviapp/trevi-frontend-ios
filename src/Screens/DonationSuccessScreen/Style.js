@@ -1,17 +1,22 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  container: {
+    flex: 1, // ✅ ensures full height usage
+    backgroundColor: '#fff', // you can change if you want themed BG
+    padding: 20,
+  },
   title: {
     fontSize: 52,
     fontWeight: '700',
-    color: '#dbf6bf', 
-    marginBottom: 12,
+    color: '#dbf6bf',
+    marginBottom: 20,
     textAlign: 'center',
   },
   message: {
     fontSize: 20,
     color: '#555',
-    marginBottom: 32,
+    marginBottom: 16,
     textAlign: 'center',
     paddingHorizontal: 20,
   },
@@ -30,3 +35,4 @@ export default StyleSheet.create({
     fontWeight: '600',
   },
 });
+

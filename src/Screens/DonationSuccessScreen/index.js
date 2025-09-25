@@ -1,34 +1,18 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import styles from './Style';
 import { useNavigation } from '@react-navigation/native';
 
 export default function DonationSuccessScreen({ route }) {
   const navigation = useNavigation();
 
-  // ✅ pull params safely with defaults
   const {
-    hostCode = '',
-    guestCode = '',
     eventName = '',
     donorName = '',
     amount = 0,
   } = route?.params || {};
 
-  // ✅ amount is already in pounds (e.g. 5 for £5)
   const safeAmount = parseFloat(amount).toFixed(2);
-
-  const handleGoToEvent = () => {
-    if (!guestCode) {
-      Alert.alert(
-        "Missing event code",
-        "We couldn’t find your event. Please re-enter the event code."
-      );
-      navigation.navigate('EnterEvent');
-      return;
-    }
-    navigation.navigate('EventSummaryScreen', { guestCode });
-  };
 
   const handleGoHome = () => {
     navigation.navigate('Welcome');
@@ -38,22 +22,21 @@ export default function DonationSuccessScreen({ route }) {
     <View style={[styles.container, localStyles.center]}>
       <Text style={styles.title}>Thank You! 🎉</Text>
 
-      <Text style={styles.note}>
+      <Text style={styles.message}>
         {donorName ? `${donorName}, ` : ''}your gift of £{safeAmount} has been sent.
       </Text>
 
       {eventName ? (
-        <Text style={styles.note}>You supported {eventName}.</Text>
+        <Text style={styles.message}>You supported {eventName}.</Text>
       ) : (
-        <Text style={styles.note}>Thanks for supporting this event.</Text>
+        <Text style={styles.message}>Thanks for supporting this event.</Text>
       )}
 
-      <TouchableOpacity style={styles.button} onPress={handleGoToEvent}>
-        <Text style={styles.buttonText}>View Event</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={[styles.homeButton, { marginTop: 12 }]} onPress={handleGoHome}>
-        <Text style={styles.homeButtonText}>Home</Text>
+      <TouchableOpacity
+        style={[styles.button, { marginTop: 24 }]}
+        onPress={handleGoHome}
+      >
+        <Text style={styles.buttonText}>Home</Text>
       </TouchableOpacity>
     </View>
   );
@@ -61,6 +44,7 @@ export default function DonationSuccessScreen({ route }) {
 
 const localStyles = StyleSheet.create({
   center: {
+    flex: 1, // ✅ makes the whole screen available for centering
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 24,

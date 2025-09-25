@@ -1,54 +1,52 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  title: {
-    fontSize: 34,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
   handwritingTitle: {
-    fontFamily: 'DancingScript_700Bold',
-    fontSize: 38,
-    color: '#8e94f2',
+    fontSize: 32,
+    fontWeight: '700',
+    color: '#333',
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: 8,
   },
   subtitle: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#666',
-    marginBottom: 20,
     textAlign: 'center',
-  },
-  image: {
-    width: '100%',
-    height: 240,           // ✅ taller height
-    borderRadius: 16,
-    marginBottom: 20,
-    resizeMode: 'contain', // ✅ backup
+    marginBottom: 16,
   },
   message: {
-    fontSize: 18,
-    marginBottom: 30,
+    fontSize: 16,
+    color: '#444',
     textAlign: 'center',
-    paddingHorizontal: 20,
+    marginHorizontal: 24,
+    marginBottom: 24,
   },
   button: {
-    backgroundColor: '#977dff',
+    backgroundColor: '#8e94f2',
     paddingVertical: 14,
-    paddingHorizontal: 40,
-    borderRadius: 40,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+    alignItems: 'center',
     alignSelf: 'center',
+    minWidth: 200,
+    marginTop: 12,
   },
   buttonText: {
+    fontSize: 18,
     color: '#ffffff',
     fontWeight: '600',
-    fontSize: 20,
   },
   error: {
-    color: 'red',
     fontSize: 16,
-    marginTop: 20,
+    color: 'red',
     textAlign: 'center',
+    marginTop: 20,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 12,
+    marginVertical: 16,
+    alignSelf: 'center',
   },
 });
