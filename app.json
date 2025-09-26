@@ -47,7 +47,6 @@
             "useFrameworks": "static"
           },
           "android": {
-            "kotlinVersion": "1.9.22",
             "compileSdkVersion": 35,
             "targetSdkVersion": 35
           }
