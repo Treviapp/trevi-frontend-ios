@@ -26,9 +26,14 @@ const VideoIntroScreen = () => {
         handleSkip();
       }
     }, 5000);
+
+    // 🟢 Cleanup: unload video when leaving screen
     return () => {
       cancelled = true;
       clearTimeout(timer);
+      if (video.current) {
+        video.current.unloadAsync().catch(() => {});
+      }
     };
   }, []);
 
@@ -88,4 +93,3 @@ const styles = StyleSheet.create({
 });
 
 export default VideoIntroScreen;
-

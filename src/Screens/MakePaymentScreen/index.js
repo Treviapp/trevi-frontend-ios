@@ -18,13 +18,12 @@ import { API_BASE_URL } from '../../api/config';
 
 export default function MakePaymentScreen({ route, navigation }) {
   const { name, amount, message, photo, hostCode } = route.params;
-  const { confirmPayment, loading } = useConfirmPayment(); // Stripe's internal loading for confirm step
+  const { confirmPayment, loading } = useConfirmPayment();
   const [cardDetails, setCardDetails] = useState();
-  const [submitting, setSubmitting] = useState(false);   // our own submitting (create intent + confirm)
+  const [submitting, setSubmitting] = useState(false);
   const [slow, setSlow] = useState(false);
   const slowTimerRef = useRef(null);
 
-  // ❌ Trevi fee handled on backend; amount is gift only
   const totalAmount = parseFloat(amount);
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -40,13 +39,14 @@ export default function MakePaymentScreen({ route, navigation }) {
         const response = await fetch(API_URL, {
           method: 'POST',
           body: formData,
-          headers: { Accept: 'application/json' },
+          headers: {
+            Accept: 'application/json',
+          },
         });
 
         const rawText = await response.text();
         console.log('📨 Raw server response text:', rawText);
 
-        // Try parse; throw with raw text included if it fails
         let data;
         try {
           data = JSON.parse(rawText);
@@ -68,7 +68,6 @@ export default function MakePaymentScreen({ route, navigation }) {
       } catch (err) {
         lastErr = err;
         console.warn('⚠️ create PaymentIntent error:', err?.message || err);
-        // retry on network-ish issues once
         if (attempt === 0) {
           await sleep(700);
           continue;
@@ -89,38 +88,35 @@ export default function MakePaymentScreen({ route, navigation }) {
     if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
     slowTimerRef.current = setTimeout(() => setSlow(true), 2000);
 
-    const minLoadMs = 900; // keep UX smooth
+    const minLoadMs = 900;
     const start = Date.now();
 
     try {
       console.log('📦 hostCode being sent:', hostCode);
       console.log('🧪 route.params:', route.params);
 
-      // ✅ Build FormData for text + optional image
       const formData = new FormData();
-      formData.append('amount', Math.round(parseFloat(amount) * 100)); // gift only
+      formData.append('amount', Math.round(parseFloat(amount) * 100));
       formData.append('host_code', hostCode);
       formData.append('name', name ?? '');
       formData.append('message', message ?? '');
 
       if (photo?.uri) {
-        const fileName = photo.uri.split('/').pop();
-        const fileType = (fileName?.split('.').pop() || 'jpeg').toLowerCase();
+        const fileName = photo.fileName || photo.uri.split('/').pop() || 'upload.jpg';
+        const mimeType = photo.mimeType || 'image/jpeg';
         formData.append('photo', {
           uri: photo.uri,
-          name: fileName || `photo.${fileType}`,
-          type: `image/${fileType}`,
+          name: fileName,
+          type: mimeType,
         });
       }
 
-      // 1) Create PaymentIntent (with one retry + small backoff)
       const data = await fetchPaymentIntent(formData);
       console.log('✅ Parsed JSON response:', data);
 
       const clientSecret = data?.clientSecret;
       if (!clientSecret) throw new Error('No client secret returned');
 
-      // 2) Confirm Payment with Stripe
       const { paymentIntent, error } = await confirmPayment(clientSecret, {
         paymentMethodType: 'Card',
         paymentMethodData: { billingDetails: { name } },
@@ -129,7 +125,6 @@ export default function MakePaymentScreen({ route, navigation }) {
       console.log('📍 paymentIntent:', paymentIntent);
       console.log('❌ confirmPayment error:', error);
 
-      // Ensure minimum spinner time
       const elapsed = Date.now() - start;
       if (elapsed < minLoadMs) await sleep(minLoadMs - elapsed);
 
@@ -144,7 +139,6 @@ export default function MakePaymentScreen({ route, navigation }) {
         return;
       }
 
-      // Fallback: not succeeded (processing/incomplete)
       console.log('⚠️ PaymentIntent returned but not successful:', paymentIntent);
       Alert.alert(
         'Payment incomplete',
@@ -244,4 +238,3 @@ const localStyles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
