@@ -118,7 +118,7 @@ export default function MakePaymentScreen({ route, navigation }) {
       if (!clientSecret) throw new Error('No client secret returned');
 
       const { paymentIntent, error } = await confirmPayment(clientSecret, {
-        paymentMethodType: 'Card',
+        paymentMethodType: 'card',
         paymentMethodData: { billingDetails: { name } },
       });
 
