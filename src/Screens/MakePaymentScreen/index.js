@@ -41,6 +41,8 @@ export default function MakePaymentScreen({ route, navigation }) {
           body: formData,
           headers: {
             Accept: 'application/json',
+            // 🩵 FIX: Disable compression so iOS can read JSON from Render
+            'Accept-Encoding': 'identity',
           },
         });
 
@@ -102,7 +104,8 @@ export default function MakePaymentScreen({ route, navigation }) {
       formData.append('message', message ?? '');
 
       if (photo?.uri) {
-        const fileName = photo.fileName || photo.uri.split('/').pop() || 'upload.jpg';
+        const fileName =
+          photo.fileName || photo.uri.split('/').pop() || 'upload.jpg';
         const mimeType = photo.mimeType || 'image/jpeg';
         formData.append('photo', {
           uri: photo.uri,
@@ -148,7 +151,10 @@ export default function MakePaymentScreen({ route, navigation }) {
       console.error('❌ Stripe payment error:', err);
       const elapsed = Date.now() - start;
       if (elapsed < minLoadMs) await sleep(minLoadMs - elapsed);
-      Alert.alert('Error', err?.message || 'Could not process payment. Please try again.');
+      Alert.alert(
+        'Error',
+        err?.message || 'Could not process payment. Please try again.'
+      );
     } finally {
       if (slowTimerRef.current) {
         clearTimeout(slowTimerRef.current);
@@ -207,7 +213,11 @@ export default function MakePaymentScreen({ route, navigation }) {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.homeButton} onPress={handleGoHome} disabled={isBusy}>
+          <TouchableOpacity
+            style={styles.homeButton}
+            onPress={handleGoHome}
+            disabled={isBusy}
+          >
             <Text style={styles.homeButtonText}>Home</Text>
           </TouchableOpacity>
         </ScrollView>
