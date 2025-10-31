@@ -11,7 +11,6 @@ export default function Routes() {
   return (
     <StripeProvider
       publishableKey="pk_live_51RXKLjIZnBW7XxVHInY17LFasEoyTuZB88ytB4LLScE7L113h1Qzgk19T2R9ROiNQ8TBUYvBIJ0yUPkLVSM9LuGB00EFXISZp1"
-      merchantIdentifier="merchant.com.amandatreviapp.trevi"
       urlScheme="trevi"
     >
       <NavigationContainer>
@@ -22,4 +21,3 @@ export default function Routes() {
     </StripeProvider>
   );
 }
-
